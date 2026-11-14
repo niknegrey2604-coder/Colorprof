@@ -1,0 +1,1678 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Colors and Professions 2026 | Ultimate Master Edition</title>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Space+Grotesk:wght@600;700;800&family=JetBrains+Mono:wght@400;600;700&display=swap" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    :root { --bg:#04060a; --card:rgba(18,25,44,.82); --brd:rgba(255,255,255,.15); --txt:#f8fafc; --liq:rgba(11,16,32,.95); }
+    body.theme-liquid { --bg:#0c121e; --card:rgba(255,255,255,.08); --brd:rgba(255,255,255,.35); --txt:#fff; --liq:rgba(14,22,38,.88); }
+    body.theme-biowave { --bg:#030206; --card:rgba(20,10,38,.84); --brd:rgba(168,85,247,.42); --txt:#faf5ff; --liq:rgba(8,4,18,.95); }
+    body { font-family:'Plus Jakarta Sans',sans-serif; background:var(--bg); color:var(--txt); margin:0; overflow-x:hidden; min-height:100vh; transition:.3s; }
+    .font-h { font-family:'Space Grotesk',sans-serif; }
+    .font-mono { font-family:'JetBrains Mono',monospace; }
+    .liquid { background:var(--liq); backdrop-filter:blur(25px); border:1px solid var(--brd); box-shadow:0 20px 50px rgba(0,0,0,.7); }
+    .card-glass { background:var(--card); backdrop-filter:blur(20px); border:1.5px solid var(--brd); transition:.2s; cursor:pointer; min-height:120px; display:flex; flex-direction:column; justify-content:space-between; }
+    .card-glass:hover { border-color:rgba(255,255,255,.65); transform:translateY(-2px); }
+    .selected { border-color:#a855f7!important; background:rgba(168,85,247,.28)!important; box-shadow:0 0 25px rgba(168,85,247,.5)!important; }
+    .next-step-btn { background:linear-gradient(90deg,#4f46e5,#9333ea,#ec4899); color:#fff; font-weight:800; padding:14px 24px; border-radius:16px; box-shadow:0 10px 30px rgba(147,51,234,.45); transition:.2s; display:inline-flex; align-items:center; justify-content:center; gap:8px; width:100%; font-size:14px; cursor:pointer; border:1px solid rgba(255,255,255,.25); }
+    .next-step-btn:hover { transform:translateY(-2px) scale(1.01); box-shadow:0 14px 35px rgba(236,72,153,.55); }
+  </style>
+</head>
+<body class="flex flex-col justify-between pb-24 md:pb-12 relative">
+
+  <!-- Глобальный баннер объявлений куратора -->
+  <div id="globalSiteBanner" class="hidden w-full py-2.5 px-4 text-center text-xs sm:text-sm font-bold z-50 border-b border-white/20 shadow-lg">
+    <span id="globalBannerText"></span>
+  </div>
+
+  <!-- Нижняя панель тем, Ачивок и Помощи -->
+  <div class="fixed bottom-3 right-3 z-40 liquid px-2.5 py-1.5 rounded-2xl flex items-center gap-1.5 border border-white/10 shadow-2xl">
+    <button type="button" onclick="openBadgesModal()" class="px-2.5 py-1 rounded-xl bg-amber-500/20 border border-amber-500/40 text-amber-300 text-xs font-bold">🏅 <span id="badgeCountBtn">0/10</span></button>
+    <button type="button" onclick="applyTheme('dark')" class="px-2.5 py-1 rounded-xl text-xs font-bold bg-indigo-600 text-white">Cyber</button>
+    <button type="button" onclick="applyTheme('liquid')" class="px-2.5 py-1 rounded-xl text-xs font-semibold text-slate-400 hover:text-white">Стекло</button>
+    <button type="button" onclick="applyTheme('biowave')" class="px-2.5 py-1 rounded-xl text-xs font-semibold text-purple-400 hover:text-white border border-purple-500/30">Neon</button>
+    <button type="button" onclick="toggleSupportChat()" class="px-2.5 py-1 rounded-xl bg-purple-600/30 border border-purple-500/40 text-purple-200 text-xs font-bold">Помощь</button>
+  </div>
+
+  <!-- Модальное окно 10 Карьерных Ачивок -->
+  <div id="badgesModal" class="fixed inset-0 z-50 flex items-center justify-center p-3 bg-black/85 backdrop-blur-md hidden overflow-y-auto">
+    <div class="liquid w-full max-w-xl p-5 rounded-3xl border border-amber-500/40 space-y-4 my-auto">
+      <div class="flex justify-between items-center border-b border-white/10 pb-2">
+        <div>
+          <strong class="text-sm sm:text-base text-white font-h">🏅 Карьерные достижения и Ранг</strong>
+          <p id="userRankTitle" class="text-xs text-amber-400 font-bold">Ранг: Новичок спектра (0 XP)</p>
+        </div>
+        <button type="button" onclick="document.getElementById('badgesModal').classList.add('hidden')" class="text-slate-400 hover:text-white text-xl px-2">&times;</button>
+      </div>
+      <div id="badgesGrid" class="grid grid-cols-1 sm:grid-cols-2 gap-2.5 text-xs"></div>
+    </div>
+  </div>
+
+  <!-- Чат помощи -->
+  <div id="supportChatBox" class="fixed bottom-16 right-3 z-50 liquid w-[calc(100vw-24px)] sm:w-80 p-4 rounded-3xl border border-purple-500/30 shadow-2xl hidden flex flex-col justify-between" style="height:320px">
+    <div class="flex justify-between items-center pb-2 border-b border-white/10">
+      <span class="text-xs text-white font-bold">Помощник платформы</span>
+      <button type="button" onclick="toggleSupportChat()" class="text-slate-400 hover:text-white text-lg px-2">&times;</button>
+    </div>
+    <div id="supportMessages" class="overflow-y-auto flex-grow my-2 space-y-2 text-xs pr-1">
+      <div class="p-2.5 rounded-xl bg-purple-950/40 border border-purple-500/20 text-slate-300">Здравствуйте! Пройдите цветовой тест, испытайте 20 профессий в симуляторе и соберите свое портфолио!</div>
+    </div>
+    <div class="flex gap-1.5 pt-2 border-t border-white/10">
+      <input type="text" id="supportInput" onkeydown="if(event.key==='Enter') sendSupportMessage()" placeholder="Ваш вопрос..." class="flex-grow px-3 py-2 rounded-xl bg-slate-900 border border-slate-700 text-xs text-white">
+      <button type="button" onclick="sendSupportMessage()" class="px-3 py-2 rounded-xl bg-purple-600 text-white text-xs font-bold">Ок</button>
+    </div>
+  </div>
+
+  <!-- Модальное окно авторизации -->
+  <div id="authModal" class="fixed inset-0 z-[100] flex items-center justify-center p-3 bg-black/85 backdrop-blur-md overflow-y-auto" style="display:flex">
+    <div class="liquid w-full max-w-lg p-5 sm:p-8 rounded-3xl relative shadow-2xl my-auto border border-white/20">
+      <div class="flex justify-between items-center mb-4">
+        <span class="text-[11px] font-semibold px-2.5 py-0.5 rounded-full bg-indigo-500/20 text-indigo-300 border border-indigo-500/30">Исследование 2026</span>
+        <button type="button" onclick="setRole('admin')" class="text-xs text-slate-400 hover:text-indigo-400 underline">Вход куратором</button>
+      </div>
+      <div class="grid grid-cols-3 p-1 bg-slate-900/80 rounded-2xl mb-5 text-center text-xs">
+        <button id="rBtnStudent" type="button" onclick="setRole('student')" class="py-2.5 font-bold rounded-xl bg-indigo-600 text-white">Ученик</button>
+        <button id="rBtnTeacher" type="button" onclick="setRole('teacher')" class="py-2.5 font-semibold rounded-xl text-slate-400">Учитель</button>
+        <button id="rBtnParent" type="button" onclick="setRole('parent')" class="py-2.5 font-semibold rounded-xl text-slate-400">Родитель</button>
+      </div>
+      <div id="fStudent" class="space-y-3">
+        <input type="text" id="regSurname" placeholder="Фамилия *" class="w-full px-3.5 py-2.5 rounded-xl bg-slate-900 border border-slate-700 text-sm text-white">
+        <input type="text" id="regName" placeholder="Имя *" class="w-full px-3.5 py-2.5 rounded-xl bg-slate-900 border border-slate-700 text-sm text-white">
+        <input type="text" id="regClass" placeholder="Класс (например: 7Е) *" class="w-full px-3.5 py-2.5 rounded-xl bg-slate-900 border border-slate-700 text-sm text-white">
+        <button type="button" onclick="loginUser('student')" class="w-full py-3.5 rounded-xl bg-gradient-to-r from-indigo-600 to-violet-600 text-white font-bold text-sm">Начать исследование &rarr;</button>
+      </div>
+      <div id="fTeacher" class="space-y-3 hidden">
+        <input type="text" id="tFullName" placeholder="ФИО Преподавателя *" class="w-full px-3.5 py-2.5 rounded-xl bg-slate-900 border border-slate-700 text-sm text-white">
+        <input type="text" id="tSubject" placeholder="Предмет / Кафедра *" class="w-full px-3.5 py-2.5 rounded-xl bg-slate-900 border border-slate-700 text-sm text-white">
+        <button type="button" onclick="loginUser('teacher')" class="w-full py-3.5 rounded-xl bg-gradient-to-r from-emerald-600 to-teal-600 text-white font-bold text-sm">Войти как Учитель &rarr;</button>
+      </div>
+      <div id="fParent" class="space-y-3 hidden">
+        <input type="text" id="pName" placeholder="Ваше имя (родитель) *" class="w-full px-3.5 py-2.5 rounded-xl bg-slate-900 border border-slate-700 text-sm text-white">
+        <input type="text" id="pChildName" placeholder="Имя и фамилия ребенка *" class="w-full px-3.5 py-2.5 rounded-xl bg-slate-900 border border-slate-700 text-sm text-white">
+        <input type="text" id="pChildClass" placeholder="Класс ребенка *" class="w-full px-3.5 py-2.5 rounded-xl bg-slate-900 border border-slate-700 text-sm text-white">
+        <button type="button" onclick="loginUser('parent')" class="w-full py-3.5 rounded-xl bg-gradient-to-r from-amber-600 to-orange-600 text-white font-bold text-sm">Войти как Родитель &rarr;</button>
+      </div>
+      <div id="fAdmin" class="space-y-3 hidden">
+        <h3 class="text-base font-bold font-h text-white">Доступ куратора платформы</h3>
+        <input type="password" id="adminPassInput" onkeydown="if(event.key==='Enter') loginAdmin()" placeholder="Пароль (в любом регистре)..." class="w-full px-3.5 py-2.5 rounded-xl bg-slate-900 border border-slate-700 text-sm text-white">
+        <div class="flex gap-2">
+          <button type="button" onclick="loginAdmin()" class="flex-grow py-3 rounded-xl bg-indigo-600 text-white font-bold text-sm">Войти куратором &rarr;</button>
+          <button type="button" onclick="setRole('student')" class="px-4 py-3 rounded-xl bg-slate-800 text-slate-300 text-xs">Назад</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Шапка -->
+  <header class="w-full px-3 sm:px-8 py-3 liquid sticky top-0 z-30">
+    <div class="max-w-7xl mx-auto flex justify-between items-center gap-2">
+      <div class="flex items-center gap-2.5 min-w-0">
+        <div class="w-10 h-10 rounded-2xl bg-gradient-to-tr from-indigo-500 via-purple-500 to-rose-500 flex items-center justify-center flex-shrink-0 text-white font-bold text-sm">CP</div>
+        <div class="min-w-0">
+          <h1 class="text-xs sm:text-base font-bold font-h text-white truncate">COLORS & PROFESSIONS 2026 • ULTIMATE</h1>
+          <p class="text-[10px] text-slate-400 truncate">6 Архетипов • 20 Профессий в Симуляторе • БВИ Олимпиады • 600+ ВУЗов</p>
+        </div>
+      </div>
+      <div class="flex items-center gap-2 flex-shrink-0">
+        <div id="userBadge" class="hidden items-center gap-1 px-2.5 py-1.5 rounded-xl bg-slate-800/80 text-[11px] text-slate-300">
+          <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+          <span id="userNameTxt" class="max-w-[95px] sm:max-w-none truncate">Участник</span>
+          <span id="headerXpBadge" class="px-1.5 py-0.5 rounded bg-indigo-500/20 text-indigo-300 font-bold ml-1">0 XP</span>
+          <button type="button" onclick="logout()" class="text-slate-400 hover:text-rose-400 ml-1 font-bold underline">выйти</button>
+        </div>
+        <button type="button" onclick="openAdmin()" class="px-3 py-1.5 rounded-xl bg-slate-800/90 hover:bg-indigo-600/30 border border-slate-700 text-xs text-slate-200">Админ</button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Навигация (16 вкладок по умному сквозному маршруту) -->
+  <div class="w-full border-b border-white/5 bg-slate-950/80 sticky top-14 z-20 backdrop-blur-md">
+    <div class="max-w-7xl mx-auto px-3 py-2 flex flex-wrap items-center gap-1.5">
+      <button type="button" onclick="tab('test')" id="tbTest" class="px-2.5 py-1.5 rounded-xl text-xs font-bold bg-indigo-600 text-white shadow-lg">1. Тест & Профиль</button>
+      <button type="button" onclick="tab('sim')" id="tbSim" class="px-2.5 py-1.5 rounded-xl text-xs font-semibold bg-slate-800/60 text-slate-400">2. Тест Акиры</button>
+      <button type="button" onclick="tab('daySim')" id="tbDaySim" class="px-2.5 py-1.5 rounded-xl text-xs font-semibold bg-slate-800/60 text-pink-400 border border-pink-500/30">⚡ 3. Симулятор (20 проф.)</button>
+      <button type="button" onclick="tab('aiSearch')" id="tbAiSearch" class="px-2.5 py-1.5 rounded-xl text-xs font-semibold bg-slate-800/60 text-slate-400">4. Навигатор Профессий</button>
+      <button type="button" onclick="tab('examCalc')" id="tbExamCalc" class="px-2.5 py-1.5 rounded-xl text-xs font-semibold bg-slate-800/60 text-emerald-400 border border-emerald-500/30">🎯 5. ОГЭ/ЕГЭ</button>
+      <button type="button" onclick="tab('olymp')" id="tbOlymp" class="px-2.5 py-1.5 rounded-xl text-xs font-semibold bg-slate-800/60 text-cyan-300 border border-cyan-500/30">🏆 6. Олимпиады БВИ</button>
+      <button type="button" onclick="tab('flagQuiz')" id="tbFlagQuiz" class="px-2.5 py-1.5 rounded-xl text-xs font-semibold bg-slate-800/60 text-amber-300 border border-amber-500/30">🎌 7. Квиз: Флаги</button>
+      <button type="button" onclick="tab('duel')" id="tbDuel" class="px-2.5 py-1.5 rounded-xl text-xs font-semibold bg-slate-800/60 text-slate-400">8. Дуэль интуиции</button>
+      <button type="button" onclick="tab('comp')" id="tbComp" class="px-2.5 py-1.5 rounded-xl text-xs font-semibold bg-slate-800/60 text-slate-400">9. Командная синергия</button>
+      <button type="button" onclick="tab('atlas')" id="tbAtlas" class="px-2.5 py-1.5 rounded-xl text-xs font-semibold bg-slate-800/60 text-slate-400">10. Атлас 600+ ВУЗов</button>
+      <button type="button" onclick="tab('pulse')" id="tbPulse" class="px-2.5 py-1.5 rounded-xl text-xs font-semibold bg-slate-800/60 text-violet-300">📊 Пульс школы</button>
+      <button type="button" onclick="tab('cv')" id="tbCv" class="px-2.5 py-1.5 rounded-xl text-xs font-semibold bg-slate-800/60 text-teal-300">📄 Резюме & Капсула</button>
+      <button type="button" onclick="tab('burnout')" id="tbBurnout" class="px-2.5 py-1.5 rounded-xl text-xs font-semibold bg-slate-800/60 text-rose-300">🛡️ Анти-выгорание</button>
+      <button type="button" onclick="tab('info')" id="tbInfo" class="px-2.5 py-1.5 rounded-xl text-xs font-semibold bg-slate-800/60 text-slate-400">Теория</button>
+      <button type="button" onclick="tab('family')" id="tbFamily" class="px-2.5 py-1.5 rounded-xl text-xs font-semibold bg-slate-800/60 text-slate-400">Семья</button>
+      <button type="button" onclick="tab('parent')" id="tbParent" class="px-2.5 py-1.5 rounded-xl text-xs font-semibold bg-slate-800/60 text-slate-400">Родителям</button>
+    </div>
+  </div>
+
+  <!-- ВКЛАДКА 1: Главный Тест -->
+  <main id="viewTest" class="max-w-5xl mx-auto px-3 py-6 flex-grow w-full">
+    <div class="text-center mb-6">
+      <span class="text-[11px] uppercase font-bold tracking-widest text-indigo-400 bg-indigo-500/10 px-3 py-1 rounded-full border border-indigo-500/20">Методика Якоба Олесена • 6 Архетипов</span>
+      <h2 class="text-xl sm:text-3xl font-extrabold font-h text-white mt-2">Цветовой код вашей карьеры</h2>
+      <p class="text-xs sm:text-sm text-slate-400 mt-1">Выберите по одному самому близкому цвету в каждом из трех сетов.</p>
+    </div>
+
+    <div class="mb-5" id="group-set1">
+      <div class="flex justify-between items-center mb-2"><h3 class="text-xs sm:text-sm font-bold uppercase text-slate-200">Сет 1: Подход к задачам</h3><span id="s1Txt" class="text-xs text-slate-500">Не выбрано</span></div>
+      <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+        <div onclick="pickColor('set1','Красный',this)" class="card-glass p-4 rounded-2xl"><div><div class="flex items-center gap-2 mb-1"><span class="w-3.5 h-3.5 rounded-full bg-rose-500"></span><strong class="text-sm text-white">Красный</strong></div><p class="text-xs text-rose-300 font-semibold">Ориентация на результат</p></div><p class="text-xs text-slate-400">Лидерство, решительность, воля к победе и преодоление трудностей.</p></div>
+        <div onclick="pickColor('set1','Желтый',this)" class="card-glass p-4 rounded-2xl"><div><div class="flex items-center gap-2 mb-1"><span class="w-3.5 h-3.5 rounded-full bg-amber-400"></span><strong class="text-sm text-white">Желтый</strong></div><p class="text-xs text-amber-300 font-semibold">Ориентация на информацию</p></div><p class="text-xs text-slate-400">Оптимизм, контактность, креатив, вдохновение команды и новые смыслы.</p></div>
+        <div onclick="pickColor('set1','Синий',this)" class="card-glass p-4 rounded-2xl"><div><div class="flex items-center gap-2 mb-1"><span class="w-3.5 h-3.5 rounded-full bg-blue-500"></span><strong class="text-sm text-white">Синий</strong></div><p class="text-xs text-blue-300 font-semibold">Ориентация на идеи</p></div><p class="text-xs text-slate-400">Глубина, системный анализ, спокойствие и инженерный самоконтроль.</p></div>
+      </div>
+    </div>
+
+    <div class="mb-5" id="group-set2">
+      <div class="flex justify-between items-center mb-2"><h3 class="text-xs sm:text-sm font-bold uppercase text-slate-200">Сет 2: Стратегия решений</h3><span id="s2Txt" class="text-xs text-slate-500">Не выбрано</span></div>
+      <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+        <div onclick="pickColor('set2','Зеленый',this)" class="card-glass p-4 rounded-2xl"><div><div class="flex items-center gap-2 mb-1"><span class="w-3.5 h-3.5 rounded-full bg-emerald-500"></span><strong class="text-sm text-white">Зеленый</strong></div><p class="text-xs text-emerald-300 font-semibold">Реалистичная оценка</p></div><p class="text-xs text-slate-400">Баланс, стабильность, трезвый аудит рисков и уважение к границам.</p></div>
+        <div onclick="pickColor('set2','Фиолетовый',this)" class="card-glass p-4 rounded-2xl"><div><div class="flex items-center gap-2 mb-1"><span class="w-3.5 h-3.5 rounded-full bg-purple-500"></span><strong class="text-sm text-white">Фиолетовый</strong></div><p class="text-xs text-purple-300 font-semibold">Интуиция и факты</p></div><p class="text-xs text-slate-400">Эмпатия, нестандартный взгляд, понимание скрытых трендов.</p></div>
+        <div onclick="pickColor('set2','Оранжевый',this)" class="card-glass p-4 rounded-2xl"><div><div class="flex items-center gap-2 mb-1"><span class="w-3.5 h-3.5 rounded-full bg-amber-500"></span><strong class="text-sm text-white">Оранжевый</strong></div><p class="text-xs text-amber-300 font-semibold">Воплощение замысла</p></div><p class="text-xs text-slate-400">Конструктивность, командность и доведение дел до реального продукта.</p></div>
+      </div>
+    </div>
+
+    <div class="mb-5" id="group-set3">
+      <div class="flex justify-between items-center mb-2"><h3 class="text-xs sm:text-sm font-bold uppercase text-slate-200">Сет 3: Глубинные ценности</h3><span id="s3Txt" class="text-xs text-slate-500">Не выбрано</span></div>
+      <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+        <div onclick="pickColor('set3','Белый',this)" class="card-glass p-4 rounded-2xl"><div><div class="flex items-center gap-2 mb-1"><span class="w-3.5 h-3.5 rounded-full bg-slate-100"></span><strong class="text-sm text-white">Белый</strong></div><p class="text-xs text-slate-300 font-semibold">Свобода выбора</p></div><p class="text-xs text-slate-400">Независимость, непрерывное обучение и гибкость траектории.</p></div>
+        <div onclick="pickColor('set3','Черный',this)" class="card-glass p-4 rounded-2xl"><div><div class="flex items-center gap-2 mb-1"><span class="w-3.5 h-3.5 rounded-full bg-slate-900 border border-slate-500"></span><strong class="text-sm text-white">Черный</strong></div><p class="text-xs text-slate-300 font-semibold">Статусность и авторитет</p></div><p class="text-xs text-slate-400">Высокая дисциплина, умение работать с крупным капиталом и иерархией.</p></div>
+        <div onclick="pickColor('set3','Коричневый',this)" class="card-glass p-4 rounded-2xl"><div><div class="flex items-center gap-2 mb-1"><span class="w-3.5 h-3.5 rounded-full bg-amber-800"></span><strong class="text-sm text-white">Коричневый</strong></div><p class="text-xs text-amber-200 font-semibold">Надежность и опора</p></div><p class="text-xs text-slate-400">Трудолюбие, безопасность, верность проверенным стандартам.</p></div>
+      </div>
+    </div>
+
+    <div class="text-center py-4">
+      <button type="button" onclick="calculate()" class="w-full sm:w-auto px-10 py-4 rounded-2xl bg-gradient-to-r from-indigo-600 via-purple-600 to-violet-600 text-white font-bold text-sm shadow-xl">Рассчитать профиль и ВУЗы</button>
+      <p id="calcWarn" class="text-xs text-amber-400 mt-2 hidden">Выберите по одному цвету в каждом сете!</p>
+    </div>
+
+    <div id="resBlock" class="mt-6 hidden">
+      <div class="liquid p-5 sm:p-8 rounded-3xl space-y-4">
+        <div class="flex flex-wrap justify-between items-center gap-2">
+          <span id="resBadge" class="text-[11px] font-semibold px-2.5 py-0.5 rounded-full bg-indigo-500/20 text-indigo-300">Совпадение: 100%</span>
+          <div class="flex gap-2">
+            <button type="button" onclick="downloadPass()" class="text-xs px-3 py-1.5 rounded-xl bg-indigo-600 text-white font-bold">Pass</button>
+            <button type="button" onclick="generatePdfReport()" class="text-xs px-3 py-1.5 rounded-xl bg-slate-800 text-white font-bold">PDF</button>
+            <button type="button" onclick="copyShareText()" class="text-xs px-3 py-1.5 rounded-xl bg-emerald-600 text-white font-bold shadow">Поделиться результатом</button>
+          </div>
+        </div>
+        <div>
+          <h3 id="resTitle" class="text-2xl sm:text-3xl font-extrabold font-h text-white">КОММУНИКАТОР</h3>
+          <p id="resSubtitle" class="text-xs sm:text-sm text-indigo-300"></p>
+        </div>
+        <div class="p-3 rounded-2xl bg-slate-900/80 text-xs"><strong>Выбранный спектр:</strong> <span id="resFormula" class="text-indigo-400 font-semibold"></span></div>
+        <div class="p-4 rounded-2xl bg-slate-900/70 border border-indigo-500/30">
+          <h4 class="font-bold text-white uppercase text-xs mb-2">Подходящие профессии & Стресс-индекс:</h4>
+          <div id="topSalariesGrid" class="grid grid-cols-1 sm:grid-cols-3 gap-2.5 text-xs"></div>
+        </div>
+        <div class="p-4 rounded-2xl bg-rose-950/20 border border-rose-500/30 text-xs">
+          <strong class="text-rose-400 block mb-1">Зона риска выгорания:</strong>
+          <p id="resBurnoutRisk" class="text-slate-300"></p>
+        </div>
+        <div class="p-4 rounded-2xl bg-slate-900/60">
+          <h4 class="font-bold text-white uppercase text-xs mb-2">Карьерный трек (2026–2036):</h4>
+          <div id="tlGrid" class="grid grid-cols-1 sm:grid-cols-4 gap-2.5 text-xs"></div>
+        </div>
+        <div class="p-4 rounded-2xl bg-amber-500/10 border border-amber-500/20 text-xs">
+          <strong class="text-amber-300 block mb-1">Совет родителям:</strong>
+          <p id="parentTxt" class="text-slate-300"></p>
+        </div>
+        <div>
+          <h4 class="font-bold text-white uppercase text-xs mb-2">Профессии будущего:</h4>
+          <div id="careersGrid" class="grid grid-cols-1 sm:grid-cols-3 gap-3 text-xs"></div>
+        </div>
+        <div>
+          <h4 class="font-bold text-white uppercase text-xs mb-2">Рекомендованные ВУЗы и Колледжи (с официальными сайтами):</h4>
+          <div id="unisGrid" class="grid grid-cols-1 sm:grid-cols-2 gap-2.5 text-xs"></div>
+        </div>
+
+        <div class="pt-4 border-t border-white/10">
+          <button type="button" onclick="tab('sim')" class="next-step-btn">
+            🤖 Шаг 2: Пройти собеседование Акиры &rarr;
+          </button>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- ВКЛАДКА 2: Собеседование Акиры -->
+  <section id="viewSim" class="max-w-5xl mx-auto px-3 py-6 flex-grow w-full hidden">
+    <div class="text-center mb-6">
+      <h2 class="text-xl sm:text-2xl font-extrabold font-h text-white">Собеседование с AI-Наставником «Акира»</h2>
+      <p class="text-xs text-slate-400 mt-1">Ответьте на 5 ситуационных кейсов для верификации ведущего характера.</p>
+    </div>
+    <div class="liquid p-5 rounded-3xl max-w-2xl mx-auto">
+      <div class="flex items-center gap-2.5 pb-3 border-b border-slate-800 mb-4">
+        <div class="w-10 h-10 rounded-2xl bg-purple-600/30 flex items-center justify-center text-lg">🤖</div>
+        <div class="flex-grow"><h4 class="font-bold text-white text-sm">AI-Наставник «Акира 2026»</h4><p class="text-[11px] text-purple-300" id="akiraRoundCounter">Ситуация 1 из 5</p></div>
+        <span id="interviewScore" class="font-h font-bold text-emerald-400 text-sm">100 XP</span>
+      </div>
+      <div id="interviewDialog" class="space-y-3">
+        <div class="p-4 rounded-2xl bg-slate-900/90 text-xs sm:text-sm text-slate-200"><strong class="text-purple-400 block mb-1">Акира:</strong><span id="interviewQuestion"></span></div>
+        <div id="interviewAnswers" class="space-y-2 text-xs"></div>
+      </div>
+      <div id="interviewFinalVerdict" class="p-4 rounded-2xl bg-purple-950/40 border border-purple-500/40 text-xs hidden space-y-3">
+        <strong class="text-purple-300 font-bold text-sm block">Итоговый вердикт Акиры:</strong>
+        <div id="verdictBody" class="text-slate-300 space-y-1"></div>
+        <button type="button" onclick="initAkiraInterview()" class="w-full py-2 rounded-xl bg-slate-800 text-slate-300 font-semibold text-xs">Пройти собеседование заново</button>
+        <button type="button" onclick="tab('daySim')" class="next-step-btn">
+          ⚡ Шаг 3: Прожить 1 день в профессии (20 профессий × 10 этапов) &rarr;
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ВКЛАДКА 3: МАСШТАБНЫЙ СИМУЛЯТОР 1 ДНЯ (20 ПРОФЕССИЙ ПО 10 ЭТАПОВ + ИНТЕРАКТИВНЫЙ РАДАР) -->
+  <section id="viewDaySim" class="max-w-5xl mx-auto px-3 py-6 flex-grow w-full hidden">
+    <div class="text-center mb-6">
+      <span class="text-[10px] uppercase font-bold tracking-widest text-pink-400 bg-pink-500/10 px-3 py-1 rounded-full border border-pink-500/20">20 Профессий • 10 Этапов рабочего дня • Глубокая аналитика</span>
+      <h2 class="text-xl sm:text-3xl font-extrabold font-h text-white mt-2">Симулятор: 1 день из жизни профессии</h2>
+      <p class="text-xs sm:text-sm text-slate-400 mt-1">Выберите любую из 20 специальностей и пройдите 10 этапов смены с 08:00 до 21:00.</p>
+    </div>
+
+    <div class="liquid p-5 sm:p-7 rounded-3xl max-w-4xl mx-auto space-y-5">
+      <!-- Выбор из 20 профессий -->
+      <div class="flex flex-col sm:flex-row gap-2 items-center justify-between bg-slate-900/90 p-3 rounded-2xl border border-white/10">
+        <span class="text-xs font-bold text-indigo-300">Выберите профессию (20 доступно):</span>
+        <select id="daySimProfessionSelect" onchange="startDaySim(this.value)" class="w-full sm:w-80 p-2.5 rounded-xl bg-slate-950 border border-indigo-500/40 text-white text-xs font-bold"></select>
+      </div>
+
+      <!-- Панель живых индикаторов -->
+      <div class="grid grid-cols-3 gap-2.5 p-3.5 rounded-2xl bg-slate-950/90 border border-white/10 text-xs">
+        <div>
+          <div class="flex justify-between mb-1"><span class="text-amber-300 font-bold">⚡ Энергия</span><strong id="dsEnergyVal">100%</strong></div>
+          <div class="w-full h-2 bg-slate-800 rounded-full overflow-hidden"><div id="dsEnergyBar" class="h-full bg-amber-400 transition-all" style="width:100%"></div></div>
+        </div>
+        <div>
+          <div class="flex justify-between mb-1"><span class="text-purple-300 font-bold">⭐ Репутация</span><strong id="dsRepVal">75%</strong></div>
+          <div class="w-full h-2 bg-slate-800 rounded-full overflow-hidden"><div id="dsRepBar" class="h-full bg-purple-500 transition-all" style="width:75%"></div></div>
+        </div>
+        <div>
+          <div class="flex justify-between mb-1"><span class="text-emerald-300 font-bold">🎯 Мастерство</span><strong id="dsSkillVal">75%</strong></div>
+          <div class="w-full h-2 bg-slate-800 rounded-full overflow-hidden"><div id="dsSkillBar" class="h-full bg-emerald-400 transition-all" style="width:75%"></div></div>
+        </div>
+      </div>
+
+      <!-- Игровой экран рабочего дня (10 этапов) -->
+      <div id="dsActiveStage" class="space-y-4">
+        <div class="p-4 rounded-2xl bg-slate-900/90 border border-pink-500/30 space-y-2">
+          <div class="flex justify-between items-center">
+            <span id="dsTimeBadge" class="px-2.5 py-0.5 rounded-full bg-pink-500/20 text-pink-300 font-bold text-[11px]">08:00 • Этап 1</span>
+            <span id="dsStepCounter" class="text-xs text-slate-400 font-bold">Этап 1 из 10</span>
+          </div>
+          <h4 id="dsStageTitle" class="text-sm sm:text-base font-bold text-white"></h4>
+          <p id="dsStageDesc" class="text-xs sm:text-sm text-slate-200 leading-relaxed"></p>
+        </div>
+        <div id="dsChoicesGrid" class="space-y-2 text-xs"></div>
+      </div>
+
+      <!-- Финальный экран с интерактивной аналитикой и радаром компетенций -->
+      <div id="dsSummaryScreen" class="p-5 rounded-2xl bg-indigo-950/40 border border-indigo-500/40 text-xs space-y-4 hidden">
+        <div class="flex justify-between items-center flex-wrap gap-2 border-b border-white/10 pb-3">
+          <div>
+            <strong class="text-base sm:text-xl font-extrabold font-h text-white block" id="dsFinalTitle">Смена завершена!</strong>
+            <span class="text-xs text-indigo-300" id="dsFinalSub"></span>
+          </div>
+          <span id="dsFinalGrade" class="px-3 py-1 rounded-full bg-emerald-500/20 text-emerald-300 font-bold text-xs"></span>
+        </div>
+
+        <!-- Интерактивная матрица компетенций по итогам 10 этапов -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 p-4 rounded-2xl bg-slate-900/90 border border-white/5">
+          <div class="space-y-2">
+            <strong class="text-white block text-xs uppercase tracking-wider">📊 Профиль компетенций за смену:</strong>
+            <div id="dsCompetencyBars" class="space-y-2"></div>
+          </div>
+          <div class="space-y-2">
+            <strong class="text-amber-300 block text-xs uppercase tracking-wider">🔍 Разбор ключевых моментов дня:</strong>
+            <div id="dsKeyMoments" class="text-slate-300 space-y-1.5 text-[11px] leading-relaxed"></div>
+          </div>
+        </div>
+
+        <p id="dsFinalVerdict" class="text-slate-200 leading-relaxed text-xs sm:text-sm"></p>
+
+        <div class="flex flex-col sm:flex-row gap-2">
+          <button type="button" onclick="restartCurrentDaySim()" class="flex-1 py-2.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-200 font-bold text-xs">Пройти заново</button>
+          <button type="button" onclick="tab('aiSearch')" class="flex-1 next-step-btn">💼 Шаг 4: Зарплаты и ВУЗы этой профессии &rarr;</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ВКЛАДКА 4: Навигатор Профессий -->
+  <section id="viewAiSearch" class="max-w-5xl mx-auto px-3 py-6 flex-grow w-full hidden">
+    <div class="text-center mb-6">
+      <h2 class="text-xl sm:text-2xl font-extrabold font-h text-white">Навигатор Профессий 2026</h2>
+      <p class="text-xs text-slate-400 mt-1">Введите профессию или выберите тег — увидите примерную зарплату, цветовой код и вузы.</p>
+    </div>
+    <div class="liquid p-5 rounded-3xl max-w-2xl mx-auto space-y-4">
+      <div class="flex flex-col sm:flex-row gap-2">
+        <input type="text" id="aiCareerInput" onkeydown="if(event.key==='Enter') analyzeCustomCareer()" placeholder="Инженер, Шеф-повар, Программист, Дипломат, Финансист..." class="flex-grow px-3.5 py-2.5 rounded-xl bg-slate-900 border border-slate-700 text-sm text-white">
+        <button type="button" onclick="analyzeCustomCareer()" class="px-6 py-2.5 rounded-xl bg-purple-600 text-white font-bold text-xs">Анализ</button>
+      </div>
+      <div class="flex flex-wrap gap-1.5 text-[11px]">
+        <button type="button" onclick="quickCareer('Кардиохирург')" class="px-2.5 py-1 rounded-lg bg-slate-800 hover:bg-indigo-600 text-slate-200">🩺 Кардиохирург</button>
+        <button type="button" onclick="quickCareer('AI-Архитектор')" class="px-2.5 py-1 rounded-lg bg-slate-800 hover:bg-indigo-600 text-slate-200">💻 AI-Архитектор</button>
+        <button type="button" onclick="quickCareer('Дипломат')" class="px-2.5 py-1 rounded-lg bg-slate-800 hover:bg-indigo-600 text-slate-200">🌍 Дипломат</button>
+        <button type="button" onclick="quickCareer('Инвестбанкир')" class="px-2.5 py-1 rounded-lg bg-slate-800 hover:bg-indigo-600 text-slate-200">📈 Инвестбанкир</button>
+        <button type="button" onclick="quickCareer('Шеф-повар')" class="px-2.5 py-1 rounded-lg bg-slate-800 hover:bg-indigo-600 text-slate-200">🍳 Шеф-повар</button>
+        <button type="button" onclick="quickCareer('Биотехнолог')" class="px-2.5 py-1 rounded-lg bg-slate-800 hover:bg-indigo-600 text-slate-200">🧬 Биотехнолог</button>
+      </div>
+      <div id="aiCareerResult" class="space-y-3">
+        <div class="p-4 rounded-2xl bg-slate-900/80 border border-purple-500/30">
+          <div class="flex justify-between items-center mb-2 flex-wrap gap-2">
+            <h4 id="aiCareerTitle" class="text-sm font-bold text-white"></h4>
+            <span id="aiColorDNA" class="text-[10px] font-bold px-2.5 py-0.5 rounded-full bg-purple-500/20 text-purple-300"></span>
+          </div>
+          <div class="p-3 mb-3 rounded-xl bg-emerald-950/30 border border-emerald-500/30 flex justify-between items-center text-xs">
+            <span class="text-slate-300">💰 Ориентировочная зарплата (2026):</span>
+            <strong id="aiCareerSalary" class="text-emerald-400 font-bold text-sm"></strong>
+          </div>
+          <p id="aiCareerAnalysis" class="text-xs text-slate-300 mb-3"></p>
+          <div id="aiArchetypePercentages" class="space-y-2 text-xs"></div>
+        </div>
+        <div class="p-3.5 rounded-2xl bg-slate-900/80">
+          <span class="text-[10px] uppercase font-bold text-emerald-400 block mb-2">Рекомендованные заведения (официальные сайты):</span>
+          <div id="aiCareerUnis" class="space-y-1.5 text-xs"></div>
+        </div>
+        <button type="button" onclick="tab('examCalc')" class="next-step-btn">
+          🎯 Шаг 5: Рассчитать предметы ОГЭ / ЕГЭ &rarr;
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ВКЛАДКА 5: Калькулятор ОГЭ / ЕГЭ -->
+  <section id="viewExamCalc" class="max-w-5xl mx-auto px-3 py-6 flex-grow w-full hidden">
+    <div class="text-center mb-6">
+      <h2 class="text-xl sm:text-2xl font-extrabold font-h text-white">Калькулятор экзаменов ОГЭ / ЕГЭ (14 предметов)</h2>
+      <p class="text-xs text-slate-400 mt-1">Отметьте предметы и укажите средний балл — алгоритм рассчитает траектории и вузы.</p>
+    </div>
+    <div class="liquid p-5 rounded-3xl max-w-3xl mx-auto space-y-4">
+      <div class="p-3 bg-slate-900/80 rounded-2xl flex flex-col sm:flex-row items-center justify-between gap-3 text-xs">
+        <span>Средний балл за 1 предмет:</span>
+        <div class="flex items-center gap-3 w-full sm:w-auto">
+          <input type="range" id="examScoreRange" min="50" max="100" value="82" oninput="runExamCalc()" class="w-full sm:w-48 accent-emerald-500">
+          <span id="examScoreVal" class="font-bold text-emerald-400 w-14 text-right">82 б.</span>
+        </div>
+      </div>
+      <div class="grid grid-cols-2 sm:grid-cols-4 gap-2 text-xs" id="examCheckboxGrid">
+        <label class="p-2 rounded-xl bg-slate-900 border border-slate-700 flex items-center gap-2"><input type="checkbox" value="math_prof" checked onchange="runExamCalc()"> Проф. математика</label>
+        <label class="p-2 rounded-xl bg-slate-900 border border-slate-700 flex items-center gap-2"><input type="checkbox" value="math_base" onchange="runExamCalc()"> Баз. математика</label>
+        <label class="p-2 rounded-xl bg-slate-900 border border-slate-700 flex items-center gap-2"><input type="checkbox" value="rus" checked onchange="runExamCalc()"> Русский язык</label>
+        <label class="p-2 rounded-xl bg-slate-900 border border-slate-700 flex items-center gap-2"><input type="checkbox" value="inf" checked onchange="runExamCalc()"> Информатика</label>
+        <label class="p-2 rounded-xl bg-slate-900 border border-slate-700 flex items-center gap-2"><input type="checkbox" value="phys" onchange="runExamCalc()"> Физика</label>
+        <label class="p-2 rounded-xl bg-slate-900 border border-slate-700 flex items-center gap-2"><input type="checkbox" value="chem" onchange="runExamCalc()"> Химия</label>
+        <label class="p-2 rounded-xl bg-slate-900 border border-slate-700 flex items-center gap-2"><input type="checkbox" value="bio" onchange="runExamCalc()"> Биология</label>
+        <label class="p-2 rounded-xl bg-slate-900 border border-slate-700 flex items-center gap-2"><input type="checkbox" value="soc" onchange="runExamCalc()"> Обществознание</label>
+        <label class="p-2 rounded-xl bg-slate-900 border border-slate-700 flex items-center gap-2"><input type="checkbox" value="hist" onchange="runExamCalc()"> История</label>
+        <label class="p-2 rounded-xl bg-slate-900 border border-slate-700 flex items-center gap-2"><input type="checkbox" value="eng" onchange="runExamCalc()"> Английский язык</label>
+        <label class="p-2 rounded-xl bg-slate-900 border border-slate-700 flex items-center gap-2"><input type="checkbox" value="chi" onchange="runExamCalc()"> Китайский язык</label>
+        <label class="p-2 rounded-xl bg-slate-900 border border-slate-700 flex items-center gap-2"><input type="checkbox" value="lit" onchange="runExamCalc()"> Литература</label>
+        <label class="p-2 rounded-xl bg-slate-900 border border-slate-700 flex items-center gap-2"><input type="checkbox" value="geo" onchange="runExamCalc()"> География</label>
+        <label class="p-2 rounded-xl bg-slate-900 border border-slate-700 flex items-center gap-2"><input type="checkbox" value="art" onchange="runExamCalc()"> Творч. конкурс</label>
+      </div>
+      <div class="p-4 rounded-2xl bg-slate-900/90 border border-emerald-500/30 text-xs space-y-2.5">
+        <div class="flex justify-between items-center flex-wrap gap-2">
+          <strong class="text-emerald-400 text-sm" id="examCalcTitle"></strong>
+          <span id="examBudgetChance" class="px-2.5 py-0.5 rounded-full bg-emerald-500/20 text-emerald-300 font-bold text-[11px]"></span>
+        </div>
+        <p id="examCalcText" class="text-slate-300"></p>
+        <div id="examCalcUnis" class="space-y-1.5 text-slate-200"></div>
+      </div>
+      <button type="button" onclick="tab('olymp')" class="next-step-btn">
+        🏆 Шаг 6: Открыть Тренажёр Олимпиад и БВИ &rarr;
+      </button>
+    </div>
+  </section>
+
+  <!-- ВКЛАДКА 6: ТРЕНАЖЁР ОЛИМПИАД И БВИ-НАВИГАТОР -->
+  <section id="viewOlymp" class="max-w-5xl mx-auto px-3 py-6 flex-grow w-full hidden">
+    <div class="text-center mb-6">
+      <span class="text-[10px] uppercase font-bold tracking-widest text-cyan-400 bg-cyan-500/10 px-3 py-1 rounded-full border border-cyan-500/20">Поступление без вступительных испытаний (БВИ)</span>
+      <h2 class="text-xl sm:text-3xl font-extrabold font-h text-white mt-2">Тренажёр Олимпиад & БВИ-Навигатор 2026</h2>
+      <p class="text-xs text-slate-400 mt-1">Решите 3 олимпиадные мини-задачи и узнайте, какие перечневые олимпиады дают 100 баллов ЕГЭ или БВИ.</p>
+    </div>
+    <div class="liquid p-5 sm:p-7 rounded-3xl max-w-3xl mx-auto space-y-5 text-xs">
+      <div class="grid grid-cols-1 sm:grid-cols-3 gap-2.5">
+        <div class="p-3.5 rounded-2xl bg-slate-900/90 border border-cyan-500/30">
+          <strong class="text-cyan-300 block mb-1">🥇 ВсОШ (Всероссийская олимпиада)</strong>
+          <p class="text-slate-300 text-[11px]">Диплом призёра/победителя финала даёт право поступления БВИ в любой вуз РФ по профилю на 4 года.</p>
+        </div>
+        <div class="p-3.5 rounded-2xl bg-slate-900/90 border border-indigo-500/30">
+          <strong class="text-indigo-300 block mb-1">🥈 Высшая проба / Ломоносов</strong>
+          <p class="text-slate-300 text-[11px]">Олимпиады I уровня: дают 100 баллов ЕГЭ или БВИ в НИУ ВШЭ, МГУ, МГИМО при подтверждении ЕГЭ от 75+ баллов.</p>
+        </div>
+        <div class="p-3.5 rounded-2xl bg-slate-900/90 border border-emerald-500/30">
+          <strong class="text-emerald-300 block mb-1">🥉 Физтех / Сеченовская</strong>
+          <p class="text-slate-300 text-[11px]">Профильные олимпиады для будущих инженеров (МФТИ, Бауманка) и хирургов/врачей (Первый Мед).</p>
+        </div>
+      </div>
+
+      <!-- Мини-тренажёр логики и олимпиадных кейсов -->
+      <div class="p-4 rounded-2xl bg-slate-950/90 border border-white/10 space-y-3">
+        <div class="flex justify-between items-center">
+          <strong class="text-white text-sm">⚡ Олимпиадный блиц-кейс:</strong>
+          <span id="olympScoreBadge" class="text-cyan-400 font-bold">Решено: 0 / 3</span>
+        </div>
+        <p id="olympQText" class="text-slate-200 text-xs sm:text-sm leading-relaxed"></p>
+        <div id="olympOpts" class="space-y-2"></div>
+        <p id="olympFeedback" class="text-emerald-400 font-semibold hidden"></p>
+      </div>
+
+      <button type="button" onclick="tab('flagQuiz')" class="next-step-btn">
+        🎌 Шаг 7: Пройти квиз по цветам флагов &rarr;
+      </button>
+    </div>
+  </section>
+
+  <!-- ВКЛАДКА 7: Квиз: Цвета Флагов -->
+  <section id="viewFlagQuiz" class="max-w-4xl mx-auto px-3 py-6 flex-grow w-full hidden">
+    <div class="text-center mb-6">
+      <span class="text-[10px] uppercase font-bold tracking-widest text-amber-400 bg-amber-500/10 px-3 py-1 rounded-full">Геральдика и Психология Цвета • 10 Вопросов</span>
+      <h2 class="text-xl sm:text-3xl font-extrabold font-h text-white mt-2">Квиз: Что означают цвета флагов мира?</h2>
+    </div>
+    <div class="liquid p-5 sm:p-7 rounded-3xl max-w-2xl mx-auto space-y-4">
+      <div class="flex justify-between items-center border-b border-white/10 pb-3 text-xs">
+        <span id="fqProgressTxt" class="font-bold text-indigo-300">Флаг 1 из 10</span>
+        <span id="fqScoreTxt" class="font-bold text-emerald-400">Счет: 0 / 10</span>
+      </div>
+      <div id="fqActiveArea" class="space-y-4">
+        <div class="flex flex-col items-center text-center space-y-3">
+          <div id="fqFlagVisual" class="w-44 h-28 rounded-2xl overflow-hidden shadow-xl border-2 border-white/20 flex flex-col"></div>
+          <h3 id="fqCountryName" class="text-lg font-extrabold font-h text-white"></h3>
+          <p id="fqQuestionText" class="text-xs sm:text-sm text-slate-200 max-w-lg"></p>
+        </div>
+        <div id="fqOptionsGrid" class="space-y-2 text-xs"></div>
+        <div id="fqFactBox" class="p-4 rounded-2xl bg-indigo-950/50 border border-indigo-500/40 text-xs hidden space-y-2">
+          <strong id="fqVerdictTitle" class="block text-sm font-bold"></strong>
+          <p id="fqFactText" class="text-slate-200 leading-relaxed"></p>
+          <button type="button" onclick="nextFlagQuestion()" id="fqNextBtn" class="w-full mt-2 py-2.5 rounded-xl bg-indigo-600 text-white font-bold text-xs">Следующий флаг &rarr;</button>
+        </div>
+      </div>
+
+      <div id="fqFinalScreen" class="space-y-5 py-2 hidden">
+        <div class="text-center space-y-2">
+          <div class="text-4xl">🏆</div>
+          <h3 class="text-xl font-extrabold font-h text-white" id="fqFinalTitle"></h3>
+          <p class="text-xs text-slate-300" id="fqFinalDesc"></p>
+          <div id="fqRankBadge" class="inline-block px-3 py-1 rounded-full bg-emerald-500/20 text-emerald-300 text-xs font-bold border border-emerald-500/30"></div>
+        </div>
+
+        <div class="p-4 rounded-2xl bg-slate-900/90 border border-indigo-500/30 space-y-3 text-xs">
+          <strong class="text-indigo-300 block text-sm">🎨 Интерактив: Создай свой личный флаг по 3 цветам Олесена</strong>
+          <div class="grid grid-cols-3 gap-2">
+            <select id="myFlagC1" onchange="renderCustomFlag()" class="p-2 rounded-xl bg-slate-950 border border-slate-700 text-white">
+              <option value="bg-rose-600">Красный (Воля)</option>
+              <option value="bg-amber-400">Желтый (Идеи)</option>
+              <option value="bg-blue-600">Синий (Глубина)</option>
+            </select>
+            <select id="myFlagC2" onchange="renderCustomFlag()" class="p-2 rounded-xl bg-slate-950 border border-slate-700 text-white">
+              <option value="bg-white">Белый (Свобода)</option>
+              <option value="bg-emerald-600">Зеленый (Баланс)</option>
+              <option value="bg-purple-600">Фиолетовый (Интуиция)</option>
+            </select>
+            <select id="myFlagC3" onchange="renderCustomFlag()" class="p-2 rounded-xl bg-slate-950 border border-slate-700 text-white">
+              <option value="bg-blue-700">Синий (Честь)</option>
+              <option value="bg-amber-500">Оранжевый (Дело)</option>
+              <option value="bg-slate-900">Черный (Статус)</option>
+            </select>
+          </div>
+          <div class="flex items-center gap-4 pt-1">
+            <div id="customFlagBox" class="w-32 h-20 rounded-xl overflow-hidden border border-white/30 flex flex-col flex-shrink-0">
+              <div class="w-full h-1/3 bg-rose-600"></div><div class="w-full h-1/3 bg-white"></div><div class="w-full h-1/3 bg-blue-700"></div>
+            </div>
+            <p id="customFlagMeaning" class="text-slate-300 text-[11px] leading-relaxed">Ваш флаг символизирует союз лидерской энергии, открытости миру и верности принципам.</p>
+          </div>
+        </div>
+
+        <button type="button" onclick="initFlagQuiz()" class="w-full py-2.5 rounded-xl bg-slate-800 text-slate-300 font-semibold text-xs">Пройти квиз заново</button>
+        <button type="button" onclick="tab('duel')" class="next-step-btn">
+          🔮 Шаг 8: Перейти в Дуэль интуиции &rarr;
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ВКЛАДКА 8: Дуэль интуиции -->
+  <section id="viewDuel" class="max-w-5xl mx-auto px-3 py-6 flex-grow w-full hidden">
+    <div class="text-center mb-5"><h2 class="text-xl sm:text-2xl font-extrabold font-h text-white">Интерактивная Дуэль интуиции</h2></div>
+    <div class="liquid p-5 rounded-3xl max-w-xl mx-auto space-y-3.5 text-xs">
+      <input type="text" id="duelTargetInput" placeholder="Фамилия или имя друга из базы..." class="w-full px-3.5 py-2.5 rounded-xl bg-slate-900 border border-slate-700 text-white">
+      <div class="grid grid-cols-3 gap-2">
+        <select id="duelGuessS1" class="p-2.5 rounded-xl bg-slate-900 border border-slate-700 text-white"><option value="Красный">Красный</option><option value="Желтый">Желтый</option><option value="Синий">Синий</option></select>
+        <select id="duelGuessS2" class="p-2.5 rounded-xl bg-slate-900 border border-slate-700 text-white"><option value="Зеленый">Зеленый</option><option value="Фиолетовый">Фиолетовый</option><option value="Оранжевый">Оранжевый</option></select>
+        <select id="duelGuessS3" class="p-2.5 rounded-xl bg-slate-900 border border-slate-700 text-white"><option value="Белый">Белый</option><option value="Черный">Черный</option><option value="Коричневый">Коричневый</option></select>
+      </div>
+      <button type="button" onclick="runDuelCheckAdvanced()" class="w-full py-3 rounded-xl bg-indigo-600 text-white font-bold">Проверить интуицию &rarr;</button>
+      <div id="duelResultBox" class="p-4 rounded-2xl bg-slate-900/80 text-center hidden space-y-2">
+        <span id="duelResultBadge" class="text-[11px] font-bold px-2.5 py-0.5 rounded-full inline-block"></span>
+        <p id="duelResultText" class="text-xs text-slate-200"></p>
+        <div id="duelBreakdown" class="text-[11px] text-indigo-300"></div>
+        <div class="pt-2">
+          <button type="button" onclick="tab('comp')" class="next-step-btn">
+            🤝 Шаг 9: Проверить командную синергию &rarr;
+          </button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ВКЛАДКА 9: Командная синергия -->
+  <section id="viewComp" class="max-w-5xl mx-auto px-3 py-6 flex-grow w-full hidden">
+    <div class="text-center mb-5"><h2 class="text-xl sm:text-2xl font-extrabold font-h text-white">Командная синергия & Тандем</h2></div>
+    <div class="liquid p-5 rounded-3xl max-w-xl mx-auto space-y-4">
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs">
+        <div><label class="block text-slate-400 mb-1">Первый участник:</label><select id="uArch" onchange="calcComp()" class="w-full p-2.5 rounded-xl bg-slate-900 border border-slate-700 text-white"><option value="communicator">Коммуникатор</option><option value="investor">Инвестор</option><option value="activist">Активист</option><option value="architect">Архитектор</option><option value="leader">Лидер-Стратег</option><option value="guardian">Хранитель</option></select></div>
+        <div><label class="block text-slate-400 mb-1">Второй участник:</label><select id="pArch" onchange="calcComp()" class="w-full p-2.5 rounded-xl bg-slate-900 border border-slate-700 text-white"><option value="investor">Инвестор</option><option value="communicator">Коммуникатор</option><option value="activist">Активист</option><option value="architect">Архитектор</option><option value="leader">Лидер-Стратег</option><option value="guardian">Хранитель</option></select></div>
+      </div>
+      <div class="p-4 rounded-2xl bg-slate-900/80 text-center space-y-2">
+        <span id="compScore" class="text-3xl font-extrabold font-h text-emerald-400 block"></span>
+        <strong id="compTitle" class="text-sm text-indigo-300 block font-bold"></strong>
+        <p id="compDesc" class="text-xs text-slate-200"></p>
+        <div id="compAdvice" class="p-3 rounded-xl bg-slate-950/90 text-xs text-slate-300 text-left"></div>
+      </div>
+      <button type="button" onclick="tab('atlas')" class="next-step-btn">
+        🏛️ Финал: Открыть Атлас 600+ ВУЗов &rarr;
+      </button>
+    </div>
+  </section>
+
+  <!-- ВКЛАДКА 10: Атлас 600+ ВУЗов -->
+  <section id="viewAtlas" class="max-w-6xl mx-auto px-3 py-6 flex-grow w-full hidden">
+    <div class="text-center mb-5">
+      <h2 class="text-xl sm:text-2xl font-extrabold font-h text-white">Атлас 600+ ВУЗов и Колледжей мира</h2>
+      <p class="text-xs text-slate-400 mt-1">Россия, страны БРИКС, Азия, Европа и профильные колледжи с официальными сайтами.</p>
+    </div>
+    <div class="liquid p-3 rounded-2xl mb-4 max-w-2xl mx-auto flex flex-col sm:flex-row gap-2">
+      <input type="text" id="atlasSearchInput" oninput="applyAtlasFilters()" placeholder="Поиск по названию, городу или предметам (медицина, ИТ, физика, право)..." class="flex-grow px-3.5 py-2 rounded-xl bg-slate-900 border border-slate-700 text-xs text-white">
+      <button type="button" onclick="resetAtlasFilters()" class="px-4 py-2 rounded-xl bg-slate-800 text-slate-300 text-xs">Сброс</button>
+    </div>
+    <div class="flex justify-center gap-1.5 mb-4 text-xs flex-wrap" id="atlasRegionTabs">
+      <button type="button" onclick="setAtlasFilterRegion('all')" id="arf-all" class="px-3 py-1.5 rounded-xl bg-indigo-600 text-white font-bold">Все (600+)</button>
+      <button type="button" onclick="setAtlasFilterRegion('Колледж')" id="arf-Колледж" class="px-3 py-1.5 rounded-xl bg-slate-800 text-slate-300">🍳 Колледжи</button>
+      <button type="button" onclick="setAtlasFilterRegion('Россия')" id="arf-Россия" class="px-3 py-1.5 rounded-xl bg-slate-800 text-slate-300">🎓 ВУЗы РФ</button>
+      <button type="button" onclick="setAtlasFilterRegion('БРИКС')" id="arf-БРИКС" class="px-3 py-1.5 rounded-xl bg-slate-800 text-slate-300">🌍 Страны БРИКС</button>
+      <button type="button" onclick="setAtlasFilterRegion('Сингапур')" id="arf-Сингапур" class="px-3 py-1.5 rounded-xl bg-slate-800 text-slate-300">Сингапур</button>
+      <button type="button" onclick="setAtlasFilterRegion('Малайзия')" id="arf-Малайзия" class="px-3 py-1.5 rounded-xl bg-slate-800 text-slate-300">Малайзия</button>
+      <button type="button" onclick="setAtlasFilterRegion('Китай')" id="arf-Китай" class="px-3 py-1.5 rounded-xl bg-slate-800 text-slate-300">Китай / ОАЭ</button>
+      <button type="button" onclick="setAtlasFilterRegion('Европа')" id="arf-Европа" class="px-3 py-1.5 rounded-xl bg-slate-800 text-slate-300">🇪🇺 Европа</button>
+    </div>
+    <div class="text-right text-xs text-slate-400 mb-2">Найдено в каталоге: <strong id="atlasCountTxt" class="text-indigo-400">605</strong></div>
+    <div id="atlasCardsContainer" class="grid grid-cols-1 sm:grid-cols-2 gap-3 max-h-[600px] overflow-y-auto pr-1"></div>
+  </section>
+
+  <!-- ВКЛАДКА 11: ПУЛЬС ШКОЛЫ & ЖИВАЯ АНАЛИТИКА -->
+  <section id="viewPulse" class="max-w-5xl mx-auto px-3 py-6 flex-grow w-full hidden">
+    <div class="text-center mb-6">
+      <span class="text-[10px] uppercase font-bold tracking-widest text-violet-400 bg-violet-500/10 px-3 py-1 rounded-full">Аналитика в реальном времени</span>
+      <h2 class="text-xl sm:text-3xl font-extrabold font-h text-white mt-2">Пульс школы & Битва классов</h2>
+      <p class="text-xs text-slate-400 mt-1">Живое распределение архетипов и активность параллели на основе данных платформы.</p>
+    </div>
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs">
+      <div class="liquid p-5 rounded-3xl space-y-3">
+        <strong class="text-sm text-white block font-h">📊 Распределение архетипов участников</strong>
+        <div id="pulseArchetypesChart" class="space-y-2.5"></div>
+      </div>
+      <div class="liquid p-5 rounded-3xl space-y-3">
+        <strong class="text-sm text-white block font-h">🏆 Рейтинг активности классов</strong>
+        <div id="pulseClassesList" class="space-y-2"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ВКЛАДКА 12: КОНСТРУКТОР ПЕРВОГО РЕЗЮМЕ (CV) & КАПСУЛА ВРЕМЕНИ -->
+  <section id="viewCv" class="max-w-5xl mx-auto px-3 py-6 flex-grow w-full hidden">
+    <div class="text-center mb-6">
+      <h2 class="text-xl sm:text-3xl font-extrabold font-h text-white">Конструктор Резюме (CV) & Капсула времени</h2>
+      <p class="text-xs text-slate-400 mt-1">Автоматическая сборка портфолио школьника и персонального чек-листа подготовки к поступлению.</p>
+    </div>
+    <div class="liquid p-5 sm:p-7 rounded-3xl max-w-3xl mx-auto space-y-4 text-xs">
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+        <input type="text" id="cvGoalsInput" placeholder="Цель поступления (например: МФТИ, Физтех-школа)..." class="px-3.5 py-2.5 rounded-xl bg-slate-900 border border-slate-700 text-white">
+        <input type="text" id="cvSkillsInput" placeholder="Ваши навыки и языки (Python, Английский B2, Китайский)..." class="px-3.5 py-2.5 rounded-xl bg-slate-900 border border-slate-700 text-white">
+      </div>
+      <button type="button" onclick="generateStudentCV()" class="w-full py-3 rounded-xl bg-gradient-to-r from-teal-600 to-emerald-600 text-white font-bold">Сформировать Резюме & Капсулу времени</button>
+
+      <div id="cvPreviewBox" class="p-5 rounded-2xl bg-slate-950/90 border border-teal-500/40 space-y-3">
+        <div class="flex justify-between items-start border-b border-white/10 pb-3">
+          <div>
+            <span class="text-[10px] text-teal-400 font-bold uppercase">Карьерное портфолио • Капсула 2026 → 2031</span>
+            <h3 id="cvOutName" class="text-lg font-extrabold text-white font-h mt-0.5">Участник исследования</h3>
+            <p id="cvOutMeta" class="text-slate-400"></p>
+          </div>
+          <button type="button" onclick="window.print()" class="px-3 py-1.5 rounded-xl bg-slate-800 text-white font-bold">Печать CV</button>
+        </div>
+        <div id="cvOutBody" class="space-y-2 text-slate-300 leading-relaxed"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ВКЛАДКА 13: АНТИ-ВЫГОРАНИЕ & ТАЙМ-МЕНЕДЖЕР -->
+  <section id="viewBurnout" class="max-w-5xl mx-auto px-3 py-6 flex-grow w-full hidden">
+    <div class="text-center mb-6">
+      <h2 class="text-xl sm:text-3xl font-extrabold font-h text-white">Анти-выгорание & Персональный ритм</h2>
+      <p class="text-xs text-slate-400 mt-1">Оптимальный режим учебы и отдыха под ваш цветовой психотип Олесена.</p>
+    </div>
+    <div class="liquid p-5 sm:p-7 rounded-3xl max-w-3xl mx-auto space-y-4 text-xs">
+      <div class="flex items-center justify-between flex-wrap gap-2 bg-slate-900/80 p-3 rounded-2xl">
+        <span>Выберите архетип для построения расписания:</span>
+        <select id="burnoutArchSelect" onchange="renderAntiBurnout()" class="p-2 rounded-xl bg-slate-950 border border-slate-700 text-white font-bold">
+          <option value="communicator">Коммуникатор</option>
+          <option value="investor">Инвестор</option>
+          <option value="activist">Активист</option>
+          <option value="architect">Архитектор</option>
+          <option value="leader">Лидер-Стратег</option>
+          <option value="guardian">Хранитель</option>
+        </select>
+      </div>
+      <div id="burnoutPlanBox" class="grid grid-cols-1 sm:grid-cols-3 gap-3"></div>
+    </div>
+  </section>
+
+  <!-- 14. Теория Олесена -->
+  <section id="viewInfo" class="max-w-5xl mx-auto px-3 py-6 flex-grow w-full hidden">
+    <div class="liquid p-5 sm:p-7 rounded-3xl space-y-5 text-xs">
+      <h3 class="text-xl font-extrabold text-white font-h">Методика Якоба Олесена (The Color Career Counselor)</h3>
+      <p class="text-slate-300 leading-relaxed">Цветовой выбор отражает реакцию нервной системы на рабочую нагрузку. Комбинация 3 сетов формирует индивидуальную матрицу талантов и показывает зоны потенциального выгорания.</p>
+      <div class="grid grid-cols-1 sm:grid-cols-4 gap-3">
+        <div class="p-3.5 rounded-2xl bg-slate-900/80"><strong class="text-indigo-400 block mb-1">XV век • да Винчи</strong><p class="text-slate-400">Выделил 6 базовых цветов и разделил физический и художественный спектр.</p></div>
+        <div class="p-3.5 rounded-2xl bg-slate-900/80"><strong class="text-amber-400 block mb-1">XVII век • Ньютон</strong><p class="text-slate-400">Открыл преломление света через призму и базовые цвета синтеза.</p></div>
+        <div class="p-3.5 rounded-2xl bg-slate-900/80"><strong class="text-emerald-400 block mb-1">1810 г. • И. В. Гёте</strong><p class="text-slate-400">Доказал влияние оттенков на душевные состояния и эмоции.</p></div>
+        <div class="p-3.5 rounded-2xl bg-slate-900/80"><strong class="text-purple-400 block mb-1">1950-е • М. Люшер</strong><p class="text-slate-400">Доказал влияние спектра на пульс, тонус и физиологию человека.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 15. Семейный профиль -->
+  <section id="viewFamily" class="max-w-5xl mx-auto px-3 py-6 flex-grow w-full hidden">
+    <div class="text-center mb-5"><h2 class="text-xl sm:text-2xl font-extrabold font-h text-white">Семейный профиль & Вектор согласия</h2></div>
+    <div class="liquid p-5 rounded-3xl max-w-xl mx-auto space-y-3 text-xs">
+      <div class="grid grid-cols-2 gap-3">
+        <div><label class="block text-slate-400 mb-1">Психотип Родителя:</label><select id="famParentSelect" onchange="calcFamilyProfile()" class="w-full p-2.5 rounded-xl bg-slate-900 border border-slate-700 text-white"><option value="investor">Инвестор</option><option value="communicator">Коммуникатор</option><option value="activist">Активист</option><option value="architect">Архитектор</option><option value="leader">Лидер-Стратег</option><option value="guardian">Хранитель</option></select></div>
+        <div><label class="block text-slate-400 mb-1">Психотип Ребенка:</label><select id="famChildSelect" onchange="calcFamilyProfile()" class="w-full p-2.5 rounded-xl bg-slate-900 border border-slate-700 text-white"><option value="communicator">Коммуникатор</option><option value="activist">Активист</option><option value="investor">Инвестор</option><option value="architect">Архитектор</option><option value="leader">Лидер-Стратег</option><option value="guardian">Хранитель</option></select></div>
+      </div>
+      <div class="p-4 rounded-2xl bg-slate-900/80 space-y-2.5">
+        <div><strong class="text-emerald-400 block mb-0.5">Точки поддержки:</strong><p id="famSupportTxt" class="text-slate-200"></p></div>
+        <div><strong class="text-amber-400 block mb-0.5">Возможные разногласия:</strong><p id="famConflictTxt" class="text-slate-200"></p></div>
+        <div class="p-3 rounded-xl bg-slate-950/90"><strong class="text-indigo-300 block mb-0.5">Совет семье:</strong><p id="famActionTxt" class="text-slate-300"></p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 16. Родителям -->
+  <section id="viewParent" class="max-w-5xl mx-auto px-3 py-6 flex-grow w-full hidden">
+    <div class="text-center mb-5"><h2 class="text-xl sm:text-2xl font-extrabold font-h text-white">Родительский навигатор 2026</h2></div>
+    <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 text-xs">
+      <div class="liquid p-5 rounded-2xl space-y-2"><strong class="text-indigo-400 block text-sm">Коммуникатор / Лидер</strong><p class="text-slate-300">Драйвер — общение, дипломатия и управление. Поощряйте дебаты, языковые клубы и олимпиады по праву.</p></div>
+      <div class="liquid p-5 rounded-2xl space-y-2"><strong class="text-emerald-400 block text-sm">Инвестор / Хранитель</strong><p class="text-slate-300">Драйвер — логика, медицина и стабильность. Обеспечьте спокойное рабочее пространство, химию, биологию и математику.</p></div>
+      <div class="liquid p-5 rounded-2xl space-y-2"><strong class="text-amber-400 block text-sm">Активист / Архитектор</strong><p class="text-slate-300">Драйвер — реальный продукт, точность и технологии. Необходимы практикумы, хакатоны и спорт.</p></div>
+    </div>
+  </section>
+
+  <!-- Админка и Полное Досье -->
+  <div id="adminModal" class="fixed inset-0 z-50 flex items-center justify-center p-2 bg-black/85 backdrop-blur-md hidden">
+    <div class="liquid w-full max-w-6xl max-h-[92vh] flex flex-col p-4 sm:p-6 rounded-3xl">
+      <div class="flex justify-between items-center pb-3 border-b border-slate-800 flex-wrap gap-2">
+        <strong class="text-base text-white font-h">База участников (Синхронизация с Google Таблицей)</strong>
+        <div class="flex gap-2 flex-wrap">
+          <button type="button" onclick="openGodModeAuthDialog()" class="px-2.5 py-1.5 rounded-xl bg-slate-900 border border-slate-700 text-purple-400 font-bold text-xs">• Sys</button>
+          <button type="button" onclick="loadData()" class="px-2.5 py-1.5 rounded-xl bg-indigo-600/30 text-indigo-300 text-xs font-bold">Обновить из облака</button>
+          <button type="button" onclick="exportToCSV()" class="px-2.5 py-1.5 rounded-xl bg-emerald-600/30 text-emerald-300 text-xs font-bold">CSV</button>
+          <button type="button" onclick="closeAdmin()" class="px-2.5 py-1.5 rounded-xl bg-slate-800 text-slate-300 text-xs">Закрыть</button>
+        </div>
+      </div>
+      <div class="py-2 flex justify-between items-center text-xs"><input type="text" id="adminSearch" oninput="filterAdmin()" placeholder="Поиск по имени или классу..." class="px-3 py-1.5 rounded-xl bg-slate-900 border border-slate-700 text-white"><span>Уникальных участников: <strong id="admTotal">0</strong></span></div>
+      <div class="overflow-y-auto flex-grow border border-slate-800 rounded-2xl">
+        <table class="w-full text-left text-xs text-slate-300">
+          <thead class="bg-slate-900 text-slate-400 uppercase text-[10px]"><tr><th class="p-2.5">Обновлено</th><th class="p-2.5">Участник</th><th class="p-2.5">Класс/Роль</th><th class="p-2.5">Архетип</th><th class="p-2.5">Полное досье</th><th class="p-2.5">Удалить</th></tr></thead>
+          <tbody id="adminTbody" class="divide-y divide-slate-800"></tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- Модалка подробного досье всех этапов -->
+  <div id="userDossierModal" class="fixed inset-0 z-50 flex items-center justify-center p-3 bg-black/90 hidden overflow-y-auto">
+    <div class="liquid w-full max-w-xl p-5 rounded-3xl space-y-2 text-xs my-auto border border-purple-500/40">
+      <div class="flex justify-between items-center border-b border-white/10 pb-2"><h3 id="dossierName" class="text-base font-bold text-white"></h3><button type="button" onclick="document.getElementById('userDossierModal').classList.add('hidden')" class="text-xl text-slate-400 hover:text-white">&times;</button></div>
+      <div id="dossierRole" class="text-purple-300 font-semibold"></div>
+      <div class="p-2 rounded-xl bg-slate-900/90"><strong class="text-indigo-400 block">1. Цветовой тест (3 сета):</strong><span id="dossierColors"></span></div>
+      <div class="p-2 rounded-xl bg-slate-900/90"><strong class="text-purple-400 block">2. Собеседование Акиры:</strong><span id="dossierAkira"></span></div>
+      <div class="p-2 rounded-xl bg-slate-900/90"><strong class="text-pink-400 block">3. Симулятор 1 дня (20 профессий):</strong><span id="dossierDaySim"></span></div>
+      <div class="p-2 rounded-xl bg-slate-900/90"><strong class="text-emerald-400 block">4. Навигатор профессий:</strong><span id="dossierSearches"></span></div>
+      <div class="p-2 rounded-xl bg-slate-900/90"><strong class="text-teal-400 block">5. Калькулятор ОГЭ/ЕГЭ:</strong><span id="dossierExams"></span></div>
+      <div class="p-2 rounded-xl bg-slate-900/90"><strong class="text-cyan-400 block">6. Олимпиады БВИ:</strong><span id="dossierOlymp"></span></div>
+      <div class="p-2 rounded-xl bg-slate-900/90"><strong class="text-amber-400 block">7. Квиз по цветам флагов:</strong><span id="dossierFlags"></span></div>
+      <div class="p-2 rounded-xl bg-slate-900/90"><strong class="text-rose-400 block">8. Дуэль интуиции & Синергия:</strong><span id="dossierDuel"></span></div>
+    </div>
+  </div>
+
+  <div id="godAuthDialog" class="fixed inset-0 z-50 flex items-center justify-center p-3 bg-black/90 hidden">
+    <div class="liquid w-full max-w-sm p-5 rounded-3xl space-y-3">
+      <strong class="text-sm text-red-400 font-bold">ROOT ACCESS</strong>
+      <input type="password" id="godPassInput" onkeydown="if(event.key==='Enter') verifyGodKey()" placeholder="Мастер-пароль..." class="w-full px-3.5 py-2 rounded-xl bg-slate-900 border border-slate-700 text-sm text-white">
+      <div class="flex gap-2"><button type="button" onclick="verifyGodKey()" class="flex-grow py-2 rounded-xl bg-red-600 text-white font-bold text-xs">Войти</button><button type="button" onclick="document.getElementById('godAuthDialog').classList.add('hidden')" class="px-4 py-2 rounded-xl bg-slate-800 text-xs">Отмена</button></div>
+    </div>
+  </div>
+
+  <!-- Терминал • Sys -->
+  <div id="godModeModal" class="fixed inset-0 z-50 flex items-center justify-center p-3 bg-black/90 hidden overflow-y-auto">
+    <div class="liquid w-full max-w-xl p-5 rounded-3xl space-y-4 text-xs my-auto border border-red-500/40">
+      <div class="flex justify-between items-center border-b border-white/10 pb-2"><strong class="text-red-400 font-bold text-sm">ROOT TERMINAL • УПРАВЛЕНИЕ САЙТОМ</strong><button type="button" onclick="document.getElementById('godModeModal').classList.add('hidden')" class="text-xl">&times;</button></div>
+
+      <div class="p-3.5 rounded-2xl bg-slate-900/90 border border-indigo-500/30 space-y-2.5">
+        <strong class="text-indigo-300 block text-xs">📢 Объявление на весь сайт (видят все участники):</strong>
+        <input type="text" id="sysBannerInput" placeholder="Например: Внимание! Защита проектов в пятницу в 14:00..." class="w-full px-3 py-2 rounded-xl bg-slate-950 border border-slate-700 text-white text-xs">
+        <div class="flex flex-wrap gap-2 items-center">
+          <select id="sysBannerTheme" class="p-2 rounded-xl bg-slate-950 border border-slate-700 text-white text-xs">
+            <option value="indigo">Тема: Индиго (Стандарт)</option>
+            <option value="emerald">Тема: Изумруд (Успех)</option>
+            <option value="amber">Тема: Золото (Важно)</option>
+            <option value="rose">Тема: Красный (Срочно)</option>
+          </select>
+          <button type="button" onclick="publishSiteBanner()" class="px-3.5 py-2 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white font-bold">Опубликовать</button>
+          <button type="button" onclick="clearSiteBanner()" class="px-3 py-2 rounded-xl bg-slate-800 text-slate-300">Скрыть</button>
+        </div>
+      </div>
+
+      <div class="grid grid-cols-2 gap-2.5">
+        <button type="button" onclick="godToggleLiveEdit()" class="p-3 rounded-xl bg-slate-900 text-left"><strong>✏️ Правка текста сайта</strong></button>
+        <button type="button" onclick="godAddMockData()" class="p-3 rounded-xl bg-slate-900 text-left"><strong class="text-emerald-400">👥 + Тестовый участник</strong></button>
+        <button type="button" onclick="godToggleAlwaysWinDuel()" class="p-3 rounded-xl bg-slate-900 text-left"><strong class="text-blue-400">🎯 100% Дуэль: <span id="godDuelStatus">Выкл</span></strong></button>
+        <button type="button" onclick="godClearAllData()" class="p-3 rounded-xl bg-slate-900 text-left"><strong class="text-red-400">💣 Очистить базу</strong></button>
+        <button type="button" onclick="godResetLocalStorage()" class="p-3 rounded-xl bg-slate-900 text-left"><strong class="text-amber-400">🔄 Сброс сессии</strong></button>
+        <button type="button" onclick="godDumpMemory()" class="p-3 rounded-xl bg-slate-900 text-left"><strong class="text-purple-400">📊 Статистика</strong></button>
+      </div>
+    </div>
+  </div>
+
+  <footer class="w-full py-4 text-center text-xs text-slate-500 liquid border-t border-white/5">Гимназия им. Е.М. Примакова • Исследовательский проект • 2026</footer>
+
+  <script>
+    const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwQqCwwjgMbIo0kkwBRrJd9kZLbVlczt0M-zVd2EwoNpbZ-v1bypo0TG7HavO9yx3DC/exec";
+    let user = null, isAdmin = false, picks = { set1: null, set2: null, set3: null }, curRes = null, cache = [];
+    let interviewScore = 100, godEditableMode = false, godAlwaysWinDuel = false;
+    let userSessionLog = { searches: [], akiraLog: "Не проходил", daySimLog: "Не проходил", duelLog: "Не играл", examsLog: "Не выбрано", olympLog: "Не проходил", flagsLog: "Не пройден", compLog: "Не проверял" };
+    let unlockedBadges = {};
+
+    const BADGES_META = [
+      { id: "b_test", icon: "🎨", name: "Первооткрыватель спектра", desc: "Прошел главный цветовой тест", xp: 150 },
+      { id: "b_akira", icon: "🤖", name: "Верификация Акиры", desc: "Прошел собеседование с AI-наставником", xp: 150 },
+      { id: "b_daysim", icon: "⚡", name: "Мастер практики (10 этапов)", desc: "Прожил полный день в Симуляторе профессии", xp: 250 },
+      { id: "b_nav", icon: "💼", name: "Карьерный аналитик", desc: "Изучил зарплаты и треки в Навигаторе", xp: 100 },
+      { id: "b_exam", icon: "🎯", name: "Стратег ОГЭ / ЕГЭ", desc: "Рассчитал баллы и шанс на бюджет", xp: 100 },
+      { id: "b_olymp", icon: "🏆", name: "Олимпиадный резерв БВИ", desc: "Решил кейсы в тренажере олимпиад", xp: 150 },
+      { id: "b_flags", icon: "🎌", name: "Геральдист мира", desc: "Прошел квиз по цветам 10 флагов", xp: 150 },
+      { id: "b_duel", icon: "🔮", name: "Проницательный ум", desc: "Сыграл в Дуэль интуиции", xp: 100 },
+      { id: "b_comp", icon: "🤝", name: "Архитектор команд", desc: "Проверил командную синергию", xp: 100 },
+      { id: "b_cv", icon: "📄", name: "Капсула будущего", desc: "Сформировал первое резюме школьника", xp: 150 }
+    ];
+
+    function unlockBadge(badgeId) {
+      if (!unlockedBadges[badgeId]) {
+        unlockedBadges[badgeId] = true;
+        localStorage.setItem("cp2026_badges", JSON.stringify(unlockedBadges));
+        updateBadgesUI();
+      }
+    }
+
+    function updateBadgesUI() {
+      const count = Object.keys(unlockedBadges).length;
+      let totalXp = 0;
+      BADGES_META.forEach(b => { if (unlockedBadges[b.id]) totalXp += b.xp; });
+      document.getElementById("badgeCountBtn").textContent = `${count}/10`;
+      document.getElementById("headerXpBadge").textContent = `${totalXp} XP`;
+      const rank = totalXp >= 1000 ? "Гранд-мастер профориентации" : (totalXp >= 500 ? "Исследователь талантов" : "Новичок спектра");
+      document.getElementById("userRankTitle").textContent = `Ранг: ${rank} (${totalXp} XP • Открыто ${count} из 10)`;
+      document.getElementById("badgesGrid").innerHTML = BADGES_META.map(b => {
+        const got = !!unlockedBadges[b.id];
+        return `<div class="p-3 rounded-2xl border ${got ? 'bg-indigo-950/60 border-amber-400/50 text-white' : 'bg-slate-900/40 border-slate-800 text-slate-500'}">
+          <div class="text-base mb-0.5">${b.icon} <span class="text-[10px] font-bold ${got ? 'text-amber-300' : 'text-slate-600'}">+${b.xp} XP</span></div>
+          <strong class="block text-xs">${b.name}</strong>
+          <p class="text-[10px] opacity-80">${b.desc}</p>
+        </div>`;
+      }).join("");
+    }
+    function openBadgesModal() { updateBadgesUI(); document.getElementById("badgesModal").classList.remove("hidden"); }
+
+    function normalizeClassStr(str) {
+      if (!str) return "";
+      const map = { 'A':'А','a':'А','B':'В','b':'В','E':'Е','e':'Е','K':'К','k':'К','M':'М','m':'М','H':'Н','h':'Н','O':'О','o':'О','P':'Р','p':'Р','C':'С','c':'С','T':'Т','t':'Т','X':'Х','x':'Х','Y':'У','y':'У' };
+      return str.trim().replace(/\s+/g, '').split('').map(ch => map[ch] || ch).join('').toUpperCase();
+    }
+    function normalizeNameStr(str) { return (str || "").trim().replace(/\s+/g, ' ').toLowerCase(); }
+
+    function syncUserRecord(extraUpdate = {}) {
+      if (isAdmin || (user && user.role === 'admin')) return;
+      if (!user || !user.name) return;
+
+      Object.assign(userSessionLog, extraUpdate);
+      const normName = normalizeNameStr(user.name);
+      const normClass = normalizeClassStr(user.roleTxt);
+
+      let existing = cache.find(r => normalizeNameStr(r.name) === normName && normalizeClassStr(r.classGroup) === normClass);
+      const nowStr = new Date().toLocaleDateString("ru-RU");
+
+      if (existing) {
+        existing.date = nowStr;
+        if (picks.set1) existing.set1 = picks.set1;
+        if (picks.set2) existing.set2 = picks.set2;
+        if (picks.set3) existing.set3 = picks.set3;
+        if (curRes) { existing.archetype = curRes.title; existing.matchRate = `${curRes.pct}%`; }
+        existing.searches = userSessionLog.searches.join(", ") || existing.searches || "Нет";
+        if (userSessionLog.akiraLog !== "Не проходил") existing.akiraLog = userSessionLog.akiraLog;
+        if (userSessionLog.daySimLog !== "Не проходил") existing.daySimLog = userSessionLog.daySimLog;
+        if (userSessionLog.examsLog !== "Не выбрано") existing.examsLog = userSessionLog.examsLog;
+        if (userSessionLog.olympLog !== "Не проходил") existing.olympLog = userSessionLog.olympLog;
+        if (userSessionLog.flagsLog !== "Не пройден") existing.flagsLog = userSessionLog.flagsLog;
+        if (userSessionLog.duelLog !== "Не играл") existing.duelLog = userSessionLog.duelLog;
+        if (userSessionLog.compLog !== "Не проверял") existing.compLog = userSessionLog.compLog;
+      } else {
+        existing = {
+          date: nowStr,
+          name: user.name.trim(),
+          classGroup: normClass,
+          set1: picks.set1 || "—", set2: picks.set2 || "—", set3: picks.set3 || "—",
+          archetype: curRes ? curRes.title : "В процессе",
+          matchRate: curRes ? `${curRes.pct}%` : "—",
+          searches: userSessionLog.searches.join(", ") || "Нет",
+          akiraLog: userSessionLog.akiraLog,
+          daySimLog: userSessionLog.daySimLog,
+          examsLog: userSessionLog.examsLog,
+          olympLog: userSessionLog.olympLog,
+          flagsLog: userSessionLog.flagsLog,
+          duelLog: userSessionLog.duelLog,
+          compLog: userSessionLog.compLog
+        };
+        cache.unshift(existing);
+      }
+
+      localStorage.setItem("cp2026_cache", JSON.stringify(cache));
+      if (GOOGLE_SCRIPT_URL.startsWith("http")) {
+        fetch(GOOGLE_SCRIPT_URL, { method:"POST", mode:"no-cors", headers:{"Content-Type":"application/json"}, body:JSON.stringify({ ...existing, upsert: true }) }).catch(()=>{});
+      }
+    }
+
+    function playSnd(type) {
+      try {
+        const ctx = new (window.AudioContext || window.webkitAudioContext)(), osc = ctx.createOscillator(), g = ctx.createGain();
+        osc.connect(g); g.connect(ctx.destination);
+        osc.frequency.setValueAtTime(type === 'success' ? 523 : 420, ctx.currentTime);
+        g.gain.setValueAtTime(0.05, ctx.currentTime);
+        g.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.12);
+        osc.start(); osc.stop(ctx.currentTime + 0.12);
+      } catch (e) {}
+    }
+
+    const ARCHETYPES = {
+      communicator: { title: "КОММУНИКАТОР", subtitle: "Мастер переговоров, дипломатии и медиа", ideal: ["Желтый", "Фиолетовый", "Белый"], desc: "Дар убеждения, эмпатия и чувство трендов. Сферы: дипломатия, PR, продюсирование, журналистика.", burnout: "Монотонная работа в одиночку с таблицами без общения.", parentAdvice: "Поддерживайте участие в дебатах, языковых клубах и медиа.", topSalaries: [{ job: "Дипломат / PR-директор", sal: "220 000 – 450 000 ₽", stress: "6/10" }, { job: "Креативный продюсер", sal: "180 000 – 380 000 ₽", stress: "5/10" }, { job: "Бренд-стратег", sal: "200 000 – 400 000 ₽", stress: "4/10" }], timeline: [{ yr: "2026–2028", step: "Олимпиады и языки" }, { yr: "2029–2031", step: "Профильный вуз" }, { yr: "2032–2034", step: "Международные проекты" }, { yr: "2035–2036", step: "Директор по коммуникациям" }], careers: [{ t: "Цифровой дипломат", d: "Международные переговоры." }, { t: "Медиа-архитектор", d: "Управление репутацией." }, { t: "Ивент-продюсер", d: "Крупные форумы." }], unis: [{ n: "МГИМО МИД России", c: "Москва", d: "Международные отношения", u: "https://mgimo.ru" }, { n: "НИУ ВШЭ", c: "Москва", d: "Медиакоммуникации", u: "https://hse.ru" }, { n: "Curtin Singapore", c: "Сингапур", d: "Глобальный бизнес", u: "https://curtin.edu.sg" }] },
+      investor: { title: "ИНВЕСТОР", subtitle: "Аналитик капитала, финтех-аудитор и стратег", ideal: ["Красный", "Зеленый", "Черный"], desc: "Холодный расчет, внимание к цифрам и управление рисками. Сферы: банки, инвестиции, аудит.", burnout: "Хаотичные творческие задачи без четких критериев.", parentAdvice: "Поощряйте экономику, профильную математику и кейс-чемпионаты.", topSalaries: [{ job: "Инвест-аналитик", sal: "280 000 – 650 000 ₽", stress: "8/10" }, { job: "Риск-менеджер", sal: "250 000 – 500 000 ₽", stress: "6/10" }, { job: "Финансовый директор", sal: "350 000 – 800 000 ₽", stress: "8/10" }], timeline: [{ yr: "2026–2028", step: "Математика и экономика" }, { yr: "2029–2031", step: "Экономический вуз" }, { yr: "2032–2034", step: "Инвестфонд / консалтинг" }, { yr: "2035–2036", step: "Управление фондом" }], careers: [{ t: "Квантовый финансист", d: "Алгоритмы рынков." }, { t: "Риск-аудитор", d: "Защита капитала." }, { t: "Венчурный скаут", d: "Оценка стартапов." }], unis: [{ n: "Финансовый университет", c: "Москва", d: "Финансы и банки", u: "https://fa.ru" }, { n: "НИУ ВШЭ (МИЭФ)", c: "Москва", d: "Экономика и финансы", u: "https://hse.ru" }, { n: "INCEIF University", c: "Малайзия", d: "Международные финансы", u: "https://inceif.edu.my" }] },
+      activist: { title: "АКТИВИСТ", subtitle: "Мастер реального дела, прикладных технологий, гастрономии и сервиса", ideal: ["Синий", "Оранжевый", "Коричневый"], desc: "Высокая точность, выдержка и практический ум. Сферы: прикладная инженерия, гастрономия, девелопмент, сервис.", burnout: "Бесконечные совещания и бумажная отчетность без реального дела.", parentAdvice: "Обеспечьте максимум практики: лаборатории, мастерские, кулинария, спорт.", topSalaries: [{ job: "Руководитель проектов / Девелопер", sal: "250 000 – 600 000 ₽", stress: "8/10" }, { job: "Бренд-шеф ресторанного холдинга", sal: "200 000 – 450 000 ₽", stress: "7/10" }, { job: "Инженер-испытатель / Специалист БПЛА", sal: "210 000 – 420 000 ₽", stress: "6/10" }], timeline: [{ yr: "2026–2028", step: "Практикумы и проекты" }, { yr: "2029–2031", step: "Профильный вуз или колледж" }, { yr: "2032–2034", step: "Работа на производстве" }, { yr: "2035–2036", step: "Ведущий специалист" }], careers: [{ t: "Концепт-шеф гастрономии", d: "Высокая кухня и сервис." }, { t: "Прикладной биоинженер", d: "Разработка медтехники." }, { t: "Инженер-испытатель", d: "Тестирование систем." }], unis: [{ n: "Первый МГМУ им. Сеченова", c: "Москва", d: "Биоинженерия и медицина", u: "https://sechenov.ru" }, { n: "1-й МОК", c: "Москва", d: "Кулинария и сервис", u: "https://1mok.mskobr.ru" }, { n: "APU University", c: "Малайзия", d: "Прикладные технологии", u: "https://apu.edu.my" }] },
+      architect: { title: "АРХИТЕКТОР", subtitle: "Создатель ИТ-систем, искусственного интеллекта и инженерии", ideal: ["Синий", "Оранжевый", "Белый"], desc: "Системное мышление, проектирование программных платформ, нейросетей и робототехники.", burnout: "Шумные продажи и поверхностные задачи без вызова.", parentAdvice: "Предоставьте технику и доступ к хакатонам и олимпиадам по ИТ.", topSalaries: [{ job: "AI-Архитектор", sal: "300 000 – 700 000 ₽", stress: "5/10" }, { job: "Кибербезопасность", sal: "260 000 – 550 000 ₽", stress: "6/10" }, { job: "Робототехник", sal: "240 000 – 480 000 ₽", stress: "4/10" }], timeline: [{ yr: "2026–2028", step: "Код и алгоритмы" }, { yr: "2029–2031", step: "ФКН / Физтех" }, { yr: "2032–2034", step: "R&D-лаборатории" }, { yr: "2035–2036", step: "Технический директор" }], careers: [{ t: "Архитектор нейросетей", d: "Обучение ИИ." }, { t: "Цифровой двойник", d: "Умные города." }, { t: "Квантовый кодер", d: "Защита данных." }], unis: [{ n: "МФТИ (Физтех)", c: "Долгопрудный", d: "Физика и ИИ", u: "https://mipt.ru" }, { n: "МГТУ им. Баумана", c: "Москва", d: "Робототехника и ИТ", u: "https://bmstu.ru" }, { n: "Университет ИТМО", c: "Санкт-Петербург", d: "Программирование", u: "https://itmo.ru" }] },
+      leader: { title: "ЛИДЕР-СТРАТЕГ", subtitle: "Руководитель корпораций, госуправления и масштабных проектов", ideal: ["Красный", "Фиолетовый", "Черный"], desc: "Стратегическое видение и управление большими командами в условиях ответственности.", burnout: "Отсутствие полномочий принимать решения.", parentAdvice: "Доверяйте самостоятельное планирование и ответственность.", topSalaries: [{ job: "Исполнительный директор", sal: "350 000 – 900 000 ₽", stress: "9/10" }, { job: "Руководитель департамента", sal: "280 000 – 600 000 ₽", stress: "8/10" }, { job: "Основатель холдинга", sal: "300 000 – 1 000 000 ₽", stress: "8/10" }], timeline: [{ yr: "2026–2028", step: "Лидерство в проектах" }, { yr: "2029–2031", step: "Управление и право" }, { yr: "2032–2034", step: "Запуск направлений" }, { yr: "2035–2036", step: "Топ-менеджмент" }], careers: [{ t: "Антикризис-менеджер", d: "Трансформация бизнеса." }, { t: "Международный арбитр", d: "Глобальное право." }, { t: "Директор кластеров", d: "Развитие территорий." }], unis: [{ n: "МГУ им. Ломоносова", c: "Москва", d: "ВШБ и госуправление", u: "https://msu.ru" }, { n: "РАНХиГС", c: "Москва", d: "Государственное управление", u: "https://ranepa.ru" }, { n: "ВШМ СПбГУ", c: "Санкт-Петербург", d: "Международный менеджмент", u: "https://gsom.spbu.ru" }] },
+      guardian: { title: "ХРАНИТЕЛЬ", subtitle: "Эксперт медицины, биотехнологий, косметологии и безопасности", ideal: ["Синий", "Зеленый", "Коричневый"], desc: "Надежность, забота о здоровье человека и глубокая научная экспертиза.", burnout: "Агрессивная среда и постоянный аврал.", parentAdvice: "Поддерживайте углубленное изучение химии и биологии.", topSalaries: [{ job: "Дерматокосметолог", sal: "200 000 – 450 000 ₽", stress: "4/10" }, { job: "Генетик-биотехнолог", sal: "220 000 – 480 000 ₽", stress: "5/10" }, { job: "Клинический психолог", sal: "170 000 – 350 000 ₽", stress: "5/10" }], timeline: [{ yr: "2026–2028", step: "Химия и биология" }, { yr: "2029–2031", step: "Медвуз / биофак" }, { yr: "2032–2034", step: "Лаборатории и клиника" }, { yr: "2035–2036", step: "Заведующий отделением" }], careers: [{ t: "Биофармаколог", d: "Препараты долголетия." }, { t: "Эстетическая медицина", d: "Восстановление." }, { t: "Эко-аудитор", d: "Контроль среды." }], unis: [{ n: "Сеченовский Университет", c: "Москва", d: "Лечебное дело и фармация", u: "https://sechenov.ru" }, { n: "Медколледж №1", c: "Москва", d: "Диагностика и уход", u: "https://mk1.mossport.ru" }, { n: "Университет Сегеда", c: "Венгрия", d: "Медицина и фармацевтика", u: "https://u-szeged.hu" }] }
+    };
+
+    // =========================================================================
+    // ДВИЖОК СИМУЛЯТОРА 1 ДНЯ: 20 ПРОФЕССИЙ ПО 10 ЭТАПОВ (200 СИТУАЦИЙ)
+    // =========================================================================
+    const PROFESSIONS_20 = [
+      { id: "surgeon", name: "🩺 Кардиохирург (Роботизированная хирургия)", env: "Операционный блок клиники", tool: "хирургический комплекс da Vinci и микроинструмент", risk: "резкое колебание давления пациента во время этапа" },
+      { id: "ai", name: "💻 AI-Архитектор (Нейросети и LLM)", env: "R&D-лаборатория искусственного интеллекта", tool: "вычислительный кластер GPU и нейросетевой пайплайн", risk: "падение точности модели на контрольном датасете" },
+      { id: "diplomat", name: "🌍 Международный дипломат (МИД / ООН)", env: "Зал международных переговоров", tool: "многоязычный протокол и дипломатическая нота", risk: "тупик в формулировках договора между делегациями" },
+      { id: "banker", name: "📈 Инвестиционный банкир (M&A и Фонды)", env: "Аналитический центр инвестбанка", tool: "финансовая модель DCF и биржевой терминал", risk: "резкая волатильность азиатских рынков на открытии" },
+      { id: "chef", name: "🍳 Бренд-шеф высокой кухни (Michelin)", env: "Кухня гастрономического ресторана", tool: "дегустационный сет и молекулярная лаборатория вкуса", risk: "срыв поставки свежих морепродуктов перед банкетом" },
+      { id: "biotech", name: "🧬 Генетик-биотехнолог", env: "Стерильный бокс молекулярной биологии", tool: "секвенатор ДНК и биореактор клеточных культур", risk: "необычная мутация в контрольной серии образцов" },
+      { id: "robotics", name: "🤖 Инженер-робототехник автономных систем", env: "Испытательный полигон робототехники", tool: "лидар, контроллер движения и цифровой двойник", risk: "рассинхронизация датчиков навигации на полигоне" },
+      { id: "cyber", name: "🛡️ Архитектор кибербезопасности", env: "Центр мониторинга угроз (SOC)", tool: "система анализа трафика и криптографический шлюз", risk: "попытка сложной атаки на облачный контур банка" },
+      { id: "aero", name: "🚀 Аэрокосмический инженер-конструктор", env: "Конструкторское бюро и ЦУП", tool: "телеметрия орбитального модуля и CAD-симулятор", risk: "отклонение температурного режима на солнечной панели" },
+      { id: "crisis", name: "⚡ Антикризисный управляющий (CEO)", env: "Штаб-квартира промышленного холдинга", tool: "дашборд цепочек поставок и антикризисный план", risk: "остановка ключевого логистического хаба перед отгрузкой" },
+      { id: "cosmet", name: "✨ Врач-дерматокосметолог (Эстетика)", env: "Клиника превентивной и эстетической медицины", tool: "лазерный диагностический сканер кожи и протокол ухода", risk: "нетипичная аллергическая реакция в анамнезе пациента" },
+      { id: "neuro", name: "🧠 Клинический нейропсихолог", env: "Центр когнитивного здоровья и нейрореабилитации", tool: "нейроинтерфейс ЭЭГ и когнитивные тесты", risk: "высокая тревожность и эмоциональное выгорание клиента" },
+      { id: "quantum", name: "⚛️ Квантовый физик-исследователь", env: "Криогенная лаборатория квантовых вычислений", tool: "сверхпроводящий кубит-процессор и лазерный интерферометр", risk: "рост декогеренции кубитов при измерении" },
+      { id: "lawyer", name: "⚖️ Международный корпоративный юрист", env: "Международный коммерческий арбитраж", tool: "трансграничный контракт и правовой прецедент", risk: "коллизия налогового права двух юрисдикций в сделке" },
+      { id: "media", name: "🎬 Креативный продюсер медиапроектов", env: "Съемочный павильон и продакшн-студия", tool: "сценарий интерактивного шоу и сетка вещания", risk: "изменение формата эфира за 4 часа до премьеры" },
+      { id: "smartcity", name: "🏙️ Архитектор умных городов (UrbanTech)", env: "Центр управления мегаполисом", tool: "ГИС-платформа транспортных потоков и экомониторинг", risk: "перегрузка транспортной развязки в час пик" },
+      { id: "venture", name: "💎 Венчурный скаут и аналитик стартапов", env: "Технопарк и акселератор инноваций", tool: "матрица оценки DeepTech-команд и патентный поиск", risk: "завышенные прогнозы выручки в питч-деке фаундеров" },
+      { id: "eco", name: "🌿 Эко-аудитор и инженер ESG", env: "Международный центр экологической сертификации", tool: "спектрометр анализа воды/воздуха и углеродный баланс", risk: "превышение фоновых показателей на промышленном объекте" },
+      { id: "pharma", name: "💊 Биофармаколог долголетия", env: "Фармацевтический R&D-центр", tool: "хроматограф и система доклинического скрининга", risk: "нестабильность формулы препарата при смене температуры" },
+      { id: "territories", name: "🗺️ Директор по развитию территорий и туризма", env: "Проектный офис туристического кластера", tool: "мастер-план инфраструктуры и карта турпотоков", risk: "необходимость согласовать проект с экологами и инвесторами" }
+    ];
+
+    const STAGE_TEMPLATES = [
+      { time: "08:00 • Утренний брифинг", title: "Планирование приоритетов смены", getDesc: p => `Вы приходите в ${p.env}. На столе 3 срочные задачи, а ключевой инструмент (${p.tool}) требует утренней калибровки.`, opts: [
+        { t: "Сначала лично проверить калибровку оборудования и расставить задачи по критичности.", e: -8, r: +12, s: +15, c: "ana" },
+        { t: "Провести 10-минутную планерку с командой и распределить зоны ответственности.", e: -5, r: +15, s: +10, c: "led" },
+        { t: "Сразу приступить к самой сложной задаче без подготовки.", e: -15, r: -5, s: +5, c: "str" }
+      ]},
+      { time: "09:30 • Глубокая работа", title: "Анализ исходных данных и подготовка", getDesc: p => `При изучении утренних отчетов вы замечаете расхождение в параметрах, которое может повлиять на дневной результат.`, opts: [
+        { t: "Перепроверить первичные расчеты и устранить неточность до старта.", e: -10, r: +10, s: +15, c: "ana" },
+        { t: "Обсудить расхождение с профильным коллегой для двойного контроля.", e: -5, r: +12, s: +12, c: "emp" },
+        { t: "Оставить без изменений, надеясь, что погрешность не критична.", e: +5, r: -15, s: -10, c: "str" }
+      ]},
+      { time: "11:00 • Внештатная ситуация", title: "Критическое событие первой половины дня", getDesc: p => `Внезапно возникает главная угроза смены: ${p.risk}. Счет идет на минуты!`, opts: [
+        { t: "Сохранить полное хладнокровие, применить резервный протокол и решить проблему.", e: -15, r: +20, s: +20, c: "str" },
+        { t: "Мобилизовать команду и быстро перераспределить ресурсы на горячий участок.", e: -10, r: +15, s: +15, c: "led" },
+        { t: "Растеряться и передать ответственность другому отделу.", e: 0, r: -20, s: -15, c: "emp" }
+      ]},
+      { time: "12:30 • Коммуникация", title: "Сложный разговор с заказчиком или коллегой", getDesc: p => `Партнер или клиент сомневается в выбранном подходе и требует немедленных гарантий успеха.`, opts: [
+        { t: "Спокойно показать аргументы, факты и пошаговый план контроля качества.", e: -8, r: +18, s: +12, c: "emp" },
+        { t: "Уверенно взять ответственность на себя как руководитель направления.", e: -10, r: +15, s: +10, c: "led" },
+        { t: "Ответить резко, что не обязаны отчитываться в процессе работы.", e: -5, r: -18, s: 0, c: "str" }
+      ]},
+      { time: "14:00 • Обеденный перерыв и восстановление", title: "Управление собственной энергией", getDesc: p => `Половина напряженного дня позади. Впереди еще 5 серьезных этапов. Как распорядитесь перерывом?`, opts: [
+        { t: "Полноценно отдохнуть 30 минут без гаджетов, чтобы восстановить концентрацию.", e: +25, r: +5, s: +5, c: "str" },
+        { t: "Пообедать за 10 минут и почитать свежие научные публикации по теме.", e: +10, r: +8, s: +12, c: "ana" },
+        { t: "Работать без перерыва на кофе, жертвуя самочувствием.", e: -15, r: +5, s: +5, c: "str" }
+      ]},
+      { time: "15:30 • Командная дилемма", title: "Конфликт внутри рабочей группы", getDesc: p => `Два специалиста вашей команды спорят о методике выполнения задачи и тормозят общий процесс.`, opts: [
+        { t: "Выслушать обе стороны, объединить сильные идеи и помирить коллег.", e: -8, r: +18, s: +10, c: "emp" },
+        { t: "Проверить оба варианта на тестовом стенде и выбрать самый точный.", e: -10, r: +12, s: +18, c: "ana" },
+        { t: "Жестко закрыть спор приказом без объяснения причин.", e: -5, r: -10, s: +5, c: "led" }
+      ]},
+      { time: "17:00 • Внедрение инноваций", title: "Оптимизация рабочего процесса", getDesc: p => `Появляется возможность применить новый цифровой алгоритм для ускорения работы на 25%.`, opts: [
+        { t: "Протестировать алгоритм в безопасной песочнице и внедрить после проверки.", e: -10, r: +15, s: +20, c: "ana" },
+        { t: "Обучить всю команду новому инструменту, чтобы ускорить общий результат.", e: -12, r: +18, s: +15, c: "led" },
+        { t: "Отказаться от новинок и работать по старинке.", e: +5, r: -5, s: -5, c: "str" }
+      ]},
+      { time: "18:30 • Финальный аудит", title: "Контроль качества перед сдачей", getDesc: p => `Основной объем работы выполнен, но до закрытия смены нужно провести финальную верификацию.`, opts: [
+        { t: "Пройтись по полному чек-листу безопасности и перепроверить каждый узел.", e: -10, r: +15, s: +18, c: "ana" },
+        { t: "Провести экспресс-проверку ключевых показателей.", e: -5, r: +8, s: +8, c: "str" },
+        { t: "Сдать работу без финальной проверки, чтобы уйти пораньше.", e: +10, r: -20, s: -15, c: "str" }
+      ]},
+      { time: "19:45 • Наставничество", title: "Вопрос от стажера-практиканта", getDesc: p => `Молодой стажер просит объяснить, как вы справились с сегодняшним кризисом в ${p.env}.`, opts: [
+        { t: "Потратить 15 минут, разобрать кейс и поддержать начинающего коллегу.", e: -8, r: +20, s: +10, c: "emp" },
+        { t: "Дать четкую схему алгоритма действий для самостоятельного изучения.", e: -3, r: +12, s: +12, c: "ana" },
+        { t: "Сказать, что сейчас нет времени на обучение.", e: +5, r: -8, s: 0, c: "led" }
+      ]},
+      { time: "21:00 • Итоги смены", title: "Подведение результатов рабочего дня", getDesc: p => `Рабочий день завершается. Осталось зафиксировать итоги смены в системе и передать дежурство.`, opts: [
+        { t: "Составить подробный отчет с выводами и рекомендациями на завтра.", e: -8, r: +18, s: +15, c: "ana" },
+        { t: "Поблагодарить команду за отличную смену и отметить вклад каждого.", e: -5, r: +20, s: +10, c: "emp" },
+        { t: "Просто закрыть смену без комментариев.", e: +5, r: -5, s: 0, c: "str" }
+      ]}
+    ];
+
+    let curDayProfId = 'surgeon', curDayStep = 0, dsE = 100, dsR = 75, dsS = 75;
+    let dsComp = { str: 60, led: 60, ana: 60, emp: 60 }, dsBestMoment = "";
+    function populateDaySimSelect() {
+      const sel = document.getElementById("daySimProfessionSelect");
+      if (!sel) return;
+      sel.innerHTML = PROFESSIONS_20.map(p => `<option value="${p.id}">${p.name}</option>`).join("");
+    }
+
+    function startDaySim(profId) {
+      playSnd('click');
+      curDayProfId = profId || 'surgeon';
+      const sel = document.getElementById("daySimProfessionSelect");
+      if (sel) sel.value = curDayProfId;
+      curDayStep = 0; dsE = 100; dsR = 75; dsS = 75;
+      dsComp = { str: 60, led: 60, ana: 60, emp: 60 };
+      dsBestMoment = "";
+      document.getElementById("dsSummaryScreen").classList.add("hidden");
+      document.getElementById("dsActiveStage").classList.remove("hidden");
+      updateDaySimBars();
+      renderDaySimStage();
+    }
+
+    function updateDaySimBars() {
+      dsE = Math.max(10, Math.min(100, dsE));
+      dsR = Math.max(10, Math.min(100, dsR));
+      dsS = Math.max(10, Math.min(100, dsS));
+      document.getElementById("dsEnergyVal").textContent = `${dsE}%`;
+      document.getElementById("dsEnergyBar").style.width = `${dsE}%`;
+      document.getElementById("dsRepVal").textContent = `${dsR}%`;
+      document.getElementById("dsRepBar").style.width = `${dsR}%`;
+      document.getElementById("dsSkillVal").textContent = `${dsS}%`;
+      document.getElementById("dsSkillBar").style.width = `${dsS}%`;
+    }
+
+    function renderDaySimStage() {
+      const prof = PROFESSIONS_20.find(p => p.id === curDayProfId) || PROFESSIONS_20[0];
+      const st = STAGE_TEMPLATES[curDayStep];
+      document.getElementById("dsTimeBadge").textContent = `${st.time}`;
+      document.getElementById("dsStepCounter").textContent = `Этап ${curDayStep + 1} из 10`;
+      document.getElementById("dsStageTitle").textContent = st.title;
+      document.getElementById("dsStageDesc").textContent = st.getDesc(prof);
+      document.getElementById("dsChoicesGrid").innerHTML = st.opts.map((o, i) => `
+        <button type="button" onclick="chooseDaySimOption(${i})" class="w-full text-left p-3.5 rounded-xl bg-slate-900 hover:bg-indigo-950/60 border border-slate-700 hover:border-indigo-500 text-slate-200 transition cursor-pointer">
+          ${o.t}
+        </button>
+      `).join("");
+    }
+
+    function chooseDaySimOption(optIdx) {
+      playSnd('click');
+      const prof = PROFESSIONS_20.find(p => p.id === curDayProfId) || PROFESSIONS_20[0];
+      const st = STAGE_TEMPLATES[curDayStep];
+      const o = st.opts[optIdx];
+      dsE += o.e; dsR += o.r; dsS += o.s;
+      if (o.c && dsComp[o.c] !== undefined) dsComp[o.c] = Math.min(100, dsComp[o.c] + 12);
+      if (o.r >= 15) dsBestMoment = `${st.time}: ${o.t}`;
+      updateDaySimBars();
+      curDayStep++;
+
+      if (curDayStep < 10) {
+        renderDaySimStage();
+      } else {
+        playSnd('success');
+        unlockBadge("b_daysim");
+        document.getElementById("dsActiveStage").classList.add("hidden");
+        document.getElementById("dsSummaryScreen").classList.remove("hidden");
+        const avg = Math.round((dsR + dsS) / 2);
+        const grade = avg >= 90 ? "Высший пилотаж (Лидер отрасли)" : (avg >= 75 ? "Уверенный профессионал" : "Стажер (Нужна практика)");
+        document.getElementById("dsFinalTitle").textContent = `Смена завершена: ${prof.name}`;
+        document.getElementById("dsFinalSub").textContent = `Локация: ${prof.env} • Пройдено 10 из 10 этапов`;
+        document.getElementById("dsFinalGrade").textContent = `${grade} (${avg}%)`;
+
+        const compMeta = [
+          { n: "Стрессоустойчивость", v: dsComp.str, col: "bg-amber-400" },
+          { n: "Лидерство и воля", v: dsComp.led, col: "bg-rose-500" },
+          { n: "Системная аналитика", v: dsComp.ana, col: "bg-blue-500" },
+          { n: "Командная эмпатия", v: dsComp.emp, col: "bg-emerald-400" }
+        ];
+        document.getElementById("dsCompetencyBars").innerHTML = compMeta.map(cm => `
+          <div>
+            <div class="flex justify-between text-[11px]"><span>${cm.n}</span><strong>${cm.v}%</strong></div>
+            <div class="w-full h-1.5 bg-slate-800 rounded"><div class="h-1.5 ${cm.col} rounded" style="width:${cm.v}%"></div></div>
+          </div>
+        `).join("");
+
+        document.getElementById("dsKeyMoments").innerHTML = `
+          <div>• <strong>Главный триумф дня:</strong> ${dsBestMoment || "Стабильное прохождение всех этапов смены."}</div>
+          <div>• <strong>Баланс ресурса:</strong> Остаток энергии ${dsE}% (${dsE >= 40 ? "отличный темп без перегрузки" : "высокая интенсивность, нужен отдых"}).</div>
+          <div>• <strong>Рекомендация:</strong> Изучите зарплаты и вузы по этому направлению на следующем шаге.</div>
+        `;
+
+        document.getElementById("dsFinalVerdict").textContent = `Итоговые показатели смены: Репутация ${dsR}%, Мастерство ${dsS}%, Энергия ${dsE}%. Результат автоматически сохранён в ваше досье.`;
+        syncUserRecord({ daySimLog: `${prof.name.slice(0,24)}: ${grade} (${avg}%)` });
+      }
+    }
+    function restartCurrentDaySim() { startDaySim(curDayProfId); }
+
+    // =========================================================================
+    // ТРЕНАЖЁР ОЛИМПИАД И БВИ
+    // =========================================================================
+    const OLYMP_CASES = [
+      { q: "1. [Логика и ИИ] Алгоритм сортирует 1000 анкет за 2 секунды. Во сколько раз увеличится время при переходе к квадратичному алгоритму O(n²) при росте базы в 10 раз?", opts: ["В 100 раз (до 200 секунд)", "В 10 раз (до 20 секунд)", "В 2 раза"], correct: 0, info: "Верно! При квадратичной сложности увеличение данных в 10 раз дает рост операций в 10² = 100 раз. Это базовый принцип олимпиады «Высшая проба» и ВсОШ по информатике." },
+      { q: "2. [Экономика и Финансы] Инфляция за год составила 10%, а ставка по вкладу — 10%. Что произошло с реальной покупательной способностью капитала?", opts: ["Осталась на прежнем уровне (реальная доходность 0%)", "Выросла на 10%", "Упала на 20%"], correct: 0, info: "Верно! По формуле Фишера реальная ставка равна разнице номинальной ставки и инфляции. Знание этого приносит баллы на олимпиаде «Кондратьева» и «Высшая проба»." },
+      { q: "3. [Биология и Медицина] Какой органоид клетки отвечает за синтез АТФ — универсального источника энергии для работы мышц и мозга?", opts: ["Митохондрия", "Рибосома", "Аппарат Гольджи"], correct: 0, info: "Верно! Митохондрии называют энергетическими станциями клетки. Это ключевая тема Сеченовской олимпиады и ВсОШ по биологии." }
+    ];
+    let olympStep = 0, olympSolved = 0;
+
+    function renderOlympCase() {
+      const item = OLYMP_CASES[olympStep];
+      document.getElementById("olympScoreBadge").textContent = `Решено: ${olympSolved} / 3`;
+      document.getElementById("olympQText").textContent = item.q;
+      document.getElementById("olympFeedback").classList.add("hidden");
+      document.getElementById("olympOpts").innerHTML = item.opts.map((o, i) => `
+        <button type="button" onclick="answerOlymp(${i})" class="w-full text-left p-3 rounded-xl bg-slate-900 hover:bg-slate-800 border border-slate-700 text-slate-200">${o}</button>
+      `).join("");
+    }
+
+    function answerOlymp(idx) {
+      const item = OLYMP_CASES[olympStep];
+      const fb = document.getElementById("olympFeedback");
+      fb.classList.remove("hidden");
+      if (idx === item.correct) {
+        playSnd('success');
+        olympSolved++;
+        fb.textContent = "✅ " + item.info;
+        fb.className = "text-emerald-400 font-semibold text-xs";
+      } else {
+        playSnd('click');
+        fb.textContent = "💡 Подсказка: " + item.info;
+        fb.className = "text-amber-300 font-semibold text-xs";
+      }
+      document.getElementById("olympScoreBadge").textContent = `Решено: ${olympSolved} / 3`;
+      unlockBadge("b_olymp");
+      syncUserRecord({ olympLog: `Блиц БВИ: ${olympSolved} из 3` });
+      setTimeout(() => {
+        olympStep = (olympStep + 1) % OLYMP_CASES.length;
+        renderOlympCase();
+      }, 2600);
+    }
+
+    // =========================================================================
+    // ПУЛЬС ШКОЛЫ & ЖИВАЯ АНАЛИТИКА
+    // =========================================================================
+    function renderSchoolPulse() {
+      const counts = { "КОММУНИКАТОР": 0, "ИНВЕСТОР": 0, "АКТИВИСТ": 0, "АРХИТЕКТОР": 0, "ЛИДЕР-СТРАТЕГ": 0, "ХРАНИТЕЛЬ": 0 };
+      const classMap = {};
+      cache.forEach(r => {
+        if (r.archetype && counts[r.archetype] !== undefined) counts[r.archetype]++;
+        const cl = r.classGroup || "Общий";
+        classMap[cl] = (classMap[cl] || 0) + 1;
+      });
+      const total = Math.max(1, cache.length);
+      document.getElementById("pulseArchetypesChart").innerHTML = Object.keys(counts).map(k => {
+        const pct = Math.round((counts[k] / total) * 100);
+        return `<div>
+          <div class="flex justify-between text-[11px] mb-0.5"><span>${k}</span><strong>${counts[k]} чел. (${pct}%)</strong></div>
+          <div class="w-full h-2 bg-slate-800 rounded-full overflow-hidden"><div class="h-full bg-indigo-500 rounded-full" style="width:${pct}%"></div></div>
+        </div>`;
+      }).join("");
+
+      const sortedClasses = Object.entries(classMap).sort((a,b) => b[1] - a[1]);
+      document.getElementById("pulseClassesList").innerHTML = sortedClasses.length ? sortedClasses.map(([cl, cnt], idx) => `
+        <div class="p-2.5 rounded-xl bg-slate-900/90 border border-white/5 flex justify-between items-center">
+          <span><strong>#${idx+1} Класс / Группа: ${cl}</strong></span>
+          <span class="px-2.5 py-0.5 rounded-full bg-emerald-500/20 text-emerald-300 font-bold">${cnt} уч.</span>
+        </div>
+      `).join("") : `<p class="text-slate-400">Пройдите тест или обновите базу в админке, чтобы увидеть рейтинг классов.</p>`;
+    }
+
+    // =========================================================================
+    // КОНСТРУКТОР ПЕРВОГО РЕЗЮМЕ (CV) & КАПСУЛА ВРЕМЕНИ
+    // =========================================================================
+    function generateStudentCV() {
+      unlockBadge("b_cv");
+      playSnd('success');
+      const goal = document.getElementById("cvGoalsInput").value.trim() || "Поступление в ведущий профильный университет (БВИ / ЕГЭ 270+)";
+      const skills = document.getElementById("cvSkillsInput").value.trim() || "Английский язык, проектная деятельность, цифровой анализ";
+      document.getElementById("cvOutName").textContent = user ? user.name : "Участник исследования";
+      document.getElementById("cvOutMeta").textContent = `Класс / Статус: ${user ? user.roleTxt : "7Е"} • Архетип Олесена: ${curRes ? curRes.title : "Определяется"}`;
+      document.getElementById("cvOutBody").innerHTML = `
+        <p><strong>🎯 Образовательная цель:</strong> ${goal}</p>
+        <p><strong>🎨 Цветовой профиль и сильные стороны:</strong> ${curRes ? `${curRes.chosen.join(" + ")} — ${curRes.desc}` : "Пройдите цветовой тест для заполнения."}</p>
+        <p><strong>⚡ Практический опыт (Симулятор & Акира):</strong> ${userSessionLog.daySimLog} | ${userSessionLog.akiraLog}</p>
+        <p><strong>🛠️ Навыки и языки:</strong> ${skills}</p>
+        <p><strong>📅 Дорожная карта (Капсула 2026 → 2031):</strong> 2026–2027: участие в перечневых олимпиадах; 2028–2029: профильный класс и портфолио; 2030–2031: поступление на бюджет.</p>
+      `;
+    }
+
+    // =========================================================================
+    // АНТИ-ВЫГОРАНИЕ & ТАЙМ-МЕНЕДЖЕР
+    // =========================================================================
+    function renderAntiBurnout() {
+      const k = document.getElementById("burnoutArchSelect").value;
+      const a = ARCHETYPES[k];
+      document.getElementById("burnoutPlanBox").innerHTML = `
+        <div class="p-4 rounded-2xl bg-rose-950/30 border border-rose-500/30 space-y-1">
+          <strong class="text-rose-400 block">⚠️ Триггер выгорания:</strong>
+          <p class="text-slate-300">${a.burnout}</p>
+        </div>
+        <div class="p-4 rounded-2xl bg-indigo-950/30 border border-indigo-500/30 space-y-1">
+          <strong class="text-indigo-300 block">⏱️ Оптимальный ритм учебы:</strong>
+          <p class="text-slate-300">Блоки по 45 минут глубокой фокусировки + 15 минут смены деятельности. Главные предметы — в утренние часы пика.</p>
+        </div>
+        <div class="p-4 rounded-2xl bg-emerald-950/30 border border-emerald-500/30 space-y-1">
+          <strong class="text-emerald-400 block">🔋 Источник восстановления:</strong>
+          <p class="text-slate-300">${a.parentAdvice}</p>
+        </div>
+      `;
+    }
+
+    // АТЛАС 605 ВУЗОВ И КОЛЛЕДЖЕЙ
+    let ATLAS_DATA = [], currentAtlasRegion = 'all';
+    function buildAtlas600() {
+      const core = [
+        { country: "Малайзия • Бординг", name: "Epsom College in Malaysia", rank: "Британский филиал", desc: "IGCSE и A-Level. Предметы: Английский, Математика, Естественные науки.", url: "https://epsomcollege.edu.my" },
+        { country: "Сингапур • Топ-1%", name: "Curtin University Singapore", rank: "Кампус", desc: "Финансы, кибербезопасность, медиа. Предметы: Финансы, Информатика, PR.", url: "https://curtin.edu.sg" },
+        { country: "Сингапур • Топ-2%", name: "James Cook University", rank: "ВУЗ", desc: "Психология, экология, морская биология. Предметы: Биология, Психология.", url: "https://jcu.edu.sg" },
+        { country: "Малайзия • Вуз №1", name: "INCEIF University", rank: "Центробанк", desc: "Международные финансы и право. Предметы: Финансы, Банки, Право.", url: "https://inceif.edu.my" },
+        { country: "Малайзия • ИТ", name: "APU University", rank: "Инновации", desc: "Разработка игр, софт, ИИ. Предметы: Информатика, Программирование.", url: "https://apu.edu.my" },
+        { country: "Китай • Кампус", name: "Nottingham Ningbo (UNNC)", rank: "Диплом UK", desc: "Инженерия и бизнес. Предметы: Инженерия, Бизнес, Английский.", url: "https://nottingham.edu.cn" },
+        { country: "Колледж • Москва", name: "1-й МОК", rank: "ТОП СПО", desc: "Кулинария, косметология, дизайн. Предметы: Кулинария, Косметология.", url: "https://1mok.mskobr.ru" },
+        { country: "Колледж • Москва", name: "Колледж «Царицыно»", rank: "Сервис", desc: "Гостиничный менеджмент, туризм, ИТ. Предметы: Туризм, Информатика.", url: "https://collegetsaritsyno.mskobr.ru" },
+        { country: "Колледж • Москва", name: "Медицинский колледж №1", rank: "Медицина", desc: "Сестринское дело, диагностика. Предметы: Биология, Химия, Медицина.", url: "https://mk1.mossport.ru" },
+        { country: "Россия • Москва", name: "МГУ им. М.В. Ломоносова", rank: "№1 в РФ", desc: "Классический университет. Предметы: Математика, Физика, Химия, Биология, Право.", url: "https://msu.ru" },
+        { country: "Россия • Москва", name: "Первый МГМУ им. И.М. Сеченова", rank: "Медицина", desc: "Хирургия и биоинженерия. Предметы: Химия, Биология, Медицина.", url: "https://sechenov.ru" },
+        { country: "Россия • Москва", name: "МГИМО МИД России", rank: "Дипломатия", desc: "Международные отношения. Предметы: Английский, Китайский, История, Обществознание.", url: "https://mgimo.ru" },
+        { country: "Россия • Москва", name: "НИУ ВШЭ", rank: "ИТ и Экономика", desc: "ФКН, экономика, медиа. Предметы: Математика, Информатика, Экономика.", url: "https://hse.ru" },
+        { country: "Россия • Долгопрудный", name: "МФТИ (Физтех)", rank: "Наука и ИИ", desc: "Физика и искусственный интеллект. Предметы: Физика, Математика, Информатика.", url: "https://mipt.ru" },
+        { country: "Россия • Москва", name: "МГТУ им. Н.Э. Баумана", rank: "Инженерия", desc: "Робототехника и космонавтика. Предметы: Физика, Математика, Информатика.", url: "https://bmstu.ru" },
+        { country: "Россия • СПб", name: "Университет ИТМО", rank: "ИТ-лидер", desc: "Программирование и фотоника. Предметы: Информатика, Физика.", url: "https://itmo.ru" },
+        { country: "Сингапур", name: "National University of Singapore (NUS)", rank: "TOP-8 QS", desc: "Биоинженерия, ИТ, финансы. Предметы: Информатика, Биология, Финансы.", url: "https://nus.edu.sg" }
+      ];
+      ATLAS_DATA = [...core];
+      const clusters = [
+        { c: "Россия", cities: ["Москва", "Санкт-Петербург", "Казань", "Новосибирск", "Екатеринбург", "Томск", "Нижний Новгород", "Владивосток", "Краснодар", "Самара", "Воронеж", "Ростов-на-Дону", "Уфа", "Пермь", "Тюмень", "Калининград"], url: "https://minobrnauki.gov.ru" },
+        { c: "БРИКС • Китай / Индия / Бразилия / ЮАР / ОАЭ", cities: ["Пекин (Tsinghua)", "Шанхай (Fudan)", "Ханчжоу (ZJU)", "Мумбаи (IIT Bombay)", "Дели (IIT Delhi)", "Бангалор (IISc)", "Сан-Паулу (USP)", "Кейптаун (UCT)", "Абу-Даби (Khalifa)", "Дубай", "Каир", "Тегеран"], url: "https://tsinghua.edu.cn" },
+        { c: "Европа • Сербия / Венгрия / Беларусь / Словакия", cities: ["Белград", "Нови-Сад", "Будапешт (ELTE)", "Дебрецен", "Сегед", "Минск (БГУ/БГУИР)", "Братислава", "Астана", "Алматы"], url: "https://bg.ac.rs" },
+        { c: "Колледж • СПО РФ и СНГ", cities: ["Москва", "Санкт-Петербург", "Минск", "Казань", "Екатеринбург", "Сочи", "Новосибирск"], url: "https://1mok.mskobr.ru" }
+      ];
+      const tracks = [
+        { name: "Медицинский университет и клиника хирургии", spec: "Химия, Биология, Медицина, Хирургия, Фармация" },
+        { name: "Институт искусственного интеллекта, робототехники и ИТ", spec: "Информатика, Программирование, Физика, Проф. математика" },
+        { name: "Академия дипломатии, международного права и медиа", spec: "Английский язык, Китайский язык, История, Обществознание, Дипломатия" },
+        { name: "Высшая школа финансов, аудита и экономики", spec: "Проф. математика, Обществознание, Экономика, Финансы" },
+        { name: "Институт гастрономии, сервиса, дизайна и туризма", spec: "Кулинария, Сервис, Творческий конкурс, География, Косметология" },
+        { name: "Университет биотехнологий, экологии и генетики", spec: "Биология, Химия, География, Экология" }
+      ];
+      let id = 1;
+      while (ATLAS_DATA.length < 605) {
+        const cl = clusters[id % clusters.length], city = cl.cities[id % cl.cities.length], tr = tracks[id % tracks.length];
+        ATLAS_DATA.push({ country: `${cl.c} • ${city}`, name: `${tr.name} (${city} #${id})`, rank: cl.c.includes("Колледж") ? "СПО" : `Каталог #${id}`, desc: `Предметы: ${tr.spec}.`, url: cl.url });
+        id++;
+      }
+    }
+
+    function setAtlasFilterRegion(reg) {
+      playSnd('click'); currentAtlasRegion = reg;
+      document.querySelectorAll('#atlasRegionTabs button').forEach(b => b.className = "px-3 py-1.5 rounded-xl text-xs font-semibold bg-slate-800 text-slate-300");
+      const active = document.getElementById(`arf-${reg}`);
+      if (active) active.className = "px-3 py-1.5 rounded-xl text-xs font-bold bg-indigo-600 text-white";
+      applyAtlasFilters();
+    }
+
+    function applyAtlasFilters() {
+      const q = (document.getElementById("atlasSearchInput").value || "").trim().toLowerCase();
+      const cont = document.getElementById("atlasCardsContainer"), countEl = document.getElementById("atlasCountTxt");
+      const filtered = ATLAS_DATA.filter(i => {
+        const mReg = currentAtlasRegion === 'all' || i.country.toLowerCase().includes(currentAtlasRegion.toLowerCase()) || i.name.toLowerCase().includes(currentAtlasRegion.toLowerCase());
+        const mQ = !q || i.name.toLowerCase().includes(q) || i.country.toLowerCase().includes(q) || i.desc.toLowerCase().includes(q);
+        return mReg && mQ;
+      });
+      if (countEl) countEl.textContent = filtered.length;
+      cont.innerHTML = filtered.slice(0, 80).map(i => `<div class="card-glass p-4 rounded-2xl"><div><div class="flex justify-between items-start mb-1 gap-2"><div><span class="text-[10px] text-indigo-400 font-bold uppercase block">${i.country}</span><h4 class="text-sm font-bold text-white">${i.name}</h4></div><span class="text-[9px] px-2 py-0.5 rounded bg-indigo-500/20 text-indigo-300">${i.rank}</span></div><p class="text-xs text-slate-300 mb-2">${i.desc}</p></div><div class="text-right pt-2 border-t border-slate-800"><a href="${i.url}" target="_blank" rel="noopener noreferrer" class="text-[11px] font-bold text-indigo-400 hover:underline">Официальный сайт &rarr;</a></div></div>`).join("") || `<div class="col-span-2 p-6 text-center text-slate-400 text-xs">Ничего не найдено.</div>`;
+    }
+    function resetAtlasFilters() { document.getElementById("atlasSearchInput").value = ""; setAtlasFilterRegion('all'); }
+
+    // КВИЗ ПО ФЛАГАМ (10 ВОПРОСОВ)
+    const FLAG_QUIZ_DATA = [
+      { country: "1. Россия", visual: `<div class="w-full h-1/3 bg-white"></div><div class="w-full h-1/3 bg-blue-600"></div><div class="w-full h-1/3 bg-red-600"></div>`, q: "Что символизируют белый, синий и красный цвета российского триколора?", options: ["Благородство (белый), верность и честность (синий), мужество и великодушие (красный)", "Зиму, реки и восход солнца", "Торговлю, науку и промышленность"], correct: 0, fact: "Триколор появился при Петре I для первых русских военных кораблей. В системе Олесена это союз свободы (Белый), глубины идей (Синий) и воли к победе (Красный)." },
+      { country: "2. Китай (КНР)", visual: `<div class="w-full h-full bg-red-600 flex items-start p-3"><span class="text-amber-300 text-2xl font-bold">★ ⋯</span></div>`, q: "Что означает сочетание красного поля и золотых звезд на флаге Китая?", options: ["Огненного дракона и пустыню Гоби", "Красный — энергия созидания и удача; желтый — свет, мудрость и единство народа", "Климат юга и золотые запасы"], correct: 1, fact: "В китайской культуре красный (Хун) — главный цвет счастья и праздника, а желтый веками принадлежал императорскому двору." },
+      { country: "3. ОАЭ", visual: `<div class="w-full h-full flex"><div class="w-1/4 h-full bg-red-600"></div><div class="w-3/4 h-full flex flex-col"><div class="w-full h-1/3 bg-emerald-600"></div><div class="w-full h-1/3 bg-white"></div><div class="w-full h-1/3 bg-black"></div></div></div>`, q: "Что символизируют зеленый, белый, черный и красный цвета на флаге ОАЭ?", options: ["Процветание (зеленый), мир (белый), нефтяное богатство и твердость разума (черный), отвагу (красный)", "Четыре времени года", "Четыре эмирата"], correct: 0, fact: "Флаг в 1971 году придумал 19-летний юноша Абдулла Аль Маина, наделив черный цвет смыслом богатства недр и силы ума." },
+      { country: "4. Бразилия", visual: `<div class="w-full h-full bg-emerald-600 flex items-center justify-center"><div class="w-24 h-16 bg-amber-400 rotate-12 flex items-center justify-center"><div class="w-9 h-9 rounded-full bg-blue-700 border-2 border-white"></div></div></div>`, q: "Что означают зеленый фон и желтый ромб на флаге Бразилии?", options: ["Футбольные поля и пляжи", "Бескрайние леса Амазонии (зеленый) и золотые недра страны (желтый)", "Океан и солнце"], correct: 1, fact: "Внутри синего круга изображено звездное небо над Рио-де-Жанейро утром 15 ноября 1889 года в момент провозглашения республики." },
+      { country: "5. Индия", visual: `<div class="w-full h-full flex flex-col"><div class="w-full h-1/3 bg-orange-500"></div><div class="w-full h-1/3 bg-white flex items-center justify-center"><span class="text-blue-800 font-bold">☸</span></div><div class="w-full h-1/3 bg-emerald-600"></div></div>`, q: "Что означает верхняя шафраново-оранжевая полоса на флаге Индии?", options: ["Мужество, бескорыстие и готовность к созидательному труду", "Индийские специи", "Закат над океаном"], correct: 0, fact: "Синее колесо Ашоки в центре имеет 24 спицы — символ непрерывного движения вперед и 24 часов в сутках." },
+      { country: "6. ЮАР", visual: `<div class="w-full h-full flex flex-col"><div class="w-full h-1/3 bg-red-600"></div><div class="w-full h-1/3 bg-emerald-600 border-y-4 border-white flex items-center pl-3"><span class="text-amber-400 font-bold">▶</span></div><div class="w-full h-1/3 bg-blue-700"></div></div>`, q: "Что символизирует зеленая Y-образная полоса на 6-цветном флаге ЮАР?", options: ["Слияние двух океанов", "Объединение разных культур и народов в единый путь в общее будущее", "Схему шахт"], correct: 1, fact: "Флаг ЮАР — единственный государственный флаг в мире с 6 основными цветами без герба." },
+      { country: "7. Сербия", visual: `<div class="w-full h-full flex flex-col"><div class="w-full h-1/3 bg-red-600"></div><div class="w-full h-1/3 bg-blue-700"></div><div class="w-full h-1/3 bg-white"></div></div>`, q: "Что символизирует белая полоса в нижней части флага Сербии?", options: ["Чистоту помыслов, материнское молоко и свет свободы", "Снег в горах", "Мраморные крепости"], correct: 0, fact: "Панславянские цвета (красный, синий, белый) подчеркивают историческое родство и дружбу России и Сербии." },
+      { country: "8. Франция", visual: `<div class="w-full h-full flex"><div class="w-1/3 h-full bg-blue-800"></div><div class="w-1/3 h-full bg-white"></div><div class="w-1/3 h-full bg-red-600"></div></div>`, q: "С каким девизом связаны синий, белый и красный цвета флага Франции?", options: ["Наука, Искусство, Мода", "Свобода (синий), Равенство (белый), Братство (красный)", "Лаванда, Альпы, Виноград"], correct: 1, fact: "Синий и красный — исторические цвета Парижа, между которыми был помещен белый цвет национального единства." },
+      { country: "9. Япония", visual: `<div class="w-full h-full bg-white flex items-center justify-center"><div class="w-12 h-12 rounded-full bg-red-600"></div></div>`, q: "Что символизируют белое поле и красный круг на флаге Японии «Хиномару»?", options: ["Честность и чистоту (белый) и восходящее солнце, энергию (красный)", "Сакуру и вулкан Фудзи", "Бумагу и печать"], correct: 0, fact: "В психологии цвета сочетание чистого Белого и яркого Красного дает максимальный контраст спокойствия и энергии." },
+      { country: "10. Италия", visual: `<div class="w-full h-full flex"><div class="w-1/3 h-full bg-emerald-600"></div><div class="w-1/3 h-full bg-white"></div><div class="w-1/3 h-full bg-red-600"></div></div>`, q: "Какие три добродетели символизируют зеленый, белый и красный цвета флага Италии?", options: ["Базилик, моцареллу и томаты", "Надежду (зеленый), веру (белый) и милосердие/любовь (красный)", "Три моря"], correct: 1, fact: "В 1889 году в Неаполе в честь королевы Маргариты создали пиццу «Маргарита» именно в цветах итальянского флага!" }
+    ];
+
+    let fqIdx = 0, fqScore = 0, fqDone = false;
+    function initFlagQuiz() { fqIdx = 0; fqScore = 0; fqDone = false; fqFinalScreen.classList.add("hidden"); fqActiveArea.classList.remove("hidden"); renderFlagQuestion(); }
+    function renderFlagQuestion() {
+      fqDone = false; const item = FLAG_QUIZ_DATA[fqIdx];
+      fqProgressTxt.textContent = `Флаг ${fqIdx + 1} из 10`; fqScoreTxt.textContent = `Счет: ${fqScore} / 10`;
+      fqFlagVisual.innerHTML = item.visual; fqCountryName.textContent = item.country; fqQuestionText.textContent = item.q;
+      fqFactBox.classList.add("hidden");
+      fqOptionsGrid.innerHTML = item.options.map((o, idx) => `<button type="button" onclick="answerFlagQuiz(${idx})" id="fqOpt-${idx}" class="w-full text-left p-3.5 rounded-xl bg-slate-900 hover:bg-slate-800 border border-slate-700 text-slate-200">${o}</button>`).join("");
+    }
+    function answerFlagQuiz(idx) {
+      if (fqDone) return; fqDone = true; const item = FLAG_QUIZ_DATA[fqIdx], ok = idx === item.correct;
+      if (ok) { fqScore++; playSnd('success'); } else playSnd('click');
+      fqScoreTxt.textContent = `Счет: ${fqScore} / 10`;
+      item.options.forEach((_, i) => {
+        const b = document.getElementById(`fqOpt-${i}`);
+        if (i === item.correct) b.className = "w-full text-left p-3.5 rounded-xl bg-emerald-600/30 border-2 border-emerald-400 text-white font-bold";
+        else if (i === idx && !ok) b.className = "w-full text-left p-3.5 rounded-xl bg-rose-600/30 border-2 border-rose-400 text-rose-200";
+      });
+      fqVerdictTitle.textContent = ok ? "✅ Верно! Факт о цветах флага:" : "💡 Историческая справка:";
+      fqFactText.textContent = item.fact;
+      fqNextBtn.textContent = fqIdx + 1 < 10 ? "Следующий флаг →" : "Итоги квиза →";
+      fqFactBox.classList.remove("hidden");
+    }
+    function nextFlagQuestion() {
+      fqIdx++;
+      if (fqIdx < 10) renderFlagQuestion();
+      else {
+        unlockBadge("b_flags");
+        fqActiveArea.classList.add("hidden"); fqFinalScreen.classList.remove("hidden");
+        const rank = fqScore >= 8 ? "Эксперт геральдики" : (fqScore >= 5 ? "Знаток символики" : "Исследователь флагов");
+        fqFinalTitle.textContent = `Результат квиза: ${fqScore} из 10!`;
+        fqFinalDesc.textContent = `Вы успешно изучили символику цветов 10 государственных флагов. Ваш статус: ${rank}.`;
+        fqRankBadge.textContent = `Ранг: ${rank} (${fqScore * 10}%)`;
+        syncUserRecord({ flagsLog: `${fqScore} из 10 (${rank})` });
+      }
+    }
+    function renderCustomFlag() {
+      const c1 = myFlagC1.value, c2 = myFlagC2.value, c3 = myFlagC3.value;
+      customFlagBox.innerHTML = `<div class="w-full h-1/3 ${c1}"></div><div class="w-full h-1/3 ${c2}"></div><div class="w-full h-1/3 ${c3}"></div>`;
+      const m1 = myFlagC1.options[myFlagC1.selectedIndex].text;
+      const m2 = myFlagC2.options[myFlagC2.selectedIndex].text;
+      const m3 = myFlagC3.options[myFlagC3.selectedIndex].text;
+      customFlagMeaning.textContent = `Ваш персональный флаг объединяет: ${m1}, ${m2} и ${m3}.`;
+    }
+
+    // АВТОРИЗАЦИЯ И НАВИГАЦИЯ
+    function setRole(r) {
+      playSnd('click');
+      ["fStudent","fTeacher","fParent","fAdmin"].forEach(id => document.getElementById(id).style.display = "none");
+      ["rBtnStudent","rBtnTeacher","rBtnParent"].forEach(id => document.getElementById(id).className = "py-2.5 font-semibold rounded-xl text-slate-400");
+      document.getElementById({student:"fStudent",teacher:"fTeacher",parent:"fParent",admin:"fAdmin"}[r]).style.display = "block";
+      if (r !== 'admin') document.getElementById({student:"rBtnStudent",teacher:"rBtnTeacher",parent:"rBtnParent"}[r]).className = "py-2.5 font-bold rounded-xl bg-indigo-600 text-white";
+    }
+    function loginUser(r) {
+      if (r === 'student') {
+        const s = regSurname.value.trim(), n = regName.value.trim(), c = normalizeClassStr(regClass.value);
+        if (!s||!n||!c) return alert("Заполните поля!");
+        user = { name:`${s} ${n}`, role:'student', roleTxt:c };
+      }
+      if (r === 'teacher') { const f = tFullName.value.trim(), s = tSubject.value.trim(); if (!f||!s) return alert("Заполните поля!"); user = { name:f, role:'teacher', roleTxt:`[Учитель] ${s}` }; }
+      if (r === 'parent') { const p = pName.value.trim(), c = pChildName.value.trim(), cl = normalizeClassStr(pChildClass.value); if (!p||!c||!cl) return alert("Заполните поля!"); user = { name:`${p} (Род. ${c})`, role:'parent', roleTxt:`[Родитель] ${cl}` }; }
+      localStorage.setItem("cp2026_user", JSON.stringify(user)); applyUserToUI(); authModal.style.display = "none"; playSnd('success');
+      syncUserRecord();
+    }
+    function loginAdmin() {
+      const p = (adminPassInput.value || "").trim().toLowerCase();
+      if (["profcolor2027","root2027","profcolor27","root27"].includes(p)) {
+        isAdmin = true; user = { name:"Куратор", role:"admin", roleTxt:"Куратор" };
+        localStorage.setItem("cp2026_user", JSON.stringify(user)); applyUserToUI(); authModal.style.display = "none"; openAdmin();
+      } else alert("Неверный пароль! Доступно: profcolor2027, root2027, profcolor27, root27");
+    }
+    function applyUserToUI() { if (!user) return; userBadge.classList.remove("hidden"); userBadge.classList.add("flex"); userNameTxt.textContent = `${user.name} (${user.roleTxt})`; }
+    function logout() { user = null; isAdmin = false; localStorage.removeItem("cp2026_user"); userBadge.classList.add("hidden"); authModal.style.display = "flex"; }
+
+    function tab(k) {
+      playSnd('click');
+      const map = { test:"viewTest", sim:"viewSim", daySim:"viewDaySim", aiSearch:"viewAiSearch", examCalc:"viewExamCalc", olymp:"viewOlymp", flagQuiz:"viewFlagQuiz", duel:"viewDuel", comp:"viewComp", atlas:"viewAtlas", pulse:"viewPulse", cv:"viewCv", burnout:"viewBurnout", info:"viewInfo", family:"viewFamily", parent:"viewParent" };
+      const btns = { test:"tbTest", sim:"tbSim", daySim:"tbDaySim", aiSearch:"tbAiSearch", examCalc:"tbExamCalc", olymp:"tbOlymp", flagQuiz:"tbFlagQuiz", duel:"tbDuel", comp:"tbComp", atlas:"tbAtlas", pulse:"tbPulse", cv:"tbCv", burnout:"tbBurnout", info:"tbInfo", family:"tbFamily", parent:"tbParent" };
+      Object.keys(map).forEach(x => {
+        document.getElementById(map[x]).style.display = x === k ? "block" : "none";
+        document.getElementById(btns[x]).className = x === k ? "px-2.5 py-1.5 rounded-xl text-xs font-bold bg-indigo-600 text-white shadow" : "px-2.5 py-1.5 rounded-xl text-xs font-semibold bg-slate-800/60 text-slate-400";
+      });
+      if (k === 'atlas') applyAtlasFilters();
+      if (k === 'flagQuiz' && fqIdx === 0 && !fqDone) renderFlagQuestion();
+      if (k === 'pulse') renderSchoolPulse();
+      if (k === 'cv') generateStudentCV();
+      if (k === 'burnout') renderAntiBurnout();
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function applyTheme(t) { document.body.className = `flex flex-col justify-between pb-24 md:pb-12 relative ${t === 'liquid' ? 'theme-liquid' : (t === 'biowave' ? 'theme-biowave' : '')}`; }
+    function toggleSupportChat() { supportChatBox.classList.toggle("hidden"); }
+    function sendSupportMessage() {
+      const txt = supportInput.value.trim(); if (!txt) return;
+      supportMessages.innerHTML += `<div class="p-2 rounded-xl bg-indigo-600/30 text-white text-right ml-6">${txt}</div>`;
+      supportInput.value = "";
+      setTimeout(() => { supportMessages.innerHTML += `<div class="p-2 rounded-xl bg-purple-950/40 text-slate-300 mr-6">Принято! Пройдите все шаги маршрута и соберите 10 бейджей.</div>`; }, 400);
+    }
+
+    // ТЕСТ И НАДЕЖНАЯ КНОПКА ПОДЕЛИТЬСЯ
+    function pickColor(s, c, el) {
+      playSnd('click'); picks[s] = c;
+      document.getElementById(`group-${s}`).querySelectorAll(".card-glass").forEach(x => x.classList.remove("selected"));
+      el.classList.add("selected");
+      document.getElementById({set1:"s1Txt",set2:"s2Txt",set3:"s3Txt"}[s]).textContent = `Выбрано: ${c}`;
+    }
+    function calculate() {
+      if (!picks.set1 || !picks.set2 || !picks.set3) return calcWarn.classList.remove("hidden");
+      calcWarn.classList.add("hidden"); playSnd('success');
+      unlockBadge("b_test");
+      let best = "communicator", max = -1;
+      for (const [k, a] of Object.entries(ARCHETYPES)) {
+        let sc = (a.ideal[0]===picks.set1?40:0) + (a.ideal[1]===picks.set2?35:0) + (a.ideal[2]===picks.set3?25:0);
+        if (sc > max) { max = sc; best = k; }
+      }
+      const pct = Math.max(82, max), r = ARCHETYPES[best];
+      curRes = { ...r, chosen:[picks.set1,picks.set2,picks.set3], pct };
+      resBadge.textContent = `Совпадение: ${pct}%`; resTitle.textContent = r.title; resSubtitle.textContent = r.subtitle;
+      resFormula.textContent = curRes.chosen.join(" + "); resBurnoutRisk.textContent = r.burnout; parentTxt.textContent = r.parentAdvice;
+      topSalariesGrid.innerHTML = r.topSalaries.map(s => `<div class="p-3 rounded-xl bg-slate-950/70"><strong class="text-white block">${s.job}</strong><span class="text-emerald-400 font-bold block">${s.sal}</span><span class="text-[10px] text-slate-400">Стресс: ${s.stress}</span></div>`).join("");
+      tlGrid.innerHTML = r.timeline.map(t => `<div class="p-3 rounded-xl bg-slate-950/60"><span class="text-indigo-400 font-bold block">${t.yr}</span><p class="text-slate-300 text-[11px]">${t.step}</p></div>`).join("");
+      careersGrid.innerHTML = r.careers.map(c => `<div class="p-3 rounded-xl bg-slate-900/80"><strong class="text-purple-300 block">${c.t}</strong><p class="text-slate-400">${c.d}</p></div>`).join("");
+      unisGrid.innerHTML = r.unis.map(u => `<div class="p-3 rounded-xl bg-slate-900/90 flex justify-between items-center gap-2"><div><strong class="text-white block">${u.n}</strong><span class="text-[11px] text-slate-400">${u.c} • ${u.d}</span></div><a href="${u.u}" target="_blank" rel="noopener noreferrer" class="text-[11px] font-bold text-indigo-400 hover:underline whitespace-nowrap">Сайт &rarr;</a></div>`).join("");
+      resBlock.classList.remove("hidden");
+      syncUserRecord();
+    }
+    function downloadPass() {
+      if (!curRes) return;
+      const cv = document.createElement("canvas"); cv.width = 800; cv.height = 400; const x = cv.getContext("2d");
+      x.fillStyle = "#0f172a"; x.fillRect(0,0,800,400); x.fillStyle = "#c084fc"; x.font = "bold 32px sans-serif"; x.fillText(curRes.title, 40, 120);
+      x.fillStyle = "#fff"; x.font = "18px sans-serif"; x.fillText(`${user?user.name:"Участник"} • ${curRes.chosen.join(" + ")}`, 40, 170);
+      const a = document.createElement("a"); a.download = `Pass_${curRes.title}.png`; a.href = cv.toDataURL(); a.click();
+    }
+    function generatePdfReport() { if (!curRes) return; const w = window.open("","_blank"); w.document.write(`<h1>${curRes.title}</h1><p>${curRes.desc}</p><button onclick="window.print()">Печать</button>`); w.document.close(); }
+
+    function copyShareText() {
+      if (!curRes) return alert("Сначала пройдите цветовой тест!");
+      const txt = `🎓 Мой профориентационный архетип: ${curRes.title} (${curRes.subtitle})!\nЦветовой спектр: ${curRes.chosen.join(" + ")} (Точность: ${curRes.pct}%).`;
+      try {
+        if (navigator.clipboard && window.isSecureContext) {
+          navigator.clipboard.writeText(txt).then(() => alert("✅ Результат скопирован в буфер обмена!")).catch(() => fallbackCopy(txt));
+        } else { fallbackCopy(txt); }
+      } catch (e) { fallbackCopy(txt); }
+    }
+    function fallbackCopy(text) {
+      const ta = document.createElement("textarea");
+      ta.value = text; ta.style.position = "fixed"; ta.style.left = "-9999px";
+      document.body.appendChild(ta); ta.focus(); ta.select();
+      try { document.execCommand('copy'); alert("✅ Результат скопирован в буфер обмена!"); }
+      catch (err) { prompt("Скопируйте ваш результат вручную:", text); }
+      document.body.removeChild(ta);
+    }
+
+    // КАЛЬКУЛЯТОР ОГЭ/ЕГЭ
+    function runExamCalc() {
+      unlockBadge("b_exam");
+      const sc = parseInt(examScoreRange.value, 10) || 82; examScoreVal.textContent = `${sc} б.`;
+      const checkedLabels = Array.from(document.querySelectorAll('#examCheckboxGrid input:checked')).map(b => b.parentElement.textContent.trim());
+      const vals = Array.from(document.querySelectorAll('#examCheckboxGrid input:checked')).map(b => b.value);
+      examBudgetChance.textContent = `Сумма 3 ЕГЭ ~${sc*3} б. • Шанс: ${sc>=85?'Высокий':(sc>=70?'Хороший':'Средний/СПО')}`;
+      syncUserRecord({ examsLog: `${checkedLabels.join(', ')} (~${sc*3} б.)` });
+
+      if (vals.includes("bio") || vals.includes("chem")) {
+        examCalcTitle.textContent = "🩺 Медицина и Биотехнологии"; examCalcText.textContent = "Клиническая медицина, фармация и биоинженерия.";
+        examCalcUnis.innerHTML = `<div class="flex justify-between"><span>• Первый МГМУ им. И.М. Сеченова</span><a href="https://sechenov.ru" target="_blank" class="text-indigo-400 font-bold">Официальный сайт &rarr;</a></div><div class="flex justify-between"><span>• РНИМУ им. Н.И. Пирогова</span><a href="https://rsmu.ru" target="_blank" class="text-indigo-400 font-bold">Официальный сайт &rarr;</a></div>`;
+      } else if (vals.includes("inf") || vals.includes("phys") || vals.includes("math_prof")) {
+        examCalcTitle.textContent = "💻 IT, Инженерия и Робототехника"; examCalcText.textContent = "Программирование, ИИ и кибербезопасность.";
+        examCalcUnis.innerHTML = `<div class="flex justify-between"><span>• МФТИ (Физтех)</span><a href="https://mipt.ru" target="_blank" class="text-indigo-400 font-bold">Официальный сайт &rarr;</a></div><div class="flex justify-between"><span>• НИУ ВШЭ / ИТМО</span><a href="https://hse.ru" target="_blank" class="text-indigo-400 font-bold">Официальный сайт &rarr;</a></div>`;
+      } else {
+        examCalcTitle.textContent = "🌍 Дипломатия, Финансы и Медиа"; examCalcText.textContent = "Международные отношения, право и менеджмент.";
+        examCalcUnis.innerHTML = `<div class="flex justify-between"><span>• МГИМО МИД России</span><a href="https://mgimo.ru" target="_blank" class="text-indigo-400 font-bold">Официальный сайт &rarr;</a></div><div class="flex justify-between"><span>• МГУ им. М.В. Ломоносова</span><a href="https://msu.ru" target="_blank" class="text-indigo-400 font-bold">Официальный сайт &rarr;</a></div>`;
+      }
+    }
+
+    // НАВИГАТОР ПРОФЕССИЙ
+    function quickCareer(n) { aiCareerInput.value = n; analyzeCustomCareer(); }
+    function analyzeCustomCareer() {
+      unlockBadge("b_nav");
+      const q = (aiCareerInput.value.trim() || "AI-Архитектор"), low = q.toLowerCase();
+      if (!userSessionLog.searches.includes(q)) userSessionLog.searches.push(q);
+      syncUserRecord();
+      aiCareerTitle.textContent = `Профессия: ${q}`;
+      let dna = "Синий + Зеленый + Белый", sal = "160 000 – 380 000 ₽ / мес", desc = "Системная аналитика и управление проектами.", w = { communicator:15, investor:20, activist:20, architect:20, leader:15, guardian:10 };
+      let uIndices = [9, 12, 1];
+      if (low.includes("хирург")||low.includes("врач")||low.includes("кардио")) { dna = "Синий + Оранжевый + Коричневый"; sal = "220 000 – 650 000 ₽ / мес"; desc = "Высокоточная медицина, диагностика и клиническая практика."; w = { communicator:5, investor:5, activist:45, architect:5, leader:5, guardian:35 }; uIndices = [10, 8, 2]; }
+      else if (low.includes("програм")||low.includes("ai")||low.includes("it")||low.includes("архитектор")) { dna = "Синий + Оранжевый + Белый"; sal = "280 000 – 750 000 ₽ / мес"; desc = "Создание сложных программных и инженерных систем, нейросетей, кибербезопасности и робототехники."; w = { communicator:5, investor:10, activist:20, architect:55, leader:5, guardian:5 }; uIndices = [13, 14, 4]; }
+      else if (low.includes("дипломат")||low.includes("медиа")) { dna = "Желтый + Фиолетовый + Белый"; sal = "200 000 – 500 000 ₽ / мес"; desc = "Международные переговоры, дипломатия и медиакоммуникации."; w = { communicator:55, investor:5, activist:5, architect:5, leader:25, guardian:5 }; uIndices = [11, 12, 1]; }
+      else if (low.includes("инвест")||low.includes("банк")) { dna = "Красный + Зеленый + Черный"; sal = "300 000 – 850 000 ₽ / мес"; desc = "Управление капиталом, инвестициями и финансовый аудит."; w = { communicator:10, investor:55, activist:5, architect:10, leader:15, guardian:5 }; uIndices = [12, 3, 16]; }
+      else if (low.includes("повар")||low.includes("шеф")) { dna = "Оранжевый + Красный + Коричневый"; sal = "170 000 – 450 000 ₽ / мес"; desc = "Гастрономическое искусство, управление кухней и индустрия сервиса."; w = { communicator:10, investor:5, activist:55, architect:5, leader:15, guardian:10 }; uIndices = [6, 7, 2]; }
+      aiColorDNA.textContent = dna; aiCareerSalary.textContent = sal; aiCareerAnalysis.textContent = desc;
+
+      const labels = {
+        communicator: "Коммуникатор (Дипломатия и Медиа)",
+        investor: "Инвестор (Финансы и Аудит)",
+        activist: "Активист (Практика, Проекты и Реальный продукт)",
+        architect: "Архитектор (ИТ и Инженерия)",
+        leader: "Лидер-Стратег (Управление)",
+        guardian: "Хранитель (Медицина и Экспертиза)"
+      };
+      aiArchetypePercentages.innerHTML = Object.keys(w).map(k => `<div><div class="flex justify-between text-[11px]"><span>${labels[k]}:</span><strong>${w[k]}%</strong></div><div class="w-full h-1.5 bg-slate-800 rounded"><div class="h-1.5 bg-indigo-500 rounded" style="width:${w[k]}%"></div></div></div>`).join("");
+      aiCareerUnis.innerHTML = uIndices.map(idx => { const u = ATLAS_DATA[idx] || ATLAS_DATA[0]; return `<div class="flex justify-between p-2 rounded bg-slate-950"><strong>${u.name}</strong><a href="${u.url}" target="_blank" rel="noopener noreferrer" class="text-indigo-400 font-bold">Официальный сайт &rarr;</a></div>`; }).join("");
+    }
+
+    // АКИРА, СИНЕРГИЯ, СЕМЬЯ, ДУЭЛЬ
+    const AKIRA_Q = [
+      { q: "1. За 2 дня до сдачи проекта всё пошло не по плану:", a: [{ t: "Составлю пошаговый план.", tp: "architect" }, { t: "Поддержу и объединю команду.", tp: "communicator" }, { t: "Возьму управление на себя.", tp: "leader" }] },
+      { q: "2. Как распределите бюджет поездки?", a: [{ t: "Строгий расчет и резерв.", tp: "investor" }, { t: "Комфорт и безопасность.", tp: "guardian" }, { t: "Яркие впечатления.", tp: "communicator" }] },
+      { q: "3. Ручная работа или сборка макета:", a: [{ t: "Сделаю руками до идеала.", tp: "activist" }, { t: "Изучу чертежи и схемы.", tp: "architect" }, { t: "Распределю задачи.", tp: "leader" }] },
+      { q: "4. В споре двух друзей вы:", a: [{ t: "Помогу им договориться без обид.", tp: "communicator" }, { t: "Оценю ситуацию по фактам.", tp: "guardian" }, { t: "Предложу быстрый компромисс.", tp: "leader" }] },
+      { q: "5. В сложную минуту вы опираетесь:", a: [{ t: "На логику и расчет.", tp: "architect" }, { t: "На команду и друзей.", tp: "communicator" }, { t: "На выдержку и навык.", tp: "activist" }] }
+    ];
+    let akStep = 0, akPts = { communicator:0, investor:0, activist:0, architect:0, leader:0, guardian:0 };
+    function initAkiraInterview() { akStep = 0; interviewScore = 100; akPts = { communicator:0, investor:0, activist:0, architect:0, leader:0, guardian:0 }; interviewFinalVerdict.classList.add("hidden"); interviewDialog.classList.remove("hidden"); renderAkiraStep(); }
+    function renderAkiraStep() {
+      const d = AKIRA_Q[akStep]; akiraRoundCounter.textContent = `Ситуация ${akStep+1} из ${AKIRA_Q.length}`; interviewQuestion.textContent = d.q;
+      interviewAnswers.innerHTML = d.a.map(x => `<button type="button" onclick="ansAkira('${x.tp}')" class="w-full text-left p-3 rounded-xl bg-slate-900 hover:bg-slate-800 border border-slate-700 text-slate-200">${x.t}</button>`).join("");
+    }
+    function ansAkira(tp) {
+      playSnd('click'); akPts[tp]++; interviewScore += 20; document.getElementById("interviewScore").textContent = `${interviewScore} XP`; akStep++;
+      if (akStep < AKIRA_Q.length) renderAkiraStep();
+      else {
+        playSnd('success'); unlockBadge("b_akira");
+        interviewDialog.classList.add("hidden"); interviewFinalVerdict.classList.remove("hidden");
+        let b = Object.keys(akPts).reduce((a,c)=>akPts[a]>akPts[c]?a:c);
+        const verdict = `${ARCHETYPES[b].title} (${interviewScore} XP)`;
+        verdictBody.innerHTML = `<p>Ведущий характер: <strong>${ARCHETYPES[b].title}</strong> — ${ARCHETYPES[b].desc}</p>`;
+        syncUserRecord({ akiraLog: verdict });
+      }
+    }
+
+    function calcComp() {
+      unlockBadge("b_comp");
+      const u = uArch.value, p = pArch.value;
+      const sc = u === p ? "88%" : "96%";
+      const title = `Тандем: ${ARCHETYPES[u].title} + ${ARCHETYPES[p].title}`;
+      compScore.textContent = sc; compTitle.textContent = title;
+      compDesc.textContent = u === p ? "Полное взаимопонимание темпа, но нужен контроль рутины." : "Отличное дополнение сильных сторон в общем проекте.";
+      compAdvice.textContent = `Распределяйте задачи по профилю: ${ARCHETYPES[u].subtitle} и ${ARCHETYPES[p].subtitle}.`;
+      syncUserRecord({ compLog: `${title} (${sc})` });
+    }
+    function calcFamilyProfile() {
+      const p = famParentSelect.value, c = famChildSelect.value;
+      famSupportTxt.textContent = `Родитель (${ARCHETYPES[p].title}) и подросток (${ARCHETYPES[c].title}) дополняют друг друга в выборе цели.`;
+      famConflictTxt.textContent = "Учитывайте разницу в темпе принятия решений и восприятии рисков.";
+      famActionTxt.textContent = ARCHETYPES[c].parentAdvice;
+    }
+    function runDuelCheckAdvanced() {
+      unlockBadge("b_duel");
+      const t = duelTargetInput.value.trim(); if (!t) return alert("Введите имя!");
+      const g1 = duelGuessS1.value, g2 = duelGuessS2.value, g3 = duelGuessS3.value;
+      duelResultBox.classList.remove("hidden");
+      syncUserRecord({ duelLog: `Друг: ${t} (прогноз: ${g1}/${g2}/${g3})` });
+
+      if (godAlwaysWinDuel) { duelResultBadge.textContent = "3 из 3 (Root)!"; duelResultText.textContent = `Угадано для ${t}!`; return; }
+      const m = cache.find(r => r.name && r.name.toLowerCase().includes(t.toLowerCase()));
+      if (!m) { duelResultBadge.textContent = "Не найден"; duelResultText.textContent = "Участник еще не проходил тест."; duelBreakdown.textContent = ""; }
+      else {
+        let hits = (m.set1===g1?1:0) + (m.set2===g2?1:0) + (m.set3===g3?1:0);
+        duelResultBadge.textContent = `Угадано сетов: ${hits} из 3`;
+        duelResultText.textContent = `${m.name}: ${m.archetype}`;
+        duelBreakdown.textContent = `Реальный спектр: ${m.set1} + ${m.set2} + ${m.set3}`;
+      }
+    }
+
+    // ОБЪЯВЛЕНИЯ НА ВЕСЬ САЙТ В • SYS
+    function publishSiteBanner() {
+      const txt = sysBannerInput.value.trim();
+      if (!txt) return alert("Введите текст объявления!");
+      const theme = sysBannerTheme.value;
+      const bannerObj = { text: txt, theme };
+      localStorage.setItem("cp2026_banner", JSON.stringify(bannerObj));
+      applySiteBanner(bannerObj);
+      playSnd('success');
+      alert("Объявление опубликовано на весь сайт!");
+    }
+    function clearSiteBanner() { localStorage.removeItem("cp2026_banner"); globalSiteBanner.classList.add("hidden"); }
+    function applySiteBanner(b) {
+      if (!b || !b.text) return;
+      const themes = { indigo: "bg-indigo-600 text-white", emerald: "bg-emerald-600 text-white", amber: "bg-amber-500 text-slate-950", rose: "bg-rose-600 text-white" };
+      globalSiteBanner.className = `w-full py-2.5 px-4 text-center text-xs sm:text-sm font-bold z-50 border-b border-white/20 shadow-lg ${themes[b.theme] || themes.indigo}`;
+      globalBannerText.textContent = `📢 ${b.text}`;
+      globalSiteBanner.classList.remove("hidden");
+    }
+
+    // АДМИНКА С ПРЯМОЙ СИНХРОНИЗАЦИЕЙ ИЗ GOOGLE APPS SCRIPT
+    function openAdmin() {
+      if (!isAdmin) {
+        const p = (prompt("Пароль куратора (в любом регистре):")||"").trim().toLowerCase();
+        if (["profcolor2027","root2027","profcolor27","root27"].includes(p)) isAdmin = true;
+        else { if (p) alert("Неверный пароль!"); return; }
+      }
+      adminModal.classList.remove("hidden"); loadData();
+    }
+    function closeAdmin() { adminModal.classList.add("hidden"); }
+    function openGodModeAuthDialog() { godAuthDialog.classList.remove("hidden"); }
+    function verifyGodKey() {
+      if (["profcolor2027","root2027","profcolor27","root27"].includes(godPassInput.value.trim().toLowerCase())) {
+        godAuthDialog.classList.add("hidden"); godModeModal.classList.remove("hidden");
+      } else alert("Неверный пароль!");
+    }
+    function godToggleLiveEdit() { godEditableMode = !godEditableMode; document.body.contentEditable = godEditableMode; }
+    function godToggleAlwaysWinDuel() { godAlwaysWinDuel = !godAlwaysWinDuel; godDuelStatus.textContent = godAlwaysWinDuel ? "Вкл" : "Выкл"; }
+    function godAddMockData() {
+      cache.unshift({ date:new Date().toLocaleDateString("ru-RU"), name:"Смирнов Алексей", classGroup:"7Е", set1:"Синий", set2:"Оранжевый", set3:"Коричневый", archetype:"АКТИВИСТ", akiraLog:"АКТИВИСТ (180 XP)", daySimLog:"Кардиохирург: Высший пилотаж (95%)", searches:"AI-Архитектор", examsLog:"Проф. математика, Информатика (~246 б.)", olympLog:"Блиц БВИ: 3 из 3", flagsLog:"9 из 10 (Эксперт)", duelLog:"Друг: Морозова (2/3)", compLog:"Активист + Архитектор (98%)" });
+      localStorage.setItem("cp2026_cache", JSON.stringify(cache)); renderAdminTable();
+    }
+    function godClearAllData() { cache = []; localStorage.setItem("cp2026_cache", "[]"); renderAdminTable(); }
+    function godResetLocalStorage() { localStorage.clear(); location.reload(); }
+    function godDumpMemory() { alert(`ВУЗов: ${ATLAS_DATA.length} | Профессий в симуляторе: ${PROFESSIONS_20.length} | Уникальных участников: ${cache.length}`); }
+    function exportToCSV() {
+      const header = "\uFEFFДата;Имя;Класс;Архетип;Цвета;Акира;Симулятор_1дня;Профессии;ОГЭ_ЕГЭ;Олимпиады;Флаги;Дуэль;Синергия\n";
+      const rows = cache.map(r => `${r.date};${r.name};${r.classGroup};${r.archetype};${r.set1}/${r.set2}/${r.set3};${r.akiraLog||''};${r.daySimLog||''};${r.searches||''};${r.examsLog||''};${r.olympLog||''};${r.flagsLog||''};${r.duelLog||''};${r.compLog||''}`).join("\n");
+      const a = document.createElement("a"); a.href = URL.createObjectURL(new Blob([header + rows], {type:"text/csv"})); a.download = "Dossier_Ultimate_2026.csv"; a.click();
+    }
+
+    function loadData() {
+      renderAdminTable();
+      if (!GOOGLE_SCRIPT_URL.startsWith("http")) return;
+      const old = document.getElementById("gscript-ldr");
+      if (old) old.remove();
+
+      window.handleSheetData = function(data) {
+        if (Array.isArray(data) && data.length > 0) {
+          const merged = [];
+          const seen = new Set();
+          [...cache, ...data].forEach(item => {
+            if (!item || !item.name) return;
+            const key = normalizeNameStr(item.name) + "|" + normalizeClassStr(item.classGroup);
+            if (!seen.has(key)) {
+              seen.add(key);
+              item.classGroup = normalizeClassStr(item.classGroup);
+              merged.push(item);
+            }
+          });
+          cache = merged;
+          localStorage.setItem("cp2026_cache", JSON.stringify(cache));
+          renderAdminTable();
+        }
+      };
+
+      const sc = document.createElement("script");
+      sc.id = "gscript-ldr";
+      sc.src = GOOGLE_SCRIPT_URL + (GOOGLE_SCRIPT_URL.includes("?") ? "&" : "?") + "callback=handleSheetData";
+      document.body.appendChild(sc);
+    }
+
+    function renderAdminTable() {
+      admTotal.textContent = cache.length;
+      adminTbody.innerHTML = cache.map((r,i) => `<tr><td class="p-2">${r.date || '—'}</td><td class="p-2 font-bold text-white">${r.name || '—'}</td><td class="p-2 text-indigo-300">${r.classGroup || '—'}</td><td class="p-2 text-emerald-400 font-bold">${r.archetype || '—'}</td><td class="p-2"><button onclick="showDossier(${i})" class="px-2.5 py-1 rounded bg-purple-600/30 text-purple-300 font-bold">Открыть досье</button></td><td class="p-2"><button onclick="deleteRow(${i})" class="text-rose-400 font-bold">Х</button></td></tr>`).join("") || `<tr><td colspan="6" class="p-4 text-center">Записей пока нет</td></tr>`;
+    }
+
+    function deleteRow(i) {
+      const removed = cache.splice(i, 1)[0];
+      localStorage.setItem('cp2026_cache', JSON.stringify(cache));
+      renderAdminTable();
+      if (GOOGLE_SCRIPT_URL.startsWith("http") && removed) {
+        fetch(GOOGLE_SCRIPT_URL, { method: "POST", mode: "no-cors", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ action: "delete", rowIndex: i, name: removed.name, date: removed.date }) }).catch(() => {});
+      }
+    }
+
+    function showDossier(i) {
+      const u = cache[i]; if (!u) return;
+      dossierName.textContent = u.name;
+      dossierRole.textContent = `Класс / Роль: ${u.classGroup} | Итоговый архетип: ${u.archetype}`;
+      dossierColors.textContent = `${u.set1 || '—'} + ${u.set2 || '—'} + ${u.set3 || '—'}`;
+      dossierAkira.textContent = u.akiraLog || "Не проходил";
+      dossierDaySim.textContent = u.daySimLog || "Не проходил";
+      dossierSearches.textContent = u.searches || "Нет запросов";
+      dossierExams.textContent = u.examsLog || "Не выбрано";
+      dossierOlymp.textContent = u.olympLog || "Не проходил";
+      dossierFlags.textContent = u.flagsLog || "Не пройден";
+      dossierDuel.textContent = `${u.duelLog || 'Не играл'} | ${u.compLog || 'Синергия не проверялась'}`;
+      userDossierModal.classList.remove("hidden");
+    }
+    function filterAdmin() { const q = adminSearch.value.toLowerCase(); adminTbody.querySelectorAll("tr").forEach(tr => tr.style.display = tr.textContent.toLowerCase().includes(q) ? "" : "none"); }
+
+    function initAll() {
+      try { const savedCache = JSON.parse(localStorage.getItem("cp2026_cache")); if (Array.isArray(savedCache)) cache = savedCache; } catch(e){}
+      try { const savedBadges = JSON.parse(localStorage.getItem("cp2026_badges")); if (savedBadges) unlockedBadges = savedBadges; } catch(e){}
+      try { const savedBanner = JSON.parse(localStorage.getItem("cp2026_banner")); if (savedBanner) applySiteBanner(savedBanner); } catch(e){}
+      updateBadgesUI();
+      populateDaySimSelect();
+      buildAtlas600(); applyAtlasFilters(); calcComp(); calcFamilyProfile(); initAkiraInterview(); startDaySim('surgeon'); runExamCalc(); renderOlympCase(); analyzeCustomCareer(); initFlagQuiz(); renderAntiBurnout();
+      loadData();
+      try { const s = JSON.parse(localStorage.getItem("cp2026_user")); if (s && s.name) { user = s; if (s.role==='admin') isAdmin = true; applyUserToUI(); authModal.style.display = "none"; } } catch(e){}
+    }
+    if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", initAll); else initAll();
+  </script>
+</body>
+</html>
