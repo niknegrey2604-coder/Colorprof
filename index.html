@@ -58,7 +58,7 @@
       <button type="button" onclick="toggleSupportChat()" class="text-slate-400 hover:text-white text-lg px-2">&times;</button>
     </div>
     <div id="supportMessages" class="overflow-y-auto flex-grow my-2 space-y-2 text-xs pr-1">
-      <div class="p-2.5 rounded-xl bg-purple-950/40 border border-purple-500/20 text-slate-300">Здравствуйте! Пройдите цветовой тест, испытайте 20 профессий в симуляторе и соберите свое портфолио!</div>
+      <div class="p-2.5 rounded-xl bg-purple-950/40 border border-purple-500/20 text-slate-300">Здравствуйте! Пройдите цветовой тест, испытайте 20 профессий в симуляторе и скачайте именной сертификат!</div>
     </div>
     <div class="flex gap-1.5 pt-2 border-t border-white/10">
       <input type="text" id="supportInput" onkeydown="if(event.key==='Enter') sendSupportMessage()" placeholder="Ваш вопрос..." class="flex-grow px-3 py-2 rounded-xl bg-slate-900 border border-slate-700 text-xs text-white">
@@ -113,7 +113,7 @@
         <div class="w-10 h-10 rounded-2xl bg-gradient-to-tr from-indigo-500 via-purple-500 to-rose-500 flex items-center justify-center flex-shrink-0 text-white font-bold text-sm">CP</div>
         <div class="min-w-0">
           <h1 class="text-xs sm:text-base font-bold font-h text-white truncate">COLORS & PROFESSIONS 2026 • ULTIMATE</h1>
-          <p class="text-[10px] text-slate-400 truncate">6 Архетипов • 20 Профессий в Симуляторе • БВИ Олимпиады • 600+ ВУЗов</p>
+          <p class="text-[10px] text-slate-400 truncate">6 Архетипов • 20 Профессий в Симуляторе • Сравнение 600+ ВУЗов</p>
         </div>
       </div>
       <div class="flex items-center gap-2 flex-shrink-0">
@@ -128,29 +128,24 @@
     </div>
   </header>
 
-  <!-- Навигация (16 вкладок по умному сквозному маршруту) -->
+  <!-- КОМПАКТНОЕ МЕНЮ (11 ВМЕСТО 16 ВКЛАДОК; АТЛАС ВУЗОВ НА 2-М МЕСТЕ) -->
   <div class="w-full border-b border-white/5 bg-slate-950/80 sticky top-14 z-20 backdrop-blur-md">
     <div class="max-w-7xl mx-auto px-3 py-2 flex flex-wrap items-center gap-1.5">
-      <button type="button" onclick="tab('test')" id="tbTest" class="px-2.5 py-1.5 rounded-xl text-xs font-bold bg-indigo-600 text-white shadow-lg">1. Тест & Профиль</button>
-      <button type="button" onclick="tab('sim')" id="tbSim" class="px-2.5 py-1.5 rounded-xl text-xs font-semibold bg-slate-800/60 text-slate-400">2. Тест Акиры</button>
-      <button type="button" onclick="tab('daySim')" id="tbDaySim" class="px-2.5 py-1.5 rounded-xl text-xs font-semibold bg-slate-800/60 text-pink-400 border border-pink-500/30">⚡ 3. Симулятор (20 проф.)</button>
-      <button type="button" onclick="tab('aiSearch')" id="tbAiSearch" class="px-2.5 py-1.5 rounded-xl text-xs font-semibold bg-slate-800/60 text-slate-400">4. Навигатор Профессий</button>
-      <button type="button" onclick="tab('examCalc')" id="tbExamCalc" class="px-2.5 py-1.5 rounded-xl text-xs font-semibold bg-slate-800/60 text-emerald-400 border border-emerald-500/30">🎯 5. ОГЭ/ЕГЭ</button>
-      <button type="button" onclick="tab('olymp')" id="tbOlymp" class="px-2.5 py-1.5 rounded-xl text-xs font-semibold bg-slate-800/60 text-cyan-300 border border-cyan-500/30">🏆 6. Олимпиады БВИ</button>
-      <button type="button" onclick="tab('flagQuiz')" id="tbFlagQuiz" class="px-2.5 py-1.5 rounded-xl text-xs font-semibold bg-slate-800/60 text-amber-300 border border-amber-500/30">🎌 7. Квиз: Флаги</button>
-      <button type="button" onclick="tab('duel')" id="tbDuel" class="px-2.5 py-1.5 rounded-xl text-xs font-semibold bg-slate-800/60 text-slate-400">8. Дуэль интуиции</button>
-      <button type="button" onclick="tab('comp')" id="tbComp" class="px-2.5 py-1.5 rounded-xl text-xs font-semibold bg-slate-800/60 text-slate-400">9. Командная синергия</button>
-      <button type="button" onclick="tab('atlas')" id="tbAtlas" class="px-2.5 py-1.5 rounded-xl text-xs font-semibold bg-slate-800/60 text-slate-400">10. Атлас 600+ ВУЗов</button>
-      <button type="button" onclick="tab('pulse')" id="tbPulse" class="px-2.5 py-1.5 rounded-xl text-xs font-semibold bg-slate-800/60 text-violet-300">📊 Пульс школы</button>
-      <button type="button" onclick="tab('cv')" id="tbCv" class="px-2.5 py-1.5 rounded-xl text-xs font-semibold bg-slate-800/60 text-teal-300">📄 Резюме & Капсула</button>
-      <button type="button" onclick="tab('burnout')" id="tbBurnout" class="px-2.5 py-1.5 rounded-xl text-xs font-semibold bg-slate-800/60 text-rose-300">🛡️ Анти-выгорание</button>
-      <button type="button" onclick="tab('info')" id="tbInfo" class="px-2.5 py-1.5 rounded-xl text-xs font-semibold bg-slate-800/60 text-slate-400">Теория</button>
-      <button type="button" onclick="tab('family')" id="tbFamily" class="px-2.5 py-1.5 rounded-xl text-xs font-semibold bg-slate-800/60 text-slate-400">Семья</button>
-      <button type="button" onclick="tab('parent')" id="tbParent" class="px-2.5 py-1.5 rounded-xl text-xs font-semibold bg-slate-800/60 text-slate-400">Родителям</button>
+      <button type="button" onclick="tab('test')" id="tbTest" class="px-3 py-1.5 rounded-xl text-xs font-bold bg-indigo-600 text-white shadow-lg">1. Тест & Профиль</button>
+      <button type="button" onclick="tab('atlas')" id="tbAtlas" class="px-3 py-1.5 rounded-xl text-xs font-semibold bg-slate-800/60 text-sky-300 border border-sky-500/30">🏛️ Атлас 600+ ВУЗов</button>
+      <button type="button" onclick="tab('sim')" id="tbSim" class="px-3 py-1.5 rounded-xl text-xs font-semibold bg-slate-800/60 text-slate-400">2. Тест Акиры</button>
+      <button type="button" onclick="tab('daySim')" id="tbDaySim" class="px-3 py-1.5 rounded-xl text-xs font-semibold bg-slate-800/60 text-pink-400 border border-pink-500/30">⚡ 3. Симулятор (20 проф.)</button>
+      <button type="button" onclick="tab('aiSearch')" id="tbAiSearch" class="px-3 py-1.5 rounded-xl text-xs font-semibold bg-slate-800/60 text-slate-400">4. Навигатор Профессий</button>
+      <button type="button" onclick="tab('examHub')" id="tbExamHub" class="px-3 py-1.5 rounded-xl text-xs font-semibold bg-slate-800/60 text-emerald-400 border border-emerald-500/30">🎯 5. ОГЭ/ЕГЭ & Олимпиады БВИ</button>
+      <button type="button" onclick="tab('flagQuiz')" id="tbFlagQuiz" class="px-3 py-1.5 rounded-xl text-xs font-semibold bg-slate-800/60 text-amber-300 border border-amber-500/30">🎌 6. Квиз: Флаги</button>
+      <button type="button" onclick="tab('socialHub')" id="tbSocialHub" class="px-3 py-1.5 rounded-xl text-xs font-semibold bg-slate-800/60 text-slate-400">🔮 7. Дуэль & Синергия</button>
+      <button type="button" onclick="tab('cvHub')" id="tbCvHub" class="px-3 py-1.5 rounded-xl text-xs font-semibold bg-slate-800/60 text-teal-300">📄 Резюме, Капсула & Ритм</button>
+      <button type="button" onclick="tab('pulse')" id="tbPulse" class="px-3 py-1.5 rounded-xl text-xs font-semibold bg-slate-800/60 text-violet-300">📊 Пульс школы</button>
+      <button type="button" onclick="tab('guideHub')" id="tbGuideHub" class="px-3 py-1.5 rounded-xl text-xs font-semibold bg-slate-800/60 text-slate-400">📚 Теория, Семья & Родителям</button>
     </div>
   </div>
 
-  <!-- ВКЛАДКА 1: Главный Тест -->
+  <!-- ВКЛАДКА 1: Главный Тест (Кнопка перехода ведет в Тест Акиры!) -->
   <main id="viewTest" class="max-w-5xl mx-auto px-3 py-6 flex-grow w-full">
     <div class="text-center mb-6">
       <span class="text-[11px] uppercase font-bold tracking-widest text-indigo-400 bg-indigo-500/10 px-3 py-1 rounded-full border border-indigo-500/20">Методика Якоба Олесена • 6 Архетипов</span>
@@ -230,6 +225,7 @@
           <div id="unisGrid" class="grid grid-cols-1 sm:grid-cols-2 gap-2.5 text-xs"></div>
         </div>
 
+        <!-- Переход по маршруту -> в Тест Акиры -->
         <div class="pt-4 border-t border-white/10">
           <button type="button" onclick="tab('sim')" class="next-step-btn">
             🤖 Шаг 2: Пройти собеседование Акиры &rarr;
@@ -239,7 +235,41 @@
     </div>
   </main>
 
-  <!-- ВКЛАДКА 2: Собеседование Акиры -->
+  <!-- ВКЛАДКА 2 (НА 2-М МЕСТЕ В ШАПКЕ): Атлас 600+ ВУЗов + Сравнение ВУЗов -->
+  <section id="viewAtlas" class="max-w-6xl mx-auto px-3 py-6 flex-grow w-full hidden">
+    <div class="text-center mb-5">
+      <h2 class="text-xl sm:text-2xl font-extrabold font-h text-white">Атлас 600+ ВУЗов и Колледжей мира</h2>
+      <p class="text-xs text-slate-400 mt-1">Поиск по названиям, городам и предметам. Выберите до 3 заведений для сравнения.</p>
+    </div>
+
+    <!-- Панель сравнения выбранных вузов -->
+    <div id="uniCompareDrawer" class="liquid p-4 rounded-2xl mb-4 border border-sky-500/40 hidden space-y-3 text-xs">
+      <div class="flex justify-between items-center">
+        <strong class="text-sky-300 font-bold">⚖️ Сравнение выбранных учебных заведений (<span id="compUniCount">0</span>/3):</strong>
+        <button type="button" onclick="clearUniCompare()" class="text-slate-400 hover:text-rose-400 underline">Очистить</button>
+      </div>
+      <div id="uniCompareGrid" class="grid grid-cols-1 sm:grid-cols-3 gap-2.5"></div>
+    </div>
+
+    <div class="liquid p-3 rounded-2xl mb-4 max-w-2xl mx-auto flex flex-col sm:flex-row gap-2">
+      <input type="text" id="atlasSearchInput" oninput="applyAtlasFilters()" placeholder="Поиск по названию, городу или предметам (медицина, ИТ, физика, право)..." class="flex-grow px-3.5 py-2 rounded-xl bg-slate-900 border border-slate-700 text-xs text-white">
+      <button type="button" onclick="resetAtlasFilters()" class="px-4 py-2 rounded-xl bg-slate-800 text-slate-300 text-xs">Сброс</button>
+    </div>
+    <div class="flex justify-center gap-1.5 mb-4 text-xs flex-wrap" id="atlasRegionTabs">
+      <button type="button" onclick="setAtlasFilterRegion('all')" id="arf-all" class="px-3 py-1.5 rounded-xl bg-indigo-600 text-white font-bold">Все (600+)</button>
+      <button type="button" onclick="setAtlasFilterRegion('Колледж')" id="arf-Колледж" class="px-3 py-1.5 rounded-xl bg-slate-800 text-slate-300">🍳 Колледжи</button>
+      <button type="button" onclick="setAtlasFilterRegion('Россия')" id="arf-Россия" class="px-3 py-1.5 rounded-xl bg-slate-800 text-slate-300">🎓 ВУЗы РФ</button>
+      <button type="button" onclick="setAtlasFilterRegion('БРИКС')" id="arf-БРИКС" class="px-3 py-1.5 rounded-xl bg-slate-800 text-slate-300">🌍 Страны БРИКС</button>
+      <button type="button" onclick="setAtlasFilterRegion('Сингапур')" id="arf-Сингапур" class="px-3 py-1.5 rounded-xl bg-slate-800 text-slate-300">Сингапур</button>
+      <button type="button" onclick="setAtlasFilterRegion('Малайзия')" id="arf-Малайзия" class="px-3 py-1.5 rounded-xl bg-slate-800 text-slate-300">Малайзия</button>
+      <button type="button" onclick="setAtlasFilterRegion('Китай')" id="arf-Китай" class="px-3 py-1.5 rounded-xl bg-slate-800 text-slate-300">Китай / ОАЭ</button>
+      <button type="button" onclick="setAtlasFilterRegion('Европа')" id="arf-Европа" class="px-3 py-1.5 rounded-xl bg-slate-800 text-slate-300">🇪🇺 Европа</button>
+    </div>
+    <div class="text-right text-xs text-slate-400 mb-2">Найдено в каталоге: <strong id="atlasCountTxt" class="text-indigo-400">605</strong></div>
+    <div id="atlasCardsContainer" class="grid grid-cols-1 sm:grid-cols-2 gap-3 max-h-[600px] overflow-y-auto pr-1"></div>
+  </section>
+
+  <!-- ВКЛАДКА 3: Собеседование Акиры -->
   <section id="viewSim" class="max-w-5xl mx-auto px-3 py-6 flex-grow w-full hidden">
     <div class="text-center mb-6">
       <h2 class="text-xl sm:text-2xl font-extrabold font-h text-white">Собеседование с AI-Наставником «Акира»</h2>
@@ -266,7 +296,7 @@
     </div>
   </section>
 
-  <!-- ВКЛАДКА 3: МАСШТАБНЫЙ СИМУЛЯТОР 1 ДНЯ (20 ПРОФЕССИЙ ПО 10 ЭТАПОВ + ИНТЕРАКТИВНЫЙ РАДАР) -->
+  <!-- ВКЛАДКА 4: Симулятор 1 дня (20 профессий × 10 этапов) -->
   <section id="viewDaySim" class="max-w-5xl mx-auto px-3 py-6 flex-grow w-full hidden">
     <div class="text-center mb-6">
       <span class="text-[10px] uppercase font-bold tracking-widest text-pink-400 bg-pink-500/10 px-3 py-1 rounded-full border border-pink-500/20">20 Профессий • 10 Этапов рабочего дня • Глубокая аналитика</span>
@@ -275,13 +305,11 @@
     </div>
 
     <div class="liquid p-5 sm:p-7 rounded-3xl max-w-4xl mx-auto space-y-5">
-      <!-- Выбор из 20 профессий -->
       <div class="flex flex-col sm:flex-row gap-2 items-center justify-between bg-slate-900/90 p-3 rounded-2xl border border-white/10">
         <span class="text-xs font-bold text-indigo-300">Выберите профессию (20 доступно):</span>
         <select id="daySimProfessionSelect" onchange="startDaySim(this.value)" class="w-full sm:w-80 p-2.5 rounded-xl bg-slate-950 border border-indigo-500/40 text-white text-xs font-bold"></select>
       </div>
 
-      <!-- Панель живых индикаторов -->
       <div class="grid grid-cols-3 gap-2.5 p-3.5 rounded-2xl bg-slate-950/90 border border-white/10 text-xs">
         <div>
           <div class="flex justify-between mb-1"><span class="text-amber-300 font-bold">⚡ Энергия</span><strong id="dsEnergyVal">100%</strong></div>
@@ -297,7 +325,6 @@
         </div>
       </div>
 
-      <!-- Игровой экран рабочего дня (10 этапов) -->
       <div id="dsActiveStage" class="space-y-4">
         <div class="p-4 rounded-2xl bg-slate-900/90 border border-pink-500/30 space-y-2">
           <div class="flex justify-between items-center">
@@ -310,7 +337,6 @@
         <div id="dsChoicesGrid" class="space-y-2 text-xs"></div>
       </div>
 
-      <!-- Финальный экран с интерактивной аналитикой и радаром компетенций -->
       <div id="dsSummaryScreen" class="p-5 rounded-2xl bg-indigo-950/40 border border-indigo-500/40 text-xs space-y-4 hidden">
         <div class="flex justify-between items-center flex-wrap gap-2 border-b border-white/10 pb-3">
           <div>
@@ -320,7 +346,6 @@
           <span id="dsFinalGrade" class="px-3 py-1 rounded-full bg-emerald-500/20 text-emerald-300 font-bold text-xs"></span>
         </div>
 
-        <!-- Интерактивная матрица компетенций по итогам 10 этапов -->
         <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 p-4 rounded-2xl bg-slate-900/90 border border-white/5">
           <div class="space-y-2">
             <strong class="text-white block text-xs uppercase tracking-wider">📊 Профиль компетенций за смену:</strong>
@@ -342,7 +367,7 @@
     </div>
   </section>
 
-  <!-- ВКЛАДКА 4: Навигатор Профессий -->
+  <!-- ВКЛАДКА 5: Навигатор Профессий -->
   <section id="viewAiSearch" class="max-w-5xl mx-auto px-3 py-6 flex-grow w-full hidden">
     <div class="text-center mb-6">
       <h2 class="text-xl sm:text-2xl font-extrabold font-h text-white">Навигатор Профессий 2026</h2>
@@ -378,27 +403,40 @@
           <span class="text-[10px] uppercase font-bold text-emerald-400 block mb-2">Рекомендованные заведения (официальные сайты):</span>
           <div id="aiCareerUnis" class="space-y-1.5 text-xs"></div>
         </div>
-        <button type="button" onclick="tab('examCalc')" class="next-step-btn">
-          🎯 Шаг 5: Рассчитать предметы ОГЭ / ЕГЭ &rarr;
+        <button type="button" onclick="tab('examHub')" class="next-step-btn">
+          🎯 Шаг 5: ОГЭ/ЕГЭ & Олимпиады БВИ &rarr;
         </button>
       </div>
     </div>
   </section>
 
-  <!-- ВКЛАДКА 5: Калькулятор ОГЭ / ЕГЭ -->
-  <section id="viewExamCalc" class="max-w-5xl mx-auto px-3 py-6 flex-grow w-full hidden">
-    <div class="text-center mb-6">
-      <h2 class="text-xl sm:text-2xl font-extrabold font-h text-white">Калькулятор экзаменов ОГЭ / ЕГЭ (14 предметов)</h2>
-      <p class="text-xs text-slate-400 mt-1">Отметьте предметы и укажите средний балл — алгоритм рассчитает траектории и вузы.</p>
+  <!-- ВКЛАДКА 6 (ОБЪЕДИНЁННАЯ): ОГЭ/ЕГЭ + ОЛИМПИАДЫ БВИ + БОНУСНЫЕ БАЛЛЫ -->
+  <section id="viewExamHub" class="max-w-5xl mx-auto px-3 py-6 flex-grow w-full hidden space-y-6">
+    <div class="text-center">
+      <h2 class="text-xl sm:text-3xl font-extrabold font-h text-white">Калькулятор ОГЭ / ЕГЭ & Олимпиады БВИ</h2>
+      <p class="text-xs text-slate-400 mt-1">Единый центр расчёта конкурсных баллов, индивидуальных достижений и права на поступление без экзаменов.</p>
     </div>
+
+    <!-- Блок 1: Калькулятор баллов + бонусы (БВИ, медаль, ГТО) -->
     <div class="liquid p-5 rounded-3xl max-w-3xl mx-auto space-y-4">
       <div class="p-3 bg-slate-900/80 rounded-2xl flex flex-col sm:flex-row items-center justify-between gap-3 text-xs">
-        <span>Средний балл за 1 предмет:</span>
+        <span>Средний балл за 1 экзамен:</span>
         <div class="flex items-center gap-3 w-full sm:w-auto">
           <input type="range" id="examScoreRange" min="50" max="100" value="82" oninput="runExamCalc()" class="w-full sm:w-48 accent-emerald-500">
           <span id="examScoreVal" class="font-bold text-emerald-400 w-14 text-right">82 б.</span>
         </div>
       </div>
+
+      <!-- Переключатели БВИ и ИД -->
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs">
+        <label class="p-2.5 rounded-xl bg-cyan-950/30 border border-cyan-500/40 flex items-center gap-2 cursor-pointer text-cyan-200 font-semibold">
+          <input type="checkbox" id="chkBviOlymp" onchange="runExamCalc()"> 🏆 Есть диплом перечневой олимпиады / ВсОШ (БВИ)
+        </label>
+        <label class="p-2.5 rounded-xl bg-amber-950/30 border border-amber-500/40 flex items-center gap-2 cursor-pointer text-amber-200 font-semibold">
+          <input type="checkbox" id="chkMedalGto" onchange="runExamCalc()"> 🥇 Золотая медаль / ГТО / Волонтёрство (+10 б.)
+        </label>
+      </div>
+
       <div class="grid grid-cols-2 sm:grid-cols-4 gap-2 text-xs" id="examCheckboxGrid">
         <label class="p-2 rounded-xl bg-slate-900 border border-slate-700 flex items-center gap-2"><input type="checkbox" value="math_prof" checked onchange="runExamCalc()"> Проф. математика</label>
         <label class="p-2 rounded-xl bg-slate-900 border border-slate-700 flex items-center gap-2"><input type="checkbox" value="math_base" onchange="runExamCalc()"> Баз. математика</label>
@@ -423,48 +461,26 @@
         <p id="examCalcText" class="text-slate-300"></p>
         <div id="examCalcUnis" class="space-y-1.5 text-slate-200"></div>
       </div>
-      <button type="button" onclick="tab('olymp')" class="next-step-btn">
-        🏆 Шаг 6: Открыть Тренажёр Олимпиад и БВИ &rarr;
-      </button>
     </div>
-  </section>
 
-  <!-- ВКЛАДКА 6: ТРЕНАЖЁР ОЛИМПИАД И БВИ-НАВИГАТОР -->
-  <section id="viewOlymp" class="max-w-5xl mx-auto px-3 py-6 flex-grow w-full hidden">
-    <div class="text-center mb-6">
-      <span class="text-[10px] uppercase font-bold tracking-widest text-cyan-400 bg-cyan-500/10 px-3 py-1 rounded-full border border-cyan-500/20">Поступление без вступительных испытаний (БВИ)</span>
-      <h2 class="text-xl sm:text-3xl font-extrabold font-h text-white mt-2">Тренажёр Олимпиад & БВИ-Навигатор 2026</h2>
-      <p class="text-xs text-slate-400 mt-1">Решите 3 олимпиадные мини-задачи и узнайте, какие перечневые олимпиады дают 100 баллов ЕГЭ или БВИ.</p>
-    </div>
-    <div class="liquid p-5 sm:p-7 rounded-3xl max-w-3xl mx-auto space-y-5 text-xs">
-      <div class="grid grid-cols-1 sm:grid-cols-3 gap-2.5">
-        <div class="p-3.5 rounded-2xl bg-slate-900/90 border border-cyan-500/30">
-          <strong class="text-cyan-300 block mb-1">🥇 ВсОШ (Всероссийская олимпиада)</strong>
-          <p class="text-slate-300 text-[11px]">Диплом призёра/победителя финала даёт право поступления БВИ в любой вуз РФ по профилю на 4 года.</p>
-        </div>
-        <div class="p-3.5 rounded-2xl bg-slate-900/90 border border-indigo-500/30">
-          <strong class="text-indigo-300 block mb-1">🥈 Высшая проба / Ломоносов</strong>
-          <p class="text-slate-300 text-[11px]">Олимпиады I уровня: дают 100 баллов ЕГЭ или БВИ в НИУ ВШЭ, МГУ, МГИМО при подтверждении ЕГЭ от 75+ баллов.</p>
-        </div>
-        <div class="p-3.5 rounded-2xl bg-slate-900/90 border border-emerald-500/30">
-          <strong class="text-emerald-300 block mb-1">🥉 Физтех / Сеченовская</strong>
-          <p class="text-slate-300 text-[11px]">Профильные олимпиады для будущих инженеров (МФТИ, Бауманка) и хирургов/врачей (Первый Мед).</p>
-        </div>
+    <!-- Блок 2: Тренажёр олимпиад и БВИ (внутри этой же вкладки) -->
+    <div class="liquid p-5 rounded-3xl max-w-3xl mx-auto space-y-4 text-xs">
+      <div class="flex justify-between items-center border-b border-white/10 pb-2">
+        <strong class="text-cyan-300 text-sm font-h">🏆 Олимпиадный блиц-тренажёр (Право на БВИ и 100 баллов)</strong>
+        <span id="olympScoreBadge" class="text-cyan-400 font-bold">Решено: 0 / 3</span>
       </div>
-
-      <!-- Мини-тренажёр логики и олимпиадных кейсов -->
+      <div class="grid grid-cols-1 sm:grid-cols-3 gap-2">
+        <div class="p-3 rounded-xl bg-slate-900/90 border border-cyan-500/20"><strong class="text-cyan-300 block mb-0.5">ВсОШ</strong><span class="text-slate-400 text-[11px]">БВИ в любой вуз РФ по профилю.</span></div>
+        <div class="p-3 rounded-xl bg-slate-900/90 border border-indigo-500/20"><strong class="text-indigo-300 block mb-0.5">Высшая проба / Ломоносов</strong><span class="text-slate-400 text-[11px]">I уровень: БВИ в ВШЭ, МГУ, МГИМО.</span></div>
+        <div class="p-3 rounded-xl bg-slate-900/90 border border-emerald-500/20"><strong class="text-emerald-300 block mb-0.5">Физтех / Сеченовская</strong><span class="text-slate-400 text-[11px]">БВИ для инженеров и врачей.</span></div>
+      </div>
       <div class="p-4 rounded-2xl bg-slate-950/90 border border-white/10 space-y-3">
-        <div class="flex justify-between items-center">
-          <strong class="text-white text-sm">⚡ Олимпиадный блиц-кейс:</strong>
-          <span id="olympScoreBadge" class="text-cyan-400 font-bold">Решено: 0 / 3</span>
-        </div>
         <p id="olympQText" class="text-slate-200 text-xs sm:text-sm leading-relaxed"></p>
         <div id="olympOpts" class="space-y-2"></div>
         <p id="olympFeedback" class="text-emerald-400 font-semibold hidden"></p>
       </div>
-
       <button type="button" onclick="tab('flagQuiz')" class="next-step-btn">
-        🎌 Шаг 7: Пройти квиз по цветам флагов &rarr;
+        🎌 Шаг 6: Пройти квиз по цветам флагов &rarr;
       </button>
     </div>
   </section>
@@ -530,82 +546,113 @@
         </div>
 
         <button type="button" onclick="initFlagQuiz()" class="w-full py-2.5 rounded-xl bg-slate-800 text-slate-300 font-semibold text-xs">Пройти квиз заново</button>
-        <button type="button" onclick="tab('duel')" class="next-step-btn">
-          🔮 Шаг 8: Перейти в Дуэль интуиции &rarr;
+        <button type="button" onclick="tab('socialHub')" class="next-step-btn">
+          🔮 Шаг 7: Перейти в Дуэль интуиции & Синергию &rarr;
         </button>
       </div>
     </div>
   </section>
 
-  <!-- ВКЛАДКА 8: Дуэль интуиции -->
-  <section id="viewDuel" class="max-w-5xl mx-auto px-3 py-6 flex-grow w-full hidden">
-    <div class="text-center mb-5"><h2 class="text-xl sm:text-2xl font-extrabold font-h text-white">Интерактивная Дуэль интуиции</h2></div>
-    <div class="liquid p-5 rounded-3xl max-w-xl mx-auto space-y-3.5 text-xs">
-      <input type="text" id="duelTargetInput" placeholder="Фамилия или имя друга из базы..." class="w-full px-3.5 py-2.5 rounded-xl bg-slate-900 border border-slate-700 text-white">
-      <div class="grid grid-cols-3 gap-2">
-        <select id="duelGuessS1" class="p-2.5 rounded-xl bg-slate-900 border border-slate-700 text-white"><option value="Красный">Красный</option><option value="Желтый">Желтый</option><option value="Синий">Синий</option></select>
-        <select id="duelGuessS2" class="p-2.5 rounded-xl bg-slate-900 border border-slate-700 text-white"><option value="Зеленый">Зеленый</option><option value="Фиолетовый">Фиолетовый</option><option value="Оранжевый">Оранжевый</option></select>
-        <select id="duelGuessS3" class="p-2.5 rounded-xl bg-slate-900 border border-slate-700 text-white"><option value="Белый">Белый</option><option value="Черный">Черный</option><option value="Коричневый">Коричневый</option></select>
+  <!-- ВКЛАДКА 8 (ОБЪЕДИНЁННАЯ): ДУЭЛЬ ИНТУИЦИИ + КОМАНДНАЯ СИНЕРГИЯ -->
+  <section id="viewSocialHub" class="max-w-5xl mx-auto px-3 py-6 flex-grow w-full hidden space-y-6">
+    <div class="text-center">
+      <h2 class="text-xl sm:text-3xl font-extrabold font-h text-white">Дуэль интуиции & Командная синергия</h2>
+      <p class="text-xs text-slate-400 mt-1">Угадайте выбор одноклассника по 3 сетам и проверьте совместимость ваших характеров в команде.</p>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs">
+      <!-- Левая колонка: Дуэль интуиции -->
+      <div class="liquid p-5 rounded-3xl space-y-3.5">
+        <strong class="text-base font-bold font-h text-white block">🔮 Дуэль интуиции (3 сета)</strong>
+        <input type="text" id="duelTargetInput" placeholder="Фамилия или имя друга из базы..." class="w-full px-3.5 py-2.5 rounded-xl bg-slate-900 border border-slate-700 text-white">
+        <div class="grid grid-cols-3 gap-2">
+          <select id="duelGuessS1" class="p-2 rounded-xl bg-slate-900 border border-slate-700 text-white"><option value="Красный">Красный</option><option value="Желтый">Желтый</option><option value="Синий">Синий</option></select>
+          <select id="duelGuessS2" class="p-2 rounded-xl bg-slate-900 border border-slate-700 text-white"><option value="Зеленый">Зеленый</option><option value="Фиолетовый">Фиолетовый</option><option value="Оранжевый">Оранжевый</option></select>
+          <select id="duelGuessS3" class="p-2 rounded-xl bg-slate-900 border border-slate-700 text-white"><option value="Белый">Белый</option><option value="Черный">Черный</option><option value="Коричневый">Коричневый</option></select>
+        </div>
+        <button type="button" onclick="runDuelCheckAdvanced()" class="w-full py-3 rounded-xl bg-indigo-600 text-white font-bold">Проверить интуицию &rarr;</button>
+        <div id="duelResultBox" class="p-3.5 rounded-2xl bg-slate-900/80 text-center hidden space-y-1.5">
+          <span id="duelResultBadge" class="text-[11px] font-bold px-2.5 py-0.5 rounded-full inline-block"></span>
+          <p id="duelResultText" class="text-xs text-slate-200"></p>
+          <div id="duelBreakdown" class="text-[11px] text-indigo-300"></div>
+        </div>
       </div>
-      <button type="button" onclick="runDuelCheckAdvanced()" class="w-full py-3 rounded-xl bg-indigo-600 text-white font-bold">Проверить интуицию &rarr;</button>
-      <div id="duelResultBox" class="p-4 rounded-2xl bg-slate-900/80 text-center hidden space-y-2">
-        <span id="duelResultBadge" class="text-[11px] font-bold px-2.5 py-0.5 rounded-full inline-block"></span>
-        <p id="duelResultText" class="text-xs text-slate-200"></p>
-        <div id="duelBreakdown" class="text-[11px] text-indigo-300"></div>
-        <div class="pt-2">
-          <button type="button" onclick="tab('comp')" class="next-step-btn">
-            🤝 Шаг 9: Проверить командную синергию &rarr;
-          </button>
+
+      <!-- Правая колонка: Командная синергия -->
+      <div class="liquid p-5 rounded-3xl space-y-3.5">
+        <strong class="text-base font-bold font-h text-white block">🤝 Командная синергия & Тандем</strong>
+        <div class="grid grid-cols-2 gap-2">
+          <div><label class="block text-slate-400 mb-1">Первый участник:</label><select id="uArch" onchange="calcComp()" class="w-full p-2 rounded-xl bg-slate-900 border border-slate-700 text-white"><option value="communicator">Коммуникатор</option><option value="investor">Инвестор</option><option value="activist">Активист</option><option value="architect">Архитектор</option><option value="leader">Лидер-Стратег</option><option value="guardian">Хранитель</option></select></div>
+          <div><label class="block text-slate-400 mb-1">Второй участник:</label><select id="pArch" onchange="calcComp()" class="w-full p-2 rounded-xl bg-slate-900 border border-slate-700 text-white"><option value="investor">Инвестор</option><option value="communicator">Коммуникатор</option><option value="activist">Активист</option><option value="architect">Архитектор</option><option value="leader">Лидер-Стратег</option><option value="guardian">Хранитель</option></select></div>
+        </div>
+        <div class="p-3.5 rounded-2xl bg-slate-900/80 text-center space-y-1.5">
+          <span id="compScore" class="text-2xl font-extrabold font-h text-emerald-400 block"></span>
+          <strong id="compTitle" class="text-xs text-indigo-300 block font-bold"></strong>
+          <p id="compDesc" class="text-[11px] text-slate-200"></p>
+          <div id="compAdvice" class="p-2.5 rounded-xl bg-slate-950/90 text-[11px] text-slate-300 text-left"></div>
         </div>
       </div>
     </div>
+
+    <div class="max-w-xl mx-auto">
+      <button type="button" onclick="tab('cvHub')" class="next-step-btn">
+        📄 Шаг 8: Сформировать Резюме & Именной Сертификат &rarr;
+      </button>
+    </div>
   </section>
 
-  <!-- ВКЛАДКА 9: Командная синергия -->
-  <section id="viewComp" class="max-w-5xl mx-auto px-3 py-6 flex-grow w-full hidden">
-    <div class="text-center mb-5"><h2 class="text-xl sm:text-2xl font-extrabold font-h text-white">Командная синергия & Тандем</h2></div>
-    <div class="liquid p-5 rounded-3xl max-w-xl mx-auto space-y-4">
-      <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs">
-        <div><label class="block text-slate-400 mb-1">Первый участник:</label><select id="uArch" onchange="calcComp()" class="w-full p-2.5 rounded-xl bg-slate-900 border border-slate-700 text-white"><option value="communicator">Коммуникатор</option><option value="investor">Инвестор</option><option value="activist">Активист</option><option value="architect">Архитектор</option><option value="leader">Лидер-Стратег</option><option value="guardian">Хранитель</option></select></div>
-        <div><label class="block text-slate-400 mb-1">Второй участник:</label><select id="pArch" onchange="calcComp()" class="w-full p-2.5 rounded-xl bg-slate-900 border border-slate-700 text-white"><option value="investor">Инвестор</option><option value="communicator">Коммуникатор</option><option value="activist">Активист</option><option value="architect">Архитектор</option><option value="leader">Лидер-Стратег</option><option value="guardian">Хранитель</option></select></div>
+  <!-- ВКЛАДКА 9 (ОБЪЕДИНЁННАЯ): КОНСТРУКТОР CV, КАПСУЛА ВРЕМЕНИ, СЕРТИФИКАТ И АНТИ-ВЫГОРАНИЕ -->
+  <section id="viewCvHub" class="max-w-5xl mx-auto px-3 py-6 flex-grow w-full hidden space-y-6">
+    <div class="text-center">
+      <h2 class="text-xl sm:text-3xl font-extrabold font-h text-white">Резюме (CV), Сертификат & Анти-выгорание</h2>
+      <p class="text-xs text-slate-400 mt-1">Соберите портфолио школьника, скачайте именной диплом-сертификат и настройте режим без выгорания.</p>
+    </div>
+
+    <div class="liquid p-5 sm:p-7 rounded-3xl max-w-3xl mx-auto space-y-4 text-xs">
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+        <input type="text" id="cvGoalsInput" placeholder="Цель поступления (например: МФТИ, МГИМО, Первый Мед)..." class="px-3.5 py-2.5 rounded-xl bg-slate-900 border border-slate-700 text-white">
+        <input type="text" id="cvSkillsInput" placeholder="Навыки и языки (Python, Английский B2, Китайский)..." class="px-3.5 py-2.5 rounded-xl bg-slate-900 border border-slate-700 text-white">
       </div>
-      <div class="p-4 rounded-2xl bg-slate-900/80 text-center space-y-2">
-        <span id="compScore" class="text-3xl font-extrabold font-h text-emerald-400 block"></span>
-        <strong id="compTitle" class="text-sm text-indigo-300 block font-bold"></strong>
-        <p id="compDesc" class="text-xs text-slate-200"></p>
-        <div id="compAdvice" class="p-3 rounded-xl bg-slate-950/90 text-xs text-slate-300 text-left"></div>
+      <div class="flex flex-col sm:flex-row gap-2">
+        <button type="button" onclick="generateStudentCV()" class="flex-1 py-3 rounded-xl bg-gradient-to-r from-teal-600 to-emerald-600 text-white font-bold">Сформировать Резюме & Капсулу 2031</button>
+        <button type="button" onclick="downloadCertificate()" class="flex-1 py-3 rounded-xl bg-gradient-to-r from-amber-500 to-orange-600 text-white font-bold shadow-lg">🏅 Скачать именной Сертификат (PNG)</button>
       </div>
+
+      <div id="cvPreviewBox" class="p-5 rounded-2xl bg-slate-950/90 border border-teal-500/40 space-y-3">
+        <div class="flex justify-between items-start border-b border-white/10 pb-3">
+          <div>
+            <span class="text-[10px] text-teal-400 font-bold uppercase">Карьерное портфолио • Капсула 2026 → 2031</span>
+            <h3 id="cvOutName" class="text-lg font-extrabold text-white font-h mt-0.5">Участник исследования</h3>
+            <p id="cvOutMeta" class="text-slate-400"></p>
+          </div>
+          <button type="button" onclick="window.print()" class="px-3 py-1.5 rounded-xl bg-slate-800 text-white font-bold">Печать CV</button>
+        </div>
+        <div id="cvOutBody" class="space-y-2 text-slate-300 leading-relaxed"></div>
+      </div>
+
+      <!-- Встроенный блок Анти-выгорание -->
+      <div class="pt-4 border-t border-white/10 space-y-3">
+        <div class="flex items-center justify-between flex-wrap gap-2">
+          <strong class="text-sm text-rose-300 font-h">🛡️ Персональный ритм & Защита от выгорания:</strong>
+          <select id="burnoutArchSelect" onchange="renderAntiBurnout()" class="p-2 rounded-xl bg-slate-950 border border-slate-700 text-white font-bold">
+            <option value="communicator">Коммуникатор</option>
+            <option value="investor">Инвестор</option>
+            <option value="activist">Активист</option>
+            <option value="architect">Архитектор</option>
+            <option value="leader">Лидер-Стратег</option>
+            <option value="guardian">Хранитель</option>
+          </select>
+        </div>
+        <div id="burnoutPlanBox" class="grid grid-cols-1 sm:grid-cols-3 gap-2.5"></div>
+      </div>
+
       <button type="button" onclick="tab('atlas')" class="next-step-btn">
         🏛️ Финал: Открыть Атлас 600+ ВУЗов &rarr;
       </button>
     </div>
   </section>
 
-  <!-- ВКЛАДКА 10: Атлас 600+ ВУЗов -->
-  <section id="viewAtlas" class="max-w-6xl mx-auto px-3 py-6 flex-grow w-full hidden">
-    <div class="text-center mb-5">
-      <h2 class="text-xl sm:text-2xl font-extrabold font-h text-white">Атлас 600+ ВУЗов и Колледжей мира</h2>
-      <p class="text-xs text-slate-400 mt-1">Россия, страны БРИКС, Азия, Европа и профильные колледжи с официальными сайтами.</p>
-    </div>
-    <div class="liquid p-3 rounded-2xl mb-4 max-w-2xl mx-auto flex flex-col sm:flex-row gap-2">
-      <input type="text" id="atlasSearchInput" oninput="applyAtlasFilters()" placeholder="Поиск по названию, городу или предметам (медицина, ИТ, физика, право)..." class="flex-grow px-3.5 py-2 rounded-xl bg-slate-900 border border-slate-700 text-xs text-white">
-      <button type="button" onclick="resetAtlasFilters()" class="px-4 py-2 rounded-xl bg-slate-800 text-slate-300 text-xs">Сброс</button>
-    </div>
-    <div class="flex justify-center gap-1.5 mb-4 text-xs flex-wrap" id="atlasRegionTabs">
-      <button type="button" onclick="setAtlasFilterRegion('all')" id="arf-all" class="px-3 py-1.5 rounded-xl bg-indigo-600 text-white font-bold">Все (600+)</button>
-      <button type="button" onclick="setAtlasFilterRegion('Колледж')" id="arf-Колледж" class="px-3 py-1.5 rounded-xl bg-slate-800 text-slate-300">🍳 Колледжи</button>
-      <button type="button" onclick="setAtlasFilterRegion('Россия')" id="arf-Россия" class="px-3 py-1.5 rounded-xl bg-slate-800 text-slate-300">🎓 ВУЗы РФ</button>
-      <button type="button" onclick="setAtlasFilterRegion('БРИКС')" id="arf-БРИКС" class="px-3 py-1.5 rounded-xl bg-slate-800 text-slate-300">🌍 Страны БРИКС</button>
-      <button type="button" onclick="setAtlasFilterRegion('Сингапур')" id="arf-Сингапур" class="px-3 py-1.5 rounded-xl bg-slate-800 text-slate-300">Сингапур</button>
-      <button type="button" onclick="setAtlasFilterRegion('Малайзия')" id="arf-Малайзия" class="px-3 py-1.5 rounded-xl bg-slate-800 text-slate-300">Малайзия</button>
-      <button type="button" onclick="setAtlasFilterRegion('Китай')" id="arf-Китай" class="px-3 py-1.5 rounded-xl bg-slate-800 text-slate-300">Китай / ОАЭ</button>
-      <button type="button" onclick="setAtlasFilterRegion('Европа')" id="arf-Европа" class="px-3 py-1.5 rounded-xl bg-slate-800 text-slate-300">🇪🇺 Европа</button>
-    </div>
-    <div class="text-right text-xs text-slate-400 mb-2">Найдено в каталоге: <strong id="atlasCountTxt" class="text-indigo-400">605</strong></div>
-    <div id="atlasCardsContainer" class="grid grid-cols-1 sm:grid-cols-2 gap-3 max-h-[600px] overflow-y-auto pr-1"></div>
-  </section>
-
-  <!-- ВКЛАДКА 11: ПУЛЬС ШКОЛЫ & ЖИВАЯ АНАЛИТИКА -->
+  <!-- ВКЛАДКА 10: Пульс школы -->
   <section id="viewPulse" class="max-w-5xl mx-auto px-3 py-6 flex-grow w-full hidden">
     <div class="text-center mb-6">
       <span class="text-[10px] uppercase font-bold tracking-widest text-violet-400 bg-violet-500/10 px-3 py-1 rounded-full">Аналитика в реальном времени</span>
@@ -624,96 +671,43 @@
     </div>
   </section>
 
-  <!-- ВКЛАДКА 12: КОНСТРУКТОР ПЕРВОГО РЕЗЮМЕ (CV) & КАПСУЛА ВРЕМЕНИ -->
-  <section id="viewCv" class="max-w-5xl mx-auto px-3 py-6 flex-grow w-full hidden">
-    <div class="text-center mb-6">
-      <h2 class="text-xl sm:text-3xl font-extrabold font-h text-white">Конструктор Резюме (CV) & Капсула времени</h2>
-      <p class="text-xs text-slate-400 mt-1">Автоматическая сборка портфолио школьника и персонального чек-листа подготовки к поступлению.</p>
-    </div>
-    <div class="liquid p-5 sm:p-7 rounded-3xl max-w-3xl mx-auto space-y-4 text-xs">
-      <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
-        <input type="text" id="cvGoalsInput" placeholder="Цель поступления (например: МФТИ, Физтех-школа)..." class="px-3.5 py-2.5 rounded-xl bg-slate-900 border border-slate-700 text-white">
-        <input type="text" id="cvSkillsInput" placeholder="Ваши навыки и языки (Python, Английский B2, Китайский)..." class="px-3.5 py-2.5 rounded-xl bg-slate-900 border border-slate-700 text-white">
-      </div>
-      <button type="button" onclick="generateStudentCV()" class="w-full py-3 rounded-xl bg-gradient-to-r from-teal-600 to-emerald-600 text-white font-bold">Сформировать Резюме & Капсулу времени</button>
-
-      <div id="cvPreviewBox" class="p-5 rounded-2xl bg-slate-950/90 border border-teal-500/40 space-y-3">
-        <div class="flex justify-between items-start border-b border-white/10 pb-3">
-          <div>
-            <span class="text-[10px] text-teal-400 font-bold uppercase">Карьерное портфолио • Капсула 2026 → 2031</span>
-            <h3 id="cvOutName" class="text-lg font-extrabold text-white font-h mt-0.5">Участник исследования</h3>
-            <p id="cvOutMeta" class="text-slate-400"></p>
-          </div>
-          <button type="button" onclick="window.print()" class="px-3 py-1.5 rounded-xl bg-slate-800 text-white font-bold">Печать CV</button>
-        </div>
-        <div id="cvOutBody" class="space-y-2 text-slate-300 leading-relaxed"></div>
-      </div>
-    </div>
-  </section>
-
-  <!-- ВКЛАДКА 13: АНТИ-ВЫГОРАНИЕ & ТАЙМ-МЕНЕДЖЕР -->
-  <section id="viewBurnout" class="max-w-5xl mx-auto px-3 py-6 flex-grow w-full hidden">
-    <div class="text-center mb-6">
-      <h2 class="text-xl sm:text-3xl font-extrabold font-h text-white">Анти-выгорание & Персональный ритм</h2>
-      <p class="text-xs text-slate-400 mt-1">Оптимальный режим учебы и отдыха под ваш цветовой психотип Олесена.</p>
-    </div>
-    <div class="liquid p-5 sm:p-7 rounded-3xl max-w-3xl mx-auto space-y-4 text-xs">
-      <div class="flex items-center justify-between flex-wrap gap-2 bg-slate-900/80 p-3 rounded-2xl">
-        <span>Выберите архетип для построения расписания:</span>
-        <select id="burnoutArchSelect" onchange="renderAntiBurnout()" class="p-2 rounded-xl bg-slate-950 border border-slate-700 text-white font-bold">
-          <option value="communicator">Коммуникатор</option>
-          <option value="investor">Инвестор</option>
-          <option value="activist">Активист</option>
-          <option value="architect">Архитектор</option>
-          <option value="leader">Лидер-Стратег</option>
-          <option value="guardian">Хранитель</option>
-        </select>
-      </div>
-      <div id="burnoutPlanBox" class="grid grid-cols-1 sm:grid-cols-3 gap-3"></div>
-    </div>
-  </section>
-
-  <!-- 14. Теория Олесена -->
-  <section id="viewInfo" class="max-w-5xl mx-auto px-3 py-6 flex-grow w-full hidden">
-    <div class="liquid p-5 sm:p-7 rounded-3xl space-y-5 text-xs">
+  <!-- ВКЛАДКА 11 (ОБЪЕДИНЁННАЯ): ТЕОРИЯ ОЛЕСЕНА + СЕМЕЙНЫЙ ПРОФИЛЬ + РОДИТЕЛЯМ -->
+  <section id="viewGuideHub" class="max-w-5xl mx-auto px-3 py-6 flex-grow w-full hidden space-y-6 text-xs">
+    <!-- Блок 1: Теория Олесена -->
+    <div class="liquid p-5 sm:p-7 rounded-3xl space-y-4">
       <h3 class="text-xl font-extrabold text-white font-h">Методика Якоба Олесена (The Color Career Counselor)</h3>
       <p class="text-slate-300 leading-relaxed">Цветовой выбор отражает реакцию нервной системы на рабочую нагрузку. Комбинация 3 сетов формирует индивидуальную матрицу талантов и показывает зоны потенциального выгорания.</p>
       <div class="grid grid-cols-1 sm:grid-cols-4 gap-3">
-        <div class="p-3.5 rounded-2xl bg-slate-900/80"><strong class="text-indigo-400 block mb-1">XV век • да Винчи</strong><p class="text-slate-400">Выделил 6 базовых цветов и разделил физический и художественный спектр.</p></div>
-        <div class="p-3.5 rounded-2xl bg-slate-900/80"><strong class="text-amber-400 block mb-1">XVII век • Ньютон</strong><p class="text-slate-400">Открыл преломление света через призму и базовые цвета синтеза.</p></div>
-        <div class="p-3.5 rounded-2xl bg-slate-900/80"><strong class="text-emerald-400 block mb-1">1810 г. • И. В. Гёте</strong><p class="text-slate-400">Доказал влияние оттенков на душевные состояния и эмоции.</p></div>
-        <div class="p-3.5 rounded-2xl bg-slate-900/80"><strong class="text-purple-400 block mb-1">1950-е • М. Люшер</strong><p class="text-slate-400">Доказал влияние спектра на пульс, тонус и физиологию человека.</p></div>
+        <div class="p-3 rounded-2xl bg-slate-900/80"><strong class="text-indigo-400 block mb-1">XV век • да Винчи</strong><p class="text-slate-400">Выделил 6 базовых цветов спектра.</p></div>
+        <div class="p-3 rounded-2xl bg-slate-900/80"><strong class="text-amber-400 block mb-1">XVII век • Ньютон</strong><p class="text-slate-400">Открыл преломление света через призму.</p></div>
+        <div class="p-3 rounded-2xl bg-slate-900/80"><strong class="text-emerald-400 block mb-1">1810 г. • И. В. Гёте</strong><p class="text-slate-400">Доказал влияние оттенков на эмоции.</p></div>
+        <div class="p-3 rounded-2xl bg-slate-900/80"><strong class="text-purple-400 block mb-1">1950-е • М. Люшер</strong><p class="text-slate-400">Связал цвет с пульсом и физиологией.</p></div>
       </div>
     </div>
-  </section>
 
-  <!-- 15. Семейный профиль -->
-  <section id="viewFamily" class="max-w-5xl mx-auto px-3 py-6 flex-grow w-full hidden">
-    <div class="text-center mb-5"><h2 class="text-xl sm:text-2xl font-extrabold font-h text-white">Семейный профиль & Вектор согласия</h2></div>
-    <div class="liquid p-5 rounded-3xl max-w-xl mx-auto space-y-3 text-xs">
+    <!-- Блок 2: Семейный профиль -->
+    <div class="liquid p-5 sm:p-7 rounded-3xl space-y-3">
+      <h3 class="text-lg font-extrabold text-white font-h">👨‍👩‍👦 Семейный профиль & Вектор согласия</h3>
       <div class="grid grid-cols-2 gap-3">
         <div><label class="block text-slate-400 mb-1">Психотип Родителя:</label><select id="famParentSelect" onchange="calcFamilyProfile()" class="w-full p-2.5 rounded-xl bg-slate-900 border border-slate-700 text-white"><option value="investor">Инвестор</option><option value="communicator">Коммуникатор</option><option value="activist">Активист</option><option value="architect">Архитектор</option><option value="leader">Лидер-Стратег</option><option value="guardian">Хранитель</option></select></div>
         <div><label class="block text-slate-400 mb-1">Психотип Ребенка:</label><select id="famChildSelect" onchange="calcFamilyProfile()" class="w-full p-2.5 rounded-xl bg-slate-900 border border-slate-700 text-white"><option value="communicator">Коммуникатор</option><option value="activist">Активист</option><option value="investor">Инвестор</option><option value="architect">Архитектор</option><option value="leader">Лидер-Стратег</option><option value="guardian">Хранитель</option></select></div>
       </div>
-      <div class="p-4 rounded-2xl bg-slate-900/80 space-y-2.5">
-        <div><strong class="text-emerald-400 block mb-0.5">Точки поддержки:</strong><p id="famSupportTxt" class="text-slate-200"></p></div>
-        <div><strong class="text-amber-400 block mb-0.5">Возможные разногласия:</strong><p id="famConflictTxt" class="text-slate-200"></p></div>
-        <div class="p-3 rounded-xl bg-slate-950/90"><strong class="text-indigo-300 block mb-0.5">Совет семье:</strong><p id="famActionTxt" class="text-slate-300"></p></div>
+      <div class="p-4 rounded-2xl bg-slate-900/80 space-y-2">
+        <div><strong class="text-emerald-400 block">Точки поддержки:</strong><p id="famSupportTxt" class="text-slate-200"></p></div>
+        <div><strong class="text-amber-400 block">Возможные разногласия:</strong><p id="famConflictTxt" class="text-slate-200"></p></div>
+        <div class="p-2.5 rounded-xl bg-slate-950/90"><strong class="text-indigo-300 block">Совет семье:</strong><p id="famActionTxt" class="text-slate-300"></p></div>
       </div>
     </div>
-  </section>
 
-  <!-- 16. Родителям -->
-  <section id="viewParent" class="max-w-5xl mx-auto px-3 py-6 flex-grow w-full hidden">
-    <div class="text-center mb-5"><h2 class="text-xl sm:text-2xl font-extrabold font-h text-white">Родительский навигатор 2026</h2></div>
-    <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 text-xs">
-      <div class="liquid p-5 rounded-2xl space-y-2"><strong class="text-indigo-400 block text-sm">Коммуникатор / Лидер</strong><p class="text-slate-300">Драйвер — общение, дипломатия и управление. Поощряйте дебаты, языковые клубы и олимпиады по праву.</p></div>
-      <div class="liquid p-5 rounded-2xl space-y-2"><strong class="text-emerald-400 block text-sm">Инвестор / Хранитель</strong><p class="text-slate-300">Драйвер — логика, медицина и стабильность. Обеспечьте спокойное рабочее пространство, химию, биологию и математику.</p></div>
-      <div class="liquid p-5 rounded-2xl space-y-2"><strong class="text-amber-400 block text-sm">Активист / Архитектор</strong><p class="text-slate-300">Драйвер — реальный продукт, точность и технологии. Необходимы практикумы, хакатоны и спорт.</p></div>
+    <!-- Блок 3: Памятка родителям -->
+    <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+      <div class="liquid p-5 rounded-2xl space-y-1.5"><strong class="text-indigo-400 block text-sm">Коммуникатор / Лидер</strong><p class="text-slate-300">Драйвер — общение, дипломатия и управление. Поощряйте дебаты, языковые клубы и олимпиады по праву.</p></div>
+      <div class="liquid p-5 rounded-2xl space-y-1.5"><strong class="text-emerald-400 block text-sm">Инвестор / Хранитель</strong><p class="text-slate-300">Драйвер — логика, медицина и стабильность. Обеспечьте спокойное рабочее пространство, химию, биологию и математику.</p></div>
+      <div class="liquid p-5 rounded-2xl space-y-1.5"><strong class="text-amber-400 block text-sm">Активист / Архитектор</strong><p class="text-slate-300">Драйвер — реальный продукт, точность и технологии. Необходимы практикумы, хакатоны и спорт.</p></div>
     </div>
   </section>
 
-  <!-- Админка и Полное Досье -->
+  <!-- Админка с быстрыми фильтрами по архетипам -->
   <div id="adminModal" class="fixed inset-0 z-50 flex items-center justify-center p-2 bg-black/85 backdrop-blur-md hidden">
     <div class="liquid w-full max-w-6xl max-h-[92vh] flex flex-col p-4 sm:p-6 rounded-3xl">
       <div class="flex justify-between items-center pb-3 border-b border-slate-800 flex-wrap gap-2">
@@ -725,6 +719,18 @@
           <button type="button" onclick="closeAdmin()" class="px-2.5 py-1.5 rounded-xl bg-slate-800 text-slate-300 text-xs">Закрыть</button>
         </div>
       </div>
+
+      <!-- Фильтры по архетипам в Админке -->
+      <div class="py-2 flex flex-wrap gap-1.5 text-[11px] border-b border-slate-800">
+        <button type="button" onclick="setAdminArchFilter('')" class="px-2.5 py-1 rounded-lg bg-indigo-600 text-white font-bold">Все</button>
+        <button type="button" onclick="setAdminArchFilter('КОММУНИКАТОР')" class="px-2.5 py-1 rounded-lg bg-slate-800 text-slate-300 hover:text-white">Коммуникатор</button>
+        <button type="button" onclick="setAdminArchFilter('ИНВЕСТОР')" class="px-2.5 py-1 rounded-lg bg-slate-800 text-slate-300 hover:text-white">Инвестор</button>
+        <button type="button" onclick="setAdminArchFilter('АКТИВИСТ')" class="px-2.5 py-1 rounded-lg bg-slate-800 text-slate-300 hover:text-white">Активист</button>
+        <button type="button" onclick="setAdminArchFilter('АРХИТЕКТОР')" class="px-2.5 py-1 rounded-lg bg-slate-800 text-slate-300 hover:text-white">Архитектор</button>
+        <button type="button" onclick="setAdminArchFilter('ЛИДЕР')" class="px-2.5 py-1 rounded-lg bg-slate-800 text-slate-300 hover:text-white">Лидер-Стратег</button>
+        <button type="button" onclick="setAdminArchFilter('ХРАНИТЕЛЬ')" class="px-2.5 py-1 rounded-lg bg-slate-800 text-slate-300 hover:text-white">Хранитель</button>
+      </div>
+
       <div class="py-2 flex justify-between items-center text-xs"><input type="text" id="adminSearch" oninput="filterAdmin()" placeholder="Поиск по имени или классу..." class="px-3 py-1.5 rounded-xl bg-slate-900 border border-slate-700 text-white"><span>Уникальных участников: <strong id="admTotal">0</strong></span></div>
       <div class="overflow-y-auto flex-grow border border-slate-800 rounded-2xl">
         <table class="w-full text-left text-xs text-slate-300">
@@ -735,7 +741,7 @@
     </div>
   </div>
 
-  <!-- Модалка подробного досье всех этапов -->
+  <!-- Модалка подробного досье -->
   <div id="userDossierModal" class="fixed inset-0 z-50 flex items-center justify-center p-3 bg-black/90 hidden overflow-y-auto">
     <div class="liquid w-full max-w-xl p-5 rounded-3xl space-y-2 text-xs my-auto border border-purple-500/40">
       <div class="flex justify-between items-center border-b border-white/10 pb-2"><h3 id="dossierName" class="text-base font-bold text-white"></h3><button type="button" onclick="document.getElementById('userDossierModal').classList.add('hidden')" class="text-xl text-slate-400 hover:text-white">&times;</button></div>
@@ -744,10 +750,9 @@
       <div class="p-2 rounded-xl bg-slate-900/90"><strong class="text-purple-400 block">2. Собеседование Акиры:</strong><span id="dossierAkira"></span></div>
       <div class="p-2 rounded-xl bg-slate-900/90"><strong class="text-pink-400 block">3. Симулятор 1 дня (20 профессий):</strong><span id="dossierDaySim"></span></div>
       <div class="p-2 rounded-xl bg-slate-900/90"><strong class="text-emerald-400 block">4. Навигатор профессий:</strong><span id="dossierSearches"></span></div>
-      <div class="p-2 rounded-xl bg-slate-900/90"><strong class="text-teal-400 block">5. Калькулятор ОГЭ/ЕГЭ:</strong><span id="dossierExams"></span></div>
-      <div class="p-2 rounded-xl bg-slate-900/90"><strong class="text-cyan-400 block">6. Олимпиады БВИ:</strong><span id="dossierOlymp"></span></div>
-      <div class="p-2 rounded-xl bg-slate-900/90"><strong class="text-amber-400 block">7. Квиз по цветам флагов:</strong><span id="dossierFlags"></span></div>
-      <div class="p-2 rounded-xl bg-slate-900/90"><strong class="text-rose-400 block">8. Дуэль интуиции & Синергия:</strong><span id="dossierDuel"></span></div>
+      <div class="p-2 rounded-xl bg-slate-900/90"><strong class="text-teal-400 block">5. Калькулятор ОГЭ/ЕГЭ & БВИ:</strong><span id="dossierExams"></span></div>
+      <div class="p-2 rounded-xl bg-slate-900/90"><strong class="text-amber-400 block">6. Квиз по цветам флагов:</strong><span id="dossierFlags"></span></div>
+      <div class="p-2 rounded-xl bg-slate-900/90"><strong class="text-rose-400 block">7. Дуэль интуиции & Синергия:</strong><span id="dossierDuel"></span></div>
     </div>
   </div>
 
@@ -759,11 +764,35 @@
     </div>
   </div>
 
-  <!-- Терминал • Sys -->
+  <!-- ТЕРМИНАЛ • SYS С РЕДАКТОРОМ РЕЗУЛЬТАТОВ ПОЛЬЗОВАТЕЛЯ И ОБЪЯВЛЕНИЯМИ -->
   <div id="godModeModal" class="fixed inset-0 z-50 flex items-center justify-center p-3 bg-black/90 hidden overflow-y-auto">
-    <div class="liquid w-full max-w-xl p-5 rounded-3xl space-y-4 text-xs my-auto border border-red-500/40">
-      <div class="flex justify-between items-center border-b border-white/10 pb-2"><strong class="text-red-400 font-bold text-sm">ROOT TERMINAL • УПРАВЛЕНИЕ САЙТОМ</strong><button type="button" onclick="document.getElementById('godModeModal').classList.add('hidden')" class="text-xl">&times;</button></div>
+    <div class="liquid w-full max-w-2xl p-5 rounded-3xl space-y-4 text-xs my-auto border border-red-500/40">
+      <div class="flex justify-between items-center border-b border-white/10 pb-2"><strong class="text-red-400 font-bold text-sm">ROOT TERMINAL • УПРАВЛЕНИЕ САЙТОМ И БАЗОЙ</strong><button type="button" onclick="document.getElementById('godModeModal').classList.add('hidden')" class="text-xl">&times;</button></div>
 
+      <!-- Редактор результатов любого участника -->
+      <div class="p-3.5 rounded-2xl bg-slate-900/90 border border-emerald-500/30 space-y-2.5">
+        <strong class="text-emerald-400 block text-xs">✏️ Изменить результаты участника в базе:</strong>
+        <select id="sysEditUserSelect" onchange="loadUserIntoSysEditor()" class="w-full p-2 rounded-xl bg-slate-950 border border-slate-700 text-white text-xs"></select>
+        <div class="grid grid-cols-2 sm:grid-cols-4 gap-2">
+          <input type="text" id="sysEditClass" placeholder="Класс (7Е)" class="p-2 rounded-xl bg-slate-950 border border-slate-700 text-white">
+          <select id="sysEditArch" class="p-2 rounded-xl bg-slate-950 border border-slate-700 text-white">
+            <option value="КОММУНИКАТОР">КОММУНИКАТОР</option>
+            <option value="ИНВЕСТОР">ИНВЕСТОР</option>
+            <option value="АКТИВИСТ">АКТИВИСТ</option>
+            <option value="АРХИТЕКТОР">АРХИТЕКТОР</option>
+            <option value="ЛИДЕР-СТРАТЕГ">ЛИДЕР-СТРАТЕГ</option>
+            <option value="ХРАНИТЕЛЬ">ХРАНИТЕЛЬ</option>
+          </select>
+          <select id="sysEditS1" class="p-2 rounded-xl bg-slate-950 border border-slate-700 text-white"><option value="Красный">Красный</option><option value="Желтый">Желтый</option><option value="Синий">Синий</option></select>
+          <select id="sysEditS2" class="p-2 rounded-xl bg-slate-950 border border-slate-700 text-white"><option value="Зеленый">Зеленый</option><option value="Фиолетовый">Фиолетовый</option><option value="Оранжевый">Оранжевый</option></select>
+        </div>
+        <div class="flex gap-2">
+          <select id="sysEditS3" class="p-2 rounded-xl bg-slate-950 border border-slate-700 text-white"><option value="Белый">Белый</option><option value="Черный">Черный</option><option value="Коричневый">Коричневый</option></select>
+          <button type="button" onclick="saveSysEditedUser()" class="flex-grow py-2 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-bold">Сохранить изменения участника</button>
+        </div>
+      </div>
+
+      <!-- Объявление на весь сайт -->
       <div class="p-3.5 rounded-2xl bg-slate-900/90 border border-indigo-500/30 space-y-2.5">
         <strong class="text-indigo-300 block text-xs">📢 Объявление на весь сайт (видят все участники):</strong>
         <input type="text" id="sysBannerInput" placeholder="Например: Внимание! Защита проектов в пятницу в 14:00..." class="w-full px-3 py-2 rounded-xl bg-slate-950 border border-slate-700 text-white text-xs">
@@ -779,13 +808,13 @@
         </div>
       </div>
 
-      <div class="grid grid-cols-2 gap-2.5">
-        <button type="button" onclick="godToggleLiveEdit()" class="p-3 rounded-xl bg-slate-900 text-left"><strong>✏️ Правка текста сайта</strong></button>
-        <button type="button" onclick="godAddMockData()" class="p-3 rounded-xl bg-slate-900 text-left"><strong class="text-emerald-400">👥 + Тестовый участник</strong></button>
-        <button type="button" onclick="godToggleAlwaysWinDuel()" class="p-3 rounded-xl bg-slate-900 text-left"><strong class="text-blue-400">🎯 100% Дуэль: <span id="godDuelStatus">Выкл</span></strong></button>
-        <button type="button" onclick="godClearAllData()" class="p-3 rounded-xl bg-slate-900 text-left"><strong class="text-red-400">💣 Очистить базу</strong></button>
-        <button type="button" onclick="godResetLocalStorage()" class="p-3 rounded-xl bg-slate-900 text-left"><strong class="text-amber-400">🔄 Сброс сессии</strong></button>
-        <button type="button" onclick="godDumpMemory()" class="p-3 rounded-xl bg-slate-900 text-left"><strong class="text-purple-400">📊 Статистика</strong></button>
+      <div class="grid grid-cols-2 sm:grid-cols-3 gap-2">
+        <button type="button" onclick="godToggleLiveEdit()" class="p-2.5 rounded-xl bg-slate-900 text-left"><strong>✏️ Правка текста</strong></button>
+        <button type="button" onclick="godAddMockData()" class="p-2.5 rounded-xl bg-slate-900 text-left"><strong class="text-emerald-400">👥 + Тестовый уч.</strong></button>
+        <button type="button" onclick="godToggleAlwaysWinDuel()" class="p-2.5 rounded-xl bg-slate-900 text-left"><strong class="text-blue-400">🎯 100% Дуэль: <span id="godDuelStatus">Выкл</span></strong></button>
+        <button type="button" onclick="godClearAllData()" class="p-2.5 rounded-xl bg-slate-900 text-left"><strong class="text-red-400">💣 Очистить базу</strong></button>
+        <button type="button" onclick="godResetLocalStorage()" class="p-2.5 rounded-xl bg-slate-900 text-left"><strong class="text-amber-400">🔄 Сброс сессии</strong></button>
+        <button type="button" onclick="godDumpMemory()" class="p-2.5 rounded-xl bg-slate-900 text-left"><strong class="text-purple-400">📊 Статистика</strong></button>
       </div>
     </div>
   </div>
@@ -809,7 +838,7 @@
       { id: "b_flags", icon: "🎌", name: "Геральдист мира", desc: "Прошел квиз по цветам 10 флагов", xp: 150 },
       { id: "b_duel", icon: "🔮", name: "Проницательный ум", desc: "Сыграл в Дуэль интуиции", xp: 100 },
       { id: "b_comp", icon: "🤝", name: "Архитектор команд", desc: "Проверил командную синергию", xp: 100 },
-      { id: "b_cv", icon: "📄", name: "Капсула будущего", desc: "Сформировал первое резюме школьника", xp: 150 }
+      { id: "b_cv", icon: "📄", name: "Капсула будущего", desc: "Сформировал резюме и сертификат", xp: 150 }
     ];
 
     function unlockBadge(badgeId) {
@@ -917,30 +946,28 @@
       guardian: { title: "ХРАНИТЕЛЬ", subtitle: "Эксперт медицины, биотехнологий, косметологии и безопасности", ideal: ["Синий", "Зеленый", "Коричневый"], desc: "Надежность, забота о здоровье человека и глубокая научная экспертиза.", burnout: "Агрессивная среда и постоянный аврал.", parentAdvice: "Поддерживайте углубленное изучение химии и биологии.", topSalaries: [{ job: "Дерматокосметолог", sal: "200 000 – 450 000 ₽", stress: "4/10" }, { job: "Генетик-биотехнолог", sal: "220 000 – 480 000 ₽", stress: "5/10" }, { job: "Клинический психолог", sal: "170 000 – 350 000 ₽", stress: "5/10" }], timeline: [{ yr: "2026–2028", step: "Химия и биология" }, { yr: "2029–2031", step: "Медвуз / биофак" }, { yr: "2032–2034", step: "Лаборатории и клиника" }, { yr: "2035–2036", step: "Заведующий отделением" }], careers: [{ t: "Биофармаколог", d: "Препараты долголетия." }, { t: "Эстетическая медицина", d: "Восстановление." }, { t: "Эко-аудитор", d: "Контроль среды." }], unis: [{ n: "Сеченовский Университет", c: "Москва", d: "Лечебное дело и фармация", u: "https://sechenov.ru" }, { n: "Медколледж №1", c: "Москва", d: "Диагностика и уход", u: "https://mk1.mossport.ru" }, { n: "Университет Сегеда", c: "Венгрия", d: "Медицина и фармацевтика", u: "https://u-szeged.hu" }] }
     };
 
-    // =========================================================================
-    // ДВИЖОК СИМУЛЯТОРА 1 ДНЯ: 20 ПРОФЕССИЙ ПО 10 ЭТАПОВ (200 СИТУАЦИЙ)
-    // =========================================================================
+    // СИМУЛЯТОР 1 ДНЯ: 20 ПРОФЕССИЙ ПО 10 ЭТАПОВ
     const PROFESSIONS_20 = [
-      { id: "surgeon", name: "🩺 Кардиохирург (Роботизированная хирургия)", env: "Операционный блок клиники", tool: "хирургический комплекс da Vinci и микроинструмент", risk: "резкое колебание давления пациента во время этапа" },
-      { id: "ai", name: "💻 AI-Архитектор (Нейросети и LLM)", env: "R&D-лаборатория искусственного интеллекта", tool: "вычислительный кластер GPU и нейросетевой пайплайн", risk: "падение точности модели на контрольном датасете" },
-      { id: "diplomat", name: "🌍 Международный дипломат (МИД / ООН)", env: "Зал международных переговоров", tool: "многоязычный протокол и дипломатическая нота", risk: "тупик в формулировках договора между делегациями" },
-      { id: "banker", name: "📈 Инвестиционный банкир (M&A и Фонды)", env: "Аналитический центр инвестбанка", tool: "финансовая модель DCF и биржевой терминал", risk: "резкая волатильность азиатских рынков на открытии" },
-      { id: "chef", name: "🍳 Бренд-шеф высокой кухни (Michelin)", env: "Кухня гастрономического ресторана", tool: "дегустационный сет и молекулярная лаборатория вкуса", risk: "срыв поставки свежих морепродуктов перед банкетом" },
-      { id: "biotech", name: "🧬 Генетик-биотехнолог", env: "Стерильный бокс молекулярной биологии", tool: "секвенатор ДНК и биореактор клеточных культур", risk: "необычная мутация в контрольной серии образцов" },
-      { id: "robotics", name: "🤖 Инженер-робототехник автономных систем", env: "Испытательный полигон робототехники", tool: "лидар, контроллер движения и цифровой двойник", risk: "рассинхронизация датчиков навигации на полигоне" },
-      { id: "cyber", name: "🛡️ Архитектор кибербезопасности", env: "Центр мониторинга угроз (SOC)", tool: "система анализа трафика и криптографический шлюз", risk: "попытка сложной атаки на облачный контур банка" },
-      { id: "aero", name: "🚀 Аэрокосмический инженер-конструктор", env: "Конструкторское бюро и ЦУП", tool: "телеметрия орбитального модуля и CAD-симулятор", risk: "отклонение температурного режима на солнечной панели" },
-      { id: "crisis", name: "⚡ Антикризисный управляющий (CEO)", env: "Штаб-квартира промышленного холдинга", tool: "дашборд цепочек поставок и антикризисный план", risk: "остановка ключевого логистического хаба перед отгрузкой" },
-      { id: "cosmet", name: "✨ Врач-дерматокосметолог (Эстетика)", env: "Клиника превентивной и эстетической медицины", tool: "лазерный диагностический сканер кожи и протокол ухода", risk: "нетипичная аллергическая реакция в анамнезе пациента" },
-      { id: "neuro", name: "🧠 Клинический нейропсихолог", env: "Центр когнитивного здоровья и нейрореабилитации", tool: "нейроинтерфейс ЭЭГ и когнитивные тесты", risk: "высокая тревожность и эмоциональное выгорание клиента" },
-      { id: "quantum", name: "⚛️ Квантовый физик-исследователь", env: "Криогенная лаборатория квантовых вычислений", tool: "сверхпроводящий кубит-процессор и лазерный интерферометр", risk: "рост декогеренции кубитов при измерении" },
-      { id: "lawyer", name: "⚖️ Международный корпоративный юрист", env: "Международный коммерческий арбитраж", tool: "трансграничный контракт и правовой прецедент", risk: "коллизия налогового права двух юрисдикций в сделке" },
-      { id: "media", name: "🎬 Креативный продюсер медиапроектов", env: "Съемочный павильон и продакшн-студия", tool: "сценарий интерактивного шоу и сетка вещания", risk: "изменение формата эфира за 4 часа до премьеры" },
-      { id: "smartcity", name: "🏙️ Архитектор умных городов (UrbanTech)", env: "Центр управления мегаполисом", tool: "ГИС-платформа транспортных потоков и экомониторинг", risk: "перегрузка транспортной развязки в час пик" },
-      { id: "venture", name: "💎 Венчурный скаут и аналитик стартапов", env: "Технопарк и акселератор инноваций", tool: "матрица оценки DeepTech-команд и патентный поиск", risk: "завышенные прогнозы выручки в питч-деке фаундеров" },
-      { id: "eco", name: "🌿 Эко-аудитор и инженер ESG", env: "Международный центр экологической сертификации", tool: "спектрометр анализа воды/воздуха и углеродный баланс", risk: "превышение фоновых показателей на промышленном объекте" },
-      { id: "pharma", name: "💊 Биофармаколог долголетия", env: "Фармацевтический R&D-центр", tool: "хроматограф и система доклинического скрининга", risk: "нестабильность формулы препарата при смене температуры" },
-      { id: "territories", name: "🗺️ Директор по развитию территорий и туризма", env: "Проектный офис туристического кластера", tool: "мастер-план инфраструктуры и карта турпотоков", risk: "необходимость согласовать проект с экологами и инвесторами" }
+      { id: "surgeon", name: "🩺 Кардиохирург (Роботизированная хирургия)", env: "Операционный блок клиники", tool: "хирургический комплекс da Vinci", risk: "резкое колебание давления пациента во время этапа" },
+      { id: "ai", name: "💻 AI-Архитектор (Нейросети и LLM)", env: "R&D-лаборатория искусственного интеллекта", tool: "вычислительный кластер GPU", risk: "падение точности модели на контрольном датасете" },
+      { id: "diplomat", name: "🌍 Международный дипломат (МИД / ООН)", env: "Зал международных переговоров", tool: "многоязычный протокол и нота", risk: "тупик в формулировках договора между делегациями" },
+      { id: "banker", name: "📈 Инвестиционный банкир (M&A и Фонды)", env: "Аналитический центр инвестбанка", tool: "финансовая модель DCF", risk: "резкая волатильность азиатских рынков на открытии" },
+      { id: "chef", name: "🍳 Бренд-шеф высокой кухни (Michelin)", env: "Кухня гастрономического ресторана", tool: "лаборатория вкуса", risk: "срыв поставки свежих морепродуктов перед банкетом" },
+      { id: "biotech", name: "🧬 Генетик-биотехнолог", env: "Стерильный бокс молекулярной биологии", tool: "секвенатор ДНК и биореактор", risk: "необычная мутация в контрольной серии образцов" },
+      { id: "robotics", name: "🤖 Инженер-робототехник автономных систем", env: "Испытательный полигон робототехники", tool: "лидар и цифровой двойник", risk: "рассинхронизация датчиков навигации на полигоне" },
+      { id: "cyber", name: "🛡️ Архитектор кибербезопасности", env: "Центр мониторинга угроз (SOC)", tool: "криптографический шлюз", risk: "попытка сложной атаки на облачный контур банка" },
+      { id: "aero", name: "🚀 Аэрокосмический инженер-конструктор", env: "Конструкторское бюро и ЦУП", tool: "телеметрия орбитального модуля", risk: "отклонение температурного режима на солнечной панели" },
+      { id: "crisis", name: "⚡ Антикризисный управляющий (CEO)", env: "Штаб-квартира промышленного холдинга", tool: "антикризисный план", risk: "остановка ключевого логистического хаба перед отгрузкой" },
+      { id: "cosmet", name: "✨ Врач-дерматокосметолог (Эстетика)", env: "Клиника превентивной медицины", tool: "диагностический сканер кожи", risk: "нетипичная аллергическая реакция в анамнезе пациента" },
+      { id: "neuro", name: "🧠 Клинический нейропсихолог", env: "Центр нейрореабилитации", tool: "нейроинтерфейс ЭЭГ", risk: "высокая тревожность и выгорание клиента" },
+      { id: "quantum", name: "⚛️ Квантовый физик-исследователь", env: "Криогенная лаборатория", tool: "кубит-процессор", risk: "рост декогеренции кубитов при измерении" },
+      { id: "lawyer", name: "⚖️ Международный корпоративный юрист", env: "Международный арбитраж", tool: "трансграничный контракт", risk: "коллизия налогового права двух юрисдикций в сделке" },
+      { id: "media", name: "🎬 Креативный продюсер медиапроектов", env: "Продакшн-студия", tool: "сценарий интерактивного шоу", risk: "изменение формата эфира за 4 часа до премьеры" },
+      { id: "smartcity", name: "🏙️ Архитектор умных городов (UrbanTech)", env: "Центр управления мегаполисом", tool: "ГИС-платформа потоков", risk: "перегрузка транспортной развязки в час пик" },
+      { id: "venture", name: "💎 Венчурный скаут и аналитик стартапов", env: "Технопарк и акселератор", tool: "матрица оценки DeepTech", risk: "завышенные прогнозы выручки в питч-деке фаундеров" },
+      { id: "eco", name: "🌿 Эко-аудитор и инженер ESG", env: "Центр эколог. сертификации", tool: "спектрометр анализа среды", risk: "превышение фоновых показателей на объекте" },
+      { id: "pharma", name: "💊 Биофармаколог долголетия", env: "Фармацевтический R&D-центр", tool: "хроматограф", risk: "нестабильность формулы препарата при смене температуры" },
+      { id: "territories", name: "🗺️ Директор по развитию территорий", env: "Проектный офис кластера", tool: "мастер-план инфраструктуры", risk: "необходимость согласовать проект с экологами и инвесторами" }
     ];
 
     const STAGE_TEMPLATES = [
@@ -964,7 +991,7 @@
         { t: "Уверенно взять ответственность на себя как руководитель направления.", e: -10, r: +15, s: +10, c: "led" },
         { t: "Ответить резко, что не обязаны отчитываться в процессе работы.", e: -5, r: -18, s: 0, c: "str" }
       ]},
-      { time: "14:00 • Обеденный перерыв и восстановление", title: "Управление собственной энергией", getDesc: p => `Половина напряженного дня позади. Впереди еще 5 серьезных этапов. Как распорядитесь перерывом?`, opts: [
+      { time: "14:00 • Обеденный перерыв", title: "Управление собственной энергией", getDesc: p => `Половина напряженного дня позади. Впереди еще 5 серьезных этапов. Как распорядитесь перерывом?`, opts: [
         { t: "Полноценно отдохнуть 30 минут без гаджетов, чтобы восстановить концентрацию.", e: +25, r: +5, s: +5, c: "str" },
         { t: "Пообедать за 10 минут и почитать свежие научные публикации по теме.", e: +10, r: +8, s: +12, c: "ana" },
         { t: "Работать без перерыва на кофе, жертвуя самочувствием.", e: -15, r: +5, s: +5, c: "str" }
@@ -998,216 +1025,128 @@
 
     let curDayProfId = 'surgeon', curDayStep = 0, dsE = 100, dsR = 75, dsS = 75;
     let dsComp = { str: 60, led: 60, ana: 60, emp: 60 }, dsBestMoment = "";
+
     function populateDaySimSelect() {
       const sel = document.getElementById("daySimProfessionSelect");
-      if (!sel) return;
-      sel.innerHTML = PROFESSIONS_20.map(p => `<option value="${p.id}">${p.name}</option>`).join("");
+      if (sel) sel.innerHTML = PROFESSIONS_20.map(p => `<option value="${p.id}">${p.name}</option>`).join("");
     }
-
     function startDaySim(profId) {
       playSnd('click');
       curDayProfId = profId || 'surgeon';
       const sel = document.getElementById("daySimProfessionSelect");
       if (sel) sel.value = curDayProfId;
       curDayStep = 0; dsE = 100; dsR = 75; dsS = 75;
-      dsComp = { str: 60, led: 60, ana: 60, emp: 60 };
-      dsBestMoment = "";
-      document.getElementById("dsSummaryScreen").classList.add("hidden");
-      document.getElementById("dsActiveStage").classList.remove("hidden");
-      updateDaySimBars();
-      renderDaySimStage();
+      dsComp = { str: 60, led: 60, ana: 60, emp: 60 }; dsBestMoment = "";
+      dsSummaryScreen.classList.add("hidden"); dsActiveStage.classList.remove("hidden");
+      updateDaySimBars(); renderDaySimStage();
     }
-
     function updateDaySimBars() {
-      dsE = Math.max(10, Math.min(100, dsE));
-      dsR = Math.max(10, Math.min(100, dsR));
-      dsS = Math.max(10, Math.min(100, dsS));
-      document.getElementById("dsEnergyVal").textContent = `${dsE}%`;
-      document.getElementById("dsEnergyBar").style.width = `${dsE}%`;
-      document.getElementById("dsRepVal").textContent = `${dsR}%`;
-      document.getElementById("dsRepBar").style.width = `${dsR}%`;
-      document.getElementById("dsSkillVal").textContent = `${dsS}%`;
-      document.getElementById("dsSkillBar").style.width = `${dsS}%`;
+      dsE = Math.max(10, Math.min(100, dsE)); dsR = Math.max(10, Math.min(100, dsR)); dsS = Math.max(10, Math.min(100, dsS));
+      dsEnergyVal.textContent = `${dsE}%`; dsEnergyBar.style.width = `${dsE}%`;
+      dsRepVal.textContent = `${dsR}%`; dsRepBar.style.width = `${dsR}%`;
+      dsSkillVal.textContent = `${dsS}%`; dsSkillBar.style.width = `${dsS}%`;
     }
-
     function renderDaySimStage() {
       const prof = PROFESSIONS_20.find(p => p.id === curDayProfId) || PROFESSIONS_20[0];
       const st = STAGE_TEMPLATES[curDayStep];
-      document.getElementById("dsTimeBadge").textContent = `${st.time}`;
-      document.getElementById("dsStepCounter").textContent = `Этап ${curDayStep + 1} из 10`;
-      document.getElementById("dsStageTitle").textContent = st.title;
-      document.getElementById("dsStageDesc").textContent = st.getDesc(prof);
-      document.getElementById("dsChoicesGrid").innerHTML = st.opts.map((o, i) => `
-        <button type="button" onclick="chooseDaySimOption(${i})" class="w-full text-left p-3.5 rounded-xl bg-slate-900 hover:bg-indigo-950/60 border border-slate-700 hover:border-indigo-500 text-slate-200 transition cursor-pointer">
-          ${o.t}
-        </button>
-      `).join("");
+      dsTimeBadge.textContent = st.time; dsStepCounter.textContent = `Этап ${curDayStep + 1} из 10`;
+      dsStageTitle.textContent = st.title; dsStageDesc.textContent = st.getDesc(prof);
+      dsChoicesGrid.innerHTML = st.opts.map((o, i) => `<button type="button" onclick="chooseDaySimOption(${i})" class="w-full text-left p-3.5 rounded-xl bg-slate-900 hover:bg-indigo-950/60 border border-slate-700 hover:border-indigo-500 text-slate-200 transition cursor-pointer">${o.t}</button>`).join("");
     }
-
     function chooseDaySimOption(optIdx) {
       playSnd('click');
       const prof = PROFESSIONS_20.find(p => p.id === curDayProfId) || PROFESSIONS_20[0];
-      const st = STAGE_TEMPLATES[curDayStep];
-      const o = st.opts[optIdx];
+      const st = STAGE_TEMPLATES[curDayStep], o = st.opts[optIdx];
       dsE += o.e; dsR += o.r; dsS += o.s;
       if (o.c && dsComp[o.c] !== undefined) dsComp[o.c] = Math.min(100, dsComp[o.c] + 12);
       if (o.r >= 15) dsBestMoment = `${st.time}: ${o.t}`;
-      updateDaySimBars();
-      curDayStep++;
-
-      if (curDayStep < 10) {
-        renderDaySimStage();
-      } else {
-        playSnd('success');
-        unlockBadge("b_daysim");
-        document.getElementById("dsActiveStage").classList.add("hidden");
-        document.getElementById("dsSummaryScreen").classList.remove("hidden");
+      updateDaySimBars(); curDayStep++;
+      if (curDayStep < 10) renderDaySimStage();
+      else {
+        playSnd('success'); unlockBadge("b_daysim");
+        dsActiveStage.classList.add("hidden"); dsSummaryScreen.classList.remove("hidden");
         const avg = Math.round((dsR + dsS) / 2);
-        const grade = avg >= 90 ? "Высший пилотаж (Лидер отрасли)" : (avg >= 75 ? "Уверенный профессионал" : "Стажер (Нужна практика)");
-        document.getElementById("dsFinalTitle").textContent = `Смена завершена: ${prof.name}`;
-        document.getElementById("dsFinalSub").textContent = `Локация: ${prof.env} • Пройдено 10 из 10 этапов`;
-        document.getElementById("dsFinalGrade").textContent = `${grade} (${avg}%)`;
-
-        const compMeta = [
-          { n: "Стрессоустойчивость", v: dsComp.str, col: "bg-amber-400" },
-          { n: "Лидерство и воля", v: dsComp.led, col: "bg-rose-500" },
-          { n: "Системная аналитика", v: dsComp.ana, col: "bg-blue-500" },
-          { n: "Командная эмпатия", v: dsComp.emp, col: "bg-emerald-400" }
-        ];
-        document.getElementById("dsCompetencyBars").innerHTML = compMeta.map(cm => `
-          <div>
-            <div class="flex justify-between text-[11px]"><span>${cm.n}</span><strong>${cm.v}%</strong></div>
-            <div class="w-full h-1.5 bg-slate-800 rounded"><div class="h-1.5 ${cm.col} rounded" style="width:${cm.v}%"></div></div>
-          </div>
-        `).join("");
-
-        document.getElementById("dsKeyMoments").innerHTML = `
-          <div>• <strong>Главный триумф дня:</strong> ${dsBestMoment || "Стабильное прохождение всех этапов смены."}</div>
-          <div>• <strong>Баланс ресурса:</strong> Остаток энергии ${dsE}% (${dsE >= 40 ? "отличный темп без перегрузки" : "высокая интенсивность, нужен отдых"}).</div>
-          <div>• <strong>Рекомендация:</strong> Изучите зарплаты и вузы по этому направлению на следующем шаге.</div>
-        `;
-
-        document.getElementById("dsFinalVerdict").textContent = `Итоговые показатели смены: Репутация ${dsR}%, Мастерство ${dsS}%, Энергия ${dsE}%. Результат автоматически сохранён в ваше досье.`;
-        syncUserRecord({ daySimLog: `${prof.name.slice(0,24)}: ${grade} (${avg}%)` });
+        const grade = avg >= 90 ? "Высший пилотаж" : (avg >= 75 ? "Уверенный профессионал" : "Стажер");
+        dsFinalTitle.textContent = `Смена завершена: ${prof.name}`;
+        dsFinalSub.textContent = `Локация: ${prof.env} • Пройдено 10 из 10 этапов`;
+        dsFinalGrade.textContent = `${grade} (${avg}%)`;
+        const compMeta = [{ n: "Стрессоустойчивость", v: dsComp.str, col: "bg-amber-400" }, { n: "Лидерство и воля", v: dsComp.led, col: "bg-rose-500" }, { n: "Системная аналитика", v: dsComp.ana, col: "bg-blue-500" }, { n: "Командная эмпатия", v: dsComp.emp, col: "bg-emerald-400" }];
+        dsCompetencyBars.innerHTML = compMeta.map(cm => `<div><div class="flex justify-between text-[11px]"><span>${cm.n}</span><strong>${cm.v}%</strong></div><div class="w-full h-1.5 bg-slate-800 rounded"><div class="h-1.5 ${cm.col} rounded" style="width:${cm.v}%"></div></div></div>`).join("");
+        dsKeyMoments.innerHTML = `<div>• <strong>Главный триумф дня:</strong> ${dsBestMoment || "Стабильное прохождение смены."}</div><div>• <strong>Баланс ресурса:</strong> Остаток энергии ${dsE}%.</div>`;
+        dsFinalVerdict.textContent = `Итоговые показатели: Репутация ${dsR}%, Мастерство ${dsS}%, Энергия ${dsE}%.`;
+        syncUserRecord({ daySimLog: `${prof.name.slice(0,22)}: ${grade} (${avg}%)` });
       }
     }
     function restartCurrentDaySim() { startDaySim(curDayProfId); }
 
-    // =========================================================================
     // ТРЕНАЖЁР ОЛИМПИАД И БВИ
-    // =========================================================================
     const OLYMP_CASES = [
-      { q: "1. [Логика и ИИ] Алгоритм сортирует 1000 анкет за 2 секунды. Во сколько раз увеличится время при переходе к квадратичному алгоритму O(n²) при росте базы в 10 раз?", opts: ["В 100 раз (до 200 секунд)", "В 10 раз (до 20 секунд)", "В 2 раза"], correct: 0, info: "Верно! При квадратичной сложности увеличение данных в 10 раз дает рост операций в 10² = 100 раз. Это базовый принцип олимпиады «Высшая проба» и ВсОШ по информатике." },
-      { q: "2. [Экономика и Финансы] Инфляция за год составила 10%, а ставка по вкладу — 10%. Что произошло с реальной покупательной способностью капитала?", opts: ["Осталась на прежнем уровне (реальная доходность 0%)", "Выросла на 10%", "Упала на 20%"], correct: 0, info: "Верно! По формуле Фишера реальная ставка равна разнице номинальной ставки и инфляции. Знание этого приносит баллы на олимпиаде «Кондратьева» и «Высшая проба»." },
-      { q: "3. [Биология и Медицина] Какой органоид клетки отвечает за синтез АТФ — универсального источника энергии для работы мышц и мозга?", opts: ["Митохондрия", "Рибосома", "Аппарат Гольджи"], correct: 0, info: "Верно! Митохондрии называют энергетическими станциями клетки. Это ключевая тема Сеченовской олимпиады и ВсОШ по биологии." }
+      { q: "1. [Логика и ИИ] Алгоритм сортирует 1000 анкет за 2 секунды. Во сколько раз увеличится время при переходе к квадратичному алгоритму O(n²) при росте базы в 10 раз?", opts: ["В 100 раз (до 200 секунд)", "В 10 раз (до 20 секунд)", "В 2 раза"], correct: 0, info: "Верно! При квадратичной сложности рост данных в 10 раз дает рост операций в 10² = 100 раз (ВсОШ и «Высшая проба»)." },
+      { q: "2. [Экономика и Финансы] Инфляция за год составила 10%, а ставка по вкладу — 10%. Что произошло с реальной покупательной способностью капитала?", opts: ["Осталась на прежнем уровне (реальная доходность 0%)", "Выросла на 10%", "Упала на 20%"], correct: 0, info: "Верно! По формуле Фишера реальная ставка равна разнице номинальной ставки и инфляции." },
+      { q: "3. [Биология и Медицина] Какой органоид клетки отвечает за синтез АТФ — универсального источника энергии для работы мышц и мозга?", opts: ["Митохондрия", "Рибосома", "Аппарат Гольджи"], correct: 0, info: "Верно! Митохондрии — энергетические станции клетки (Сеченовская олимпиада)." }
     ];
     let olympStep = 0, olympSolved = 0;
-
     function renderOlympCase() {
       const item = OLYMP_CASES[olympStep];
-      document.getElementById("olympScoreBadge").textContent = `Решено: ${olympSolved} / 3`;
-      document.getElementById("olympQText").textContent = item.q;
-      document.getElementById("olympFeedback").classList.add("hidden");
-      document.getElementById("olympOpts").innerHTML = item.opts.map((o, i) => `
-        <button type="button" onclick="answerOlymp(${i})" class="w-full text-left p-3 rounded-xl bg-slate-900 hover:bg-slate-800 border border-slate-700 text-slate-200">${o}</button>
-      `).join("");
+      olympScoreBadge.textContent = `Решено: ${olympSolved} / 3`; olympQText.textContent = item.q; olympFeedback.classList.add("hidden");
+      olympOpts.innerHTML = item.opts.map((o, i) => `<button type="button" onclick="answerOlymp(${i})" class="w-full text-left p-3 rounded-xl bg-slate-900 hover:bg-slate-800 border border-slate-700 text-slate-200">${o}</button>`).join("");
     }
-
     function answerOlymp(idx) {
-      const item = OLYMP_CASES[olympStep];
-      const fb = document.getElementById("olympFeedback");
-      fb.classList.remove("hidden");
-      if (idx === item.correct) {
-        playSnd('success');
-        olympSolved++;
-        fb.textContent = "✅ " + item.info;
-        fb.className = "text-emerald-400 font-semibold text-xs";
-      } else {
-        playSnd('click');
-        fb.textContent = "💡 Подсказка: " + item.info;
-        fb.className = "text-amber-300 font-semibold text-xs";
-      }
-      document.getElementById("olympScoreBadge").textContent = `Решено: ${olympSolved} / 3`;
-      unlockBadge("b_olymp");
+      const item = OLYMP_CASES[olympStep]; olympFeedback.classList.remove("hidden");
+      if (idx === item.correct) { playSnd('success'); olympSolved++; olympFeedback.textContent = "✅ " + item.info; olympFeedback.className = "text-emerald-400 font-semibold text-xs"; }
+      else { playSnd('click'); olympFeedback.textContent = "💡 Подсказка: " + item.info; olympFeedback.className = "text-amber-300 font-semibold text-xs"; }
+      olympScoreBadge.textContent = `Решено: ${olympSolved} / 3`; unlockBadge("b_olymp");
       syncUserRecord({ olympLog: `Блиц БВИ: ${olympSolved} из 3` });
-      setTimeout(() => {
-        olympStep = (olympStep + 1) % OLYMP_CASES.length;
-        renderOlympCase();
-      }, 2600);
+      setTimeout(() => { olympStep = (olympStep + 1) % OLYMP_CASES.length; renderOlympCase(); }, 2500);
     }
 
-    // =========================================================================
-    // ПУЛЬС ШКОЛЫ & ЖИВАЯ АНАЛИТИКА
-    // =========================================================================
+    // ПУЛЬС ШКОЛЫ
     function renderSchoolPulse() {
-      const counts = { "КОММУНИКАТОР": 0, "ИНВЕСТОР": 0, "АКТИВИСТ": 0, "АРХИТЕКТОР": 0, "ЛИДЕР-СТРАТЕГ": 0, "ХРАНИТЕЛЬ": 0 };
-      const classMap = {};
-      cache.forEach(r => {
-        if (r.archetype && counts[r.archetype] !== undefined) counts[r.archetype]++;
-        const cl = r.classGroup || "Общий";
-        classMap[cl] = (classMap[cl] || 0) + 1;
-      });
+      const counts = { "КОММУНИКАТОР": 0, "ИНВЕСТОР": 0, "АКТИВИСТ": 0, "АРХИТЕКТОР": 0, "ЛИДЕР-СТРАТЕГ": 0, "ХРАНИТЕЛЬ": 0 }, classMap = {};
+      cache.forEach(r => { if (r.archetype && counts[r.archetype] !== undefined) counts[r.archetype]++; const cl = r.classGroup || "Общий"; classMap[cl] = (classMap[cl] || 0) + 1; });
       const total = Math.max(1, cache.length);
-      document.getElementById("pulseArchetypesChart").innerHTML = Object.keys(counts).map(k => {
-        const pct = Math.round((counts[k] / total) * 100);
-        return `<div>
-          <div class="flex justify-between text-[11px] mb-0.5"><span>${k}</span><strong>${counts[k]} чел. (${pct}%)</strong></div>
-          <div class="w-full h-2 bg-slate-800 rounded-full overflow-hidden"><div class="h-full bg-indigo-500 rounded-full" style="width:${pct}%"></div></div>
-        </div>`;
-      }).join("");
-
-      const sortedClasses = Object.entries(classMap).sort((a,b) => b[1] - a[1]);
-      document.getElementById("pulseClassesList").innerHTML = sortedClasses.length ? sortedClasses.map(([cl, cnt], idx) => `
-        <div class="p-2.5 rounded-xl bg-slate-900/90 border border-white/5 flex justify-between items-center">
-          <span><strong>#${idx+1} Класс / Группа: ${cl}</strong></span>
-          <span class="px-2.5 py-0.5 rounded-full bg-emerald-500/20 text-emerald-300 font-bold">${cnt} уч.</span>
-        </div>
-      `).join("") : `<p class="text-slate-400">Пройдите тест или обновите базу в админке, чтобы увидеть рейтинг классов.</p>`;
+      pulseArchetypesChart.innerHTML = Object.keys(counts).map(k => { const pct = Math.round((counts[k] / total) * 100); return `<div><div class="flex justify-between text-[11px] mb-0.5"><span>${k}</span><strong>${counts[k]} чел. (${pct}%)</strong></div><div class="w-full h-2 bg-slate-800 rounded-full overflow-hidden"><div class="h-full bg-indigo-500 rounded-full" style="width:${pct}%"></div></div></div>`; }).join("");
+      const sorted = Object.entries(classMap).sort((a,b) => b[1] - a[1]);
+      pulseClassesList.innerHTML = sorted.length ? sorted.map(([cl, cnt], idx) => `<div class="p-2.5 rounded-xl bg-slate-900/90 border border-white/5 flex justify-between items-center"><span><strong>#${idx+1} Класс / Группа: ${cl}</strong></span><span class="px-2.5 py-0.5 rounded-full bg-emerald-500/20 text-emerald-300 font-bold">${cnt} уч.</span></div>`).join("") : `<p class="text-slate-400">Пройдите тест или обновите базу в админке.</p>`;
     }
 
-    // =========================================================================
-    // КОНСТРУКТОР ПЕРВОГО РЕЗЮМЕ (CV) & КАПСУЛА ВРЕМЕНИ
-    // =========================================================================
+    // КОНСТРУКТОР CV, СЕРТИФИКАТ И АНТИ-ВЫГОРАНИЕ
     function generateStudentCV() {
-      unlockBadge("b_cv");
-      playSnd('success');
-      const goal = document.getElementById("cvGoalsInput").value.trim() || "Поступление в ведущий профильный университет (БВИ / ЕГЭ 270+)";
-      const skills = document.getElementById("cvSkillsInput").value.trim() || "Английский язык, проектная деятельность, цифровой анализ";
-      document.getElementById("cvOutName").textContent = user ? user.name : "Участник исследования";
-      document.getElementById("cvOutMeta").textContent = `Класс / Статус: ${user ? user.roleTxt : "7Е"} • Архетип Олесена: ${curRes ? curRes.title : "Определяется"}`;
-      document.getElementById("cvOutBody").innerHTML = `
-        <p><strong>🎯 Образовательная цель:</strong> ${goal}</p>
-        <p><strong>🎨 Цветовой профиль и сильные стороны:</strong> ${curRes ? `${curRes.chosen.join(" + ")} — ${curRes.desc}` : "Пройдите цветовой тест для заполнения."}</p>
-        <p><strong>⚡ Практический опыт (Симулятор & Акира):</strong> ${userSessionLog.daySimLog} | ${userSessionLog.akiraLog}</p>
-        <p><strong>🛠️ Навыки и языки:</strong> ${skills}</p>
-        <p><strong>📅 Дорожная карта (Капсула 2026 → 2031):</strong> 2026–2027: участие в перечневых олимпиадах; 2028–2029: профильный класс и портфолио; 2030–2031: поступление на бюджет.</p>
-      `;
+      unlockBadge("b_cv"); playSnd('success');
+      const goal = cvGoalsInput.value.trim() || "Поступление в ведущий профильный университет (БВИ / ЕГЭ 270+)";
+      const skills = cvSkillsInput.value.trim() || "Английский язык, проектная деятельность, цифровой анализ";
+      cvOutName.textContent = user ? user.name : "Участник исследования";
+      cvOutMeta.textContent = `Класс / Статус: ${user ? user.roleTxt : "7Е"} • Архетип Олесена: ${curRes ? curRes.title : "Определяется"}`;
+      cvOutBody.innerHTML = `<p><strong>🎯 Образовательная цель:</strong> ${goal}</p><p><strong>🎨 Цветовой профиль:</strong> ${curRes ? `${curRes.chosen.join(" + ")} — ${curRes.desc}` : "Пройдите цветовой тест."}</p><p><strong>⚡ Практический опыт:</strong> ${userSessionLog.daySimLog} | ${userSessionLog.akiraLog}</p><p><strong>🛠️ Навыки:</strong> ${skills}</p><p><strong>📅 Капсула времени (2026 → 2031):</strong> 2026–2027: олимпиады; 2028–2029: профильный класс; 2030–2031: поступление на бюджет.</p>`;
     }
 
-    // =========================================================================
-    // АНТИ-ВЫГОРАНИЕ & ТАЙМ-МЕНЕДЖЕР
-    // =========================================================================
+    function downloadCertificate() {
+      unlockBadge("b_cv"); playSnd('success');
+      const cv = document.createElement("canvas"); cv.width = 900; cv.height = 560;
+      const x = cv.getContext("2d");
+      const gr = x.createLinearGradient(0, 0, 900, 560); gr.addColorStop(0, "#090d16"); gr.addColorStop(1, "#1e1b4b");
+      x.fillStyle = gr; x.fillRect(0, 0, 900, 560);
+      x.strokeStyle = "#f59e0b"; x.lineWidth = 4; x.strokeRect(20, 20, 860, 520);
+      x.fillStyle = "#fbbf24"; x.font = "bold 18px sans-serif"; x.fillText("СЕРТИФИКАТ ПРОФОРИЕНТАЦИИ • COLORS & PROFESSIONS 2026", 55, 75);
+      x.fillStyle = "#94a3b8"; x.font = "15px sans-serif"; x.fillText("Настоящим подтверждается, что участник", 55, 130);
+      x.fillStyle = "#ffffff"; x.font = "bold 34px sans-serif"; x.fillText(user ? `${user.name} (${user.roleTxt})` : "Участник исследования 2026", 55, 180);
+      x.fillStyle = "#c084fc"; x.font = "bold 26px sans-serif"; x.fillText(`Ведущий архетип: ${curRes ? curRes.title : "ИССЛЕДОВАТЕЛЬ"}`, 55, 240);
+      x.fillStyle = "#cbd5e1"; x.font = "16px sans-serif"; x.fillText(`Симулятор 1 дня: ${userSessionLog.daySimLog}`, 55, 290);
+      x.fillText(`Открыто карьерных достижений: ${Object.keys(unlockedBadges).length} из 10`, 55, 325);
+      x.fillStyle = "#34d399"; x.font = "bold 14px sans-serif"; x.fillText("Гимназия им. Е.М. Примакова • Образовательная платформа 2026", 55, 490);
+      const a = document.createElement("a"); a.download = `Certificate_2026.png`; a.href = cv.toDataURL("image/png"); a.click();
+    }
+
     function renderAntiBurnout() {
-      const k = document.getElementById("burnoutArchSelect").value;
-      const a = ARCHETYPES[k];
-      document.getElementById("burnoutPlanBox").innerHTML = `
-        <div class="p-4 rounded-2xl bg-rose-950/30 border border-rose-500/30 space-y-1">
-          <strong class="text-rose-400 block">⚠️ Триггер выгорания:</strong>
-          <p class="text-slate-300">${a.burnout}</p>
-        </div>
-        <div class="p-4 rounded-2xl bg-indigo-950/30 border border-indigo-500/30 space-y-1">
-          <strong class="text-indigo-300 block">⏱️ Оптимальный ритм учебы:</strong>
-          <p class="text-slate-300">Блоки по 45 минут глубокой фокусировки + 15 минут смены деятельности. Главные предметы — в утренние часы пика.</p>
-        </div>
-        <div class="p-4 rounded-2xl bg-emerald-950/30 border border-emerald-500/30 space-y-1">
-          <strong class="text-emerald-400 block">🔋 Источник восстановления:</strong>
-          <p class="text-slate-300">${a.parentAdvice}</p>
-        </div>
-      `;
+      const a = ARCHETYPES[burnoutArchSelect.value];
+      burnoutPlanBox.innerHTML = `
+        <div class="p-4 rounded-2xl bg-rose-950/30 border border-rose-500/30"><strong class="text-rose-400 block mb-1">⚠️ Триггер выгорания:</strong><p class="text-slate-300">${a.burnout}</p></div>
+        <div class="p-4 rounded-2xl bg-indigo-950/30 border border-indigo-500/30"><strong class="text-indigo-300 block mb-1">⏱️ Оптимальный ритм:</strong><p class="text-slate-300">Блоки по 45 минут глубокой работы + 15 минут активного отдыха без экрана.</p></div>
+        <div class="p-4 rounded-2xl bg-emerald-950/30 border border-emerald-500/30"><strong class="text-emerald-400 block mb-1">🔋 Источник энергии:</strong><p class="text-slate-300">${a.parentAdvice}</p></div>`;
     }
 
-    // АТЛАС 605 ВУЗОВ И КОЛЛЕДЖЕЙ
-    let ATLAS_DATA = [], currentAtlasRegion = 'all';
+    // АТЛАС 605 ВУЗОВ + СРАВНЕНИЕ ДО 3 ВУЗОВ
+    let ATLAS_DATA = [], currentAtlasRegion = 'all', comparedUnis = [];
     function buildAtlas600() {
       const core = [
         { country: "Малайзия • Бординг", name: "Epsom College in Malaysia", rank: "Британский филиал", desc: "IGCSE и A-Level. Предметы: Английский, Математика, Естественные науки.", url: "https://epsomcollege.edu.my" },
@@ -1251,6 +1190,33 @@
       }
     }
 
+    function toggleUniCompare(idx) {
+      playSnd('click');
+      const u = ATLAS_DATA[idx]; if (!u) return;
+      const existsIdx = comparedUnis.findIndex(x => x.name === u.name);
+      if (existsIdx >= 0) comparedUnis.splice(existsIdx, 1);
+      else {
+        if (comparedUnis.length >= 3) comparedUnis.shift();
+        comparedUnis.push(u);
+      }
+      renderUniCompareDrawer();
+    }
+    function clearUniCompare() { comparedUnis = []; renderUniCompareDrawer(); }
+    function renderUniCompareDrawer() {
+      const dr = document.getElementById("uniCompareDrawer");
+      if (!comparedUnis.length) { dr.classList.add("hidden"); return; }
+      dr.classList.remove("hidden");
+      document.getElementById("compUniCount").textContent = comparedUnis.length;
+      document.getElementById("uniCompareGrid").innerHTML = comparedUnis.map(u => `
+        <div class="p-3 rounded-xl bg-slate-900/90 border border-sky-500/30 space-y-1">
+          <span class="text-[10px] text-sky-400 font-bold block">${u.country}</span>
+          <strong class="text-white block text-xs">${u.name}</strong>
+          <p class="text-[11px] text-slate-300">${u.desc}</p>
+          <a href="${u.url}" target="_blank" class="text-[10px] text-indigo-400 font-bold underline block pt-1">Официальный сайт &rarr;</a>
+        </div>
+      `).join("");
+    }
+
     function setAtlasFilterRegion(reg) {
       playSnd('click'); currentAtlasRegion = reg;
       document.querySelectorAll('#atlasRegionTabs button').forEach(b => b.className = "px-3 py-1.5 rounded-xl text-xs font-semibold bg-slate-800 text-slate-300");
@@ -1268,11 +1234,14 @@
         return mReg && mQ;
       });
       if (countEl) countEl.textContent = filtered.length;
-      cont.innerHTML = filtered.slice(0, 80).map(i => `<div class="card-glass p-4 rounded-2xl"><div><div class="flex justify-between items-start mb-1 gap-2"><div><span class="text-[10px] text-indigo-400 font-bold uppercase block">${i.country}</span><h4 class="text-sm font-bold text-white">${i.name}</h4></div><span class="text-[9px] px-2 py-0.5 rounded bg-indigo-500/20 text-indigo-300">${i.rank}</span></div><p class="text-xs text-slate-300 mb-2">${i.desc}</p></div><div class="text-right pt-2 border-t border-slate-800"><a href="${i.url}" target="_blank" rel="noopener noreferrer" class="text-[11px] font-bold text-indigo-400 hover:underline">Официальный сайт &rarr;</a></div></div>`).join("") || `<div class="col-span-2 p-6 text-center text-slate-400 text-xs">Ничего не найдено.</div>`;
+      cont.innerHTML = filtered.slice(0, 80).map(i => {
+        const origIdx = ATLAS_DATA.indexOf(i);
+        return `<div class="card-glass p-4 rounded-2xl"><div><div class="flex justify-between items-start mb-1 gap-2"><div><span class="text-[10px] text-indigo-400 font-bold uppercase block">${i.country}</span><h4 class="text-sm font-bold text-white">${i.name}</h4></div><span class="text-[9px] px-2 py-0.5 rounded bg-indigo-500/20 text-indigo-300">${i.rank}</span></div><p class="text-xs text-slate-300 mb-2">${i.desc}</p></div><div class="flex justify-between items-center pt-2 border-t border-slate-800"><button type="button" onclick="toggleUniCompare(${origIdx})" class="text-[10px] px-2 py-1 rounded bg-sky-500/20 text-sky-300 hover:bg-sky-500/30 font-bold">+ Сравнить</button><a href="${i.url}" target="_blank" rel="noopener noreferrer" class="text-[11px] font-bold text-indigo-400 hover:underline">Официальный сайт &rarr;</a></div></div>`;
+      }).join("") || `<div class="col-span-2 p-6 text-center text-slate-400 text-xs">Ничего не найдено.</div>`;
     }
     function resetAtlasFilters() { document.getElementById("atlasSearchInput").value = ""; setAtlasFilterRegion('all'); }
 
-    // КВИЗ ПО ФЛАГАМ (10 ВОПРОСОВ)
+    // КВИЗ ПО ФЛАГАМ
     const FLAG_QUIZ_DATA = [
       { country: "1. Россия", visual: `<div class="w-full h-1/3 bg-white"></div><div class="w-full h-1/3 bg-blue-600"></div><div class="w-full h-1/3 bg-red-600"></div>`, q: "Что символизируют белый, синий и красный цвета российского триколора?", options: ["Благородство (белый), верность и честность (синий), мужество и великодушие (красный)", "Зиму, реки и восход солнца", "Торговлю, науку и промышленность"], correct: 0, fact: "Триколор появился при Петре I для первых русских военных кораблей. В системе Олесена это союз свободы (Белый), глубины идей (Синий) и воли к победе (Красный)." },
       { country: "2. Китай (КНР)", visual: `<div class="w-full h-full bg-red-600 flex items-start p-3"><span class="text-amber-300 text-2xl font-bold">★ ⋯</span></div>`, q: "Что означает сочетание красного поля и золотых звезд на флаге Китая?", options: ["Огненного дракона и пустыню Гоби", "Красный — энергия созидания и удача; желтый — свет, мудрость и единство народа", "Климат юга и золотые запасы"], correct: 1, fact: "В китайской культуре красный (Хун) — главный цвет счастья и праздника, а желтый веками принадлежал императорскому двору." },
@@ -1331,7 +1300,7 @@
       customFlagMeaning.textContent = `Ваш персональный флаг объединяет: ${m1}, ${m2} и ${m3}.`;
     }
 
-    // АВТОРИЗАЦИЯ И НАВИГАЦИЯ
+    // АВТОРИЗАЦИЯ И НАВИГАЦИЯ (КОМПАКТНЫЕ 11 ВКЛАДОК)
     function setRole(r) {
       playSnd('click');
       ["fStudent","fTeacher","fParent","fAdmin"].forEach(id => document.getElementById(id).style.display = "none");
@@ -1362,17 +1331,16 @@
 
     function tab(k) {
       playSnd('click');
-      const map = { test:"viewTest", sim:"viewSim", daySim:"viewDaySim", aiSearch:"viewAiSearch", examCalc:"viewExamCalc", olymp:"viewOlymp", flagQuiz:"viewFlagQuiz", duel:"viewDuel", comp:"viewComp", atlas:"viewAtlas", pulse:"viewPulse", cv:"viewCv", burnout:"viewBurnout", info:"viewInfo", family:"viewFamily", parent:"viewParent" };
-      const btns = { test:"tbTest", sim:"tbSim", daySim:"tbDaySim", aiSearch:"tbAiSearch", examCalc:"tbExamCalc", olymp:"tbOlymp", flagQuiz:"tbFlagQuiz", duel:"tbDuel", comp:"tbComp", atlas:"tbAtlas", pulse:"tbPulse", cv:"tbCv", burnout:"tbBurnout", info:"tbInfo", family:"tbFamily", parent:"tbParent" };
+      const map = { test:"viewTest", atlas:"viewAtlas", sim:"viewSim", daySim:"viewDaySim", aiSearch:"viewAiSearch", examHub:"viewExamHub", flagQuiz:"viewFlagQuiz", socialHub:"viewSocialHub", cvHub:"viewCvHub", pulse:"viewPulse", guideHub:"viewGuideHub" };
+      const btns = { test:"tbTest", atlas:"tbAtlas", sim:"tbSim", daySim:"tbDaySim", aiSearch:"tbAiSearch", examHub:"tbExamHub", flagQuiz:"tbFlagQuiz", socialHub:"tbSocialHub", cvHub:"tbCvHub", pulse:"tbPulse", guideHub:"tbGuideHub" };
       Object.keys(map).forEach(x => {
         document.getElementById(map[x]).style.display = x === k ? "block" : "none";
-        document.getElementById(btns[x]).className = x === k ? "px-2.5 py-1.5 rounded-xl text-xs font-bold bg-indigo-600 text-white shadow" : "px-2.5 py-1.5 rounded-xl text-xs font-semibold bg-slate-800/60 text-slate-400";
+        document.getElementById(btns[x]).className = x === k ? "px-3 py-1.5 rounded-xl text-xs font-bold bg-indigo-600 text-white shadow" : "px-3 py-1.5 rounded-xl text-xs font-semibold bg-slate-800/60 text-slate-400";
       });
       if (k === 'atlas') applyAtlasFilters();
       if (k === 'flagQuiz' && fqIdx === 0 && !fqDone) renderFlagQuestion();
       if (k === 'pulse') renderSchoolPulse();
-      if (k === 'cv') generateStudentCV();
-      if (k === 'burnout') renderAntiBurnout();
+      if (k === 'cvHub') { generateStudentCV(); renderAntiBurnout(); }
       window.scrollTo({ top: 0, behavior: 'smooth' });
     }
 
@@ -1382,10 +1350,10 @@
       const txt = supportInput.value.trim(); if (!txt) return;
       supportMessages.innerHTML += `<div class="p-2 rounded-xl bg-indigo-600/30 text-white text-right ml-6">${txt}</div>`;
       supportInput.value = "";
-      setTimeout(() => { supportMessages.innerHTML += `<div class="p-2 rounded-xl bg-purple-950/40 text-slate-300 mr-6">Принято! Пройдите все шаги маршрута и соберите 10 бейджей.</div>`; }, 400);
+      setTimeout(() => { supportMessages.innerHTML += `<div class="p-2 rounded-xl bg-purple-950/40 text-slate-300 mr-6">Принято! Пройдите все шаги маршрута и скачайте сертификат.</div>`; }, 400);
     }
 
-    // ТЕСТ И НАДЕЖНАЯ КНОПКА ПОДЕЛИТЬСЯ
+    // ТЕСТ И КНОПКА ПОДЕЛИТЬСЯ
     function pickColor(s, c, el) {
       playSnd('click'); picks[s] = c;
       document.getElementById(`group-${s}`).querySelectorAll(".card-glass").forEach(x => x.classList.remove("selected"));
@@ -1439,14 +1407,27 @@
       document.body.removeChild(ta);
     }
 
-    // КАЛЬКУЛЯТОР ОГЭ/ЕГЭ
+    // КАЛЬКУЛЯТОР ОГЭ/ЕГЭ + БВИ И ИД
     function runExamCalc() {
       unlockBadge("b_exam");
       const sc = parseInt(examScoreRange.value, 10) || 82; examScoreVal.textContent = `${sc} б.`;
+      const hasBvi = document.getElementById("chkBviOlymp") && document.getElementById("chkBviOlymp").checked;
+      const hasMedal = document.getElementById("chkMedalGto") && document.getElementById("chkMedalGto").checked;
+      const bonus = hasMedal ? 10 : 0;
+      const sum3 = Math.min(310, sc * 3 + bonus);
+
       const checkedLabels = Array.from(document.querySelectorAll('#examCheckboxGrid input:checked')).map(b => b.parentElement.textContent.trim());
       const vals = Array.from(document.querySelectorAll('#examCheckboxGrid input:checked')).map(b => b.value);
-      examBudgetChance.textContent = `Сумма 3 ЕГЭ ~${sc*3} б. • Шанс: ${sc>=85?'Высокий':(sc>=70?'Хороший':'Средний/СПО')}`;
-      syncUserRecord({ examsLog: `${checkedLabels.join(', ')} (~${sc*3} б.)` });
+
+      if (hasBvi) {
+        examBudgetChance.textContent = `🏆 БВИ (Без экзаменов) + ${sum3} б. • Гарантированный бюджет`;
+        examBudgetChance.className = "px-2.5 py-0.5 rounded-full bg-cyan-500/20 text-cyan-300 font-bold text-[11px]";
+      } else {
+        examBudgetChance.textContent = `Сумма ЕГЭ ~${sum3} б.${hasMedal?' (+10 ИД)':''} • Шанс: ${sum3>=255?'Высокий':(sum3>=210?'Хороший':'Средний/СПО')}`;
+        examBudgetChance.className = "px-2.5 py-0.5 rounded-full bg-emerald-500/20 text-emerald-300 font-bold text-[11px]";
+      }
+
+      syncUserRecord({ examsLog: `${checkedLabels.join(', ')} (~${sum3} б.${hasBvi?', БВИ':''})` });
 
       if (vals.includes("bio") || vals.includes("chem")) {
         examCalcTitle.textContent = "🩺 Медицина и Биотехнологии"; examCalcText.textContent = "Клиническая медицина, фармация и биоинженерия.";
@@ -1550,27 +1531,55 @@
       }
     }
 
-    // ОБЪЯВЛЕНИЯ НА ВЕСЬ САЙТ В • SYS
+    // ОБЪЯВЛЕНИЯ И РЕДАКТОР УЧАСТНИКОВ В • SYS
     function publishSiteBanner() {
-      const txt = sysBannerInput.value.trim();
-      if (!txt) return alert("Введите текст объявления!");
-      const theme = sysBannerTheme.value;
-      const bannerObj = { text: txt, theme };
+      const txt = sysBannerInput.value.trim(); if (!txt) return alert("Введите текст!");
+      const bannerObj = { text: txt, theme: sysBannerTheme.value };
       localStorage.setItem("cp2026_banner", JSON.stringify(bannerObj));
-      applySiteBanner(bannerObj);
-      playSnd('success');
-      alert("Объявление опубликовано на весь сайт!");
+      applySiteBanner(bannerObj); playSnd('success'); alert("Объявление опубликовано!");
     }
     function clearSiteBanner() { localStorage.removeItem("cp2026_banner"); globalSiteBanner.classList.add("hidden"); }
     function applySiteBanner(b) {
       if (!b || !b.text) return;
       const themes = { indigo: "bg-indigo-600 text-white", emerald: "bg-emerald-600 text-white", amber: "bg-amber-500 text-slate-950", rose: "bg-rose-600 text-white" };
       globalSiteBanner.className = `w-full py-2.5 px-4 text-center text-xs sm:text-sm font-bold z-50 border-b border-white/20 shadow-lg ${themes[b.theme] || themes.indigo}`;
-      globalBannerText.textContent = `📢 ${b.text}`;
-      globalSiteBanner.classList.remove("hidden");
+      globalBannerText.textContent = `📢 ${b.text}`; globalSiteBanner.classList.remove("hidden");
     }
 
-    // АДМИНКА С ПРЯМОЙ СИНХРОНИЗАЦИЕЙ ИЗ GOOGLE APPS SCRIPT
+    function populateSysUserEditor() {
+      const sel = document.getElementById("sysEditUserSelect");
+      if (!sel) return;
+      if (!cache.length) { sel.innerHTML = `<option value="">В базе пока нет участников</option>`; return; }
+      sel.innerHTML = cache.map((u, idx) => `<option value="${idx}">${u.name} (${u.classGroup}) — ${u.archetype}</option>`).join("");
+      loadUserIntoSysEditor();
+    }
+    function loadUserIntoSysEditor() {
+      const idx = parseInt(document.getElementById("sysEditUserSelect").value, 10);
+      const u = cache[idx]; if (!u) return;
+      document.getElementById("sysEditClass").value = u.classGroup || "";
+      if (u.archetype) document.getElementById("sysEditArch").value = u.archetype;
+      if (u.set1) document.getElementById("sysEditS1").value = u.set1;
+      if (u.set2) document.getElementById("sysEditS2").value = u.set2;
+      if (u.set3) document.getElementById("sysEditS3").value = u.set3;
+    }
+    function saveSysEditedUser() {
+      const idx = parseInt(document.getElementById("sysEditUserSelect").value, 10);
+      const u = cache[idx]; if (!u) return alert("Нет выбранного участника!");
+      u.classGroup = normalizeClassStr(document.getElementById("sysEditClass").value) || u.classGroup;
+      u.archetype = document.getElementById("sysEditArch").value;
+      u.set1 = document.getElementById("sysEditS1").value;
+      u.set2 = document.getElementById("sysEditS2").value;
+      u.set3 = document.getElementById("sysEditS3").value;
+      u.date = new Date().toLocaleDateString("ru-RU");
+      localStorage.setItem("cp2026_cache", JSON.stringify(cache));
+      renderAdminTable(); populateSysUserEditor();
+      if (GOOGLE_SCRIPT_URL.startsWith("http")) {
+        fetch(GOOGLE_SCRIPT_URL, { method:"POST", mode:"no-cors", headers:{"Content-Type":"application/json"}, body:JSON.stringify({ ...u, upsert: true }) }).catch(()=>{});
+      }
+      playSnd('success'); alert(`Данные участника ${u.name} успешно обновлены!`);
+    }
+
+    // АДМИНКА
     function openAdmin() {
       if (!isAdmin) {
         const p = (prompt("Пароль куратора (в любом регистре):")||"").trim().toLowerCase();
@@ -1583,21 +1592,21 @@
     function openGodModeAuthDialog() { godAuthDialog.classList.remove("hidden"); }
     function verifyGodKey() {
       if (["profcolor2027","root2027","profcolor27","root27"].includes(godPassInput.value.trim().toLowerCase())) {
-        godAuthDialog.classList.add("hidden"); godModeModal.classList.remove("hidden");
+        godAuthDialog.classList.add("hidden"); populateSysUserEditor(); godModeModal.classList.remove("hidden");
       } else alert("Неверный пароль!");
     }
     function godToggleLiveEdit() { godEditableMode = !godEditableMode; document.body.contentEditable = godEditableMode; }
     function godToggleAlwaysWinDuel() { godAlwaysWinDuel = !godAlwaysWinDuel; godDuelStatus.textContent = godAlwaysWinDuel ? "Вкл" : "Выкл"; }
     function godAddMockData() {
-      cache.unshift({ date:new Date().toLocaleDateString("ru-RU"), name:"Смирнов Алексей", classGroup:"7Е", set1:"Синий", set2:"Оранжевый", set3:"Коричневый", archetype:"АКТИВИСТ", akiraLog:"АКТИВИСТ (180 XP)", daySimLog:"Кардиохирург: Высший пилотаж (95%)", searches:"AI-Архитектор", examsLog:"Проф. математика, Информатика (~246 б.)", olympLog:"Блиц БВИ: 3 из 3", flagsLog:"9 из 10 (Эксперт)", duelLog:"Друг: Морозова (2/3)", compLog:"Активист + Архитектор (98%)" });
-      localStorage.setItem("cp2026_cache", JSON.stringify(cache)); renderAdminTable();
+      cache.unshift({ date:new Date().toLocaleDateString("ru-RU"), name:"Смирнов Алексей", classGroup:"7Е", set1:"Синий", set2:"Оранжевый", set3:"Коричневый", archetype:"АКТИВИСТ", akiraLog:"АКТИВИСТ (180 XP)", daySimLog:"Кардиохирург: Высший пилотаж (95%)", searches:"AI-Архитектор", examsLog:"Проф. математика, Информатика (~246 б.)", flagsLog:"9 из 10 (Эксперт)", duelLog:"Друг: Морозова (2/3)", compLog:"Активист + Архитектор (98%)" });
+      localStorage.setItem("cp2026_cache", JSON.stringify(cache)); renderAdminTable(); populateSysUserEditor();
     }
-    function godClearAllData() { cache = []; localStorage.setItem("cp2026_cache", "[]"); renderAdminTable(); }
+    function godClearAllData() { cache = []; localStorage.setItem("cp2026_cache", "[]"); renderAdminTable(); populateSysUserEditor(); }
     function godResetLocalStorage() { localStorage.clear(); location.reload(); }
-    function godDumpMemory() { alert(`ВУЗов: ${ATLAS_DATA.length} | Профессий в симуляторе: ${PROFESSIONS_20.length} | Уникальных участников: ${cache.length}`); }
+    function godDumpMemory() { alert(`ВУЗов: ${ATLAS_DATA.length} | Профессий: ${PROFESSIONS_20.length} | Участников: ${cache.length}`); }
     function exportToCSV() {
-      const header = "\uFEFFДата;Имя;Класс;Архетип;Цвета;Акира;Симулятор_1дня;Профессии;ОГЭ_ЕГЭ;Олимпиады;Флаги;Дуэль;Синергия\n";
-      const rows = cache.map(r => `${r.date};${r.name};${r.classGroup};${r.archetype};${r.set1}/${r.set2}/${r.set3};${r.akiraLog||''};${r.daySimLog||''};${r.searches||''};${r.examsLog||''};${r.olympLog||''};${r.flagsLog||''};${r.duelLog||''};${r.compLog||''}`).join("\n");
+      const header = "\uFEFFДата;Имя;Класс;Архетип;Цвета;Акира;Симулятор_1дня;Профессии;ОГЭ_ЕГЭ;Флаги;Дуэль;Синергия\n";
+      const rows = cache.map(r => `${r.date};${r.name};${r.classGroup};${r.archetype};${r.set1}/${r.set2}/${r.set3};${r.akiraLog||''};${r.daySimLog||''};${r.searches||''};${r.examsLog||''};${r.flagsLog||''};${r.duelLog||''};${r.compLog||''}`).join("\n");
       const a = document.createElement("a"); a.href = URL.createObjectURL(new Blob([header + rows], {type:"text/csv"})); a.download = "Dossier_Ultimate_2026.csv"; a.click();
     }
 
@@ -1609,16 +1618,11 @@
 
       window.handleSheetData = function(data) {
         if (Array.isArray(data) && data.length > 0) {
-          const merged = [];
-          const seen = new Set();
+          const merged = [], seen = new Set();
           [...cache, ...data].forEach(item => {
             if (!item || !item.name) return;
             const key = normalizeNameStr(item.name) + "|" + normalizeClassStr(item.classGroup);
-            if (!seen.has(key)) {
-              seen.add(key);
-              item.classGroup = normalizeClassStr(item.classGroup);
-              merged.push(item);
-            }
+            if (!seen.has(key)) { seen.add(key); item.classGroup = normalizeClassStr(item.classGroup); merged.push(item); }
           });
           cache = merged;
           localStorage.setItem("cp2026_cache", JSON.stringify(cache));
@@ -1632,11 +1636,13 @@
       document.body.appendChild(sc);
     }
 
+    let adminArchFilter = "";
+    function setAdminArchFilter(arch) { adminArchFilter = arch; filterAdmin(); }
     function renderAdminTable() {
       admTotal.textContent = cache.length;
       adminTbody.innerHTML = cache.map((r,i) => `<tr><td class="p-2">${r.date || '—'}</td><td class="p-2 font-bold text-white">${r.name || '—'}</td><td class="p-2 text-indigo-300">${r.classGroup || '—'}</td><td class="p-2 text-emerald-400 font-bold">${r.archetype || '—'}</td><td class="p-2"><button onclick="showDossier(${i})" class="px-2.5 py-1 rounded bg-purple-600/30 text-purple-300 font-bold">Открыть досье</button></td><td class="p-2"><button onclick="deleteRow(${i})" class="text-rose-400 font-bold">Х</button></td></tr>`).join("") || `<tr><td colspan="6" class="p-4 text-center">Записей пока нет</td></tr>`;
+      filterAdmin();
     }
-
     function deleteRow(i) {
       const removed = cache.splice(i, 1)[0];
       localStorage.setItem('cp2026_cache', JSON.stringify(cache));
@@ -1645,7 +1651,6 @@
         fetch(GOOGLE_SCRIPT_URL, { method: "POST", mode: "no-cors", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ action: "delete", rowIndex: i, name: removed.name, date: removed.date }) }).catch(() => {});
       }
     }
-
     function showDossier(i) {
       const u = cache[i]; if (!u) return;
       dossierName.textContent = u.name;
@@ -1655,12 +1660,19 @@
       dossierDaySim.textContent = u.daySimLog || "Не проходил";
       dossierSearches.textContent = u.searches || "Нет запросов";
       dossierExams.textContent = u.examsLog || "Не выбрано";
-      dossierOlymp.textContent = u.olympLog || "Не проходил";
       dossierFlags.textContent = u.flagsLog || "Не пройден";
       dossierDuel.textContent = `${u.duelLog || 'Не играл'} | ${u.compLog || 'Синергия не проверялась'}`;
       userDossierModal.classList.remove("hidden");
     }
-    function filterAdmin() { const q = adminSearch.value.toLowerCase(); adminTbody.querySelectorAll("tr").forEach(tr => tr.style.display = tr.textContent.toLowerCase().includes(q) ? "" : "none"); }
+    function filterAdmin() {
+      const q = adminSearch.value.toLowerCase();
+      adminTbody.querySelectorAll("tr").forEach(tr => {
+        const txt = tr.textContent.toLowerCase();
+        const matchQ = txt.includes(q);
+        const matchA = !adminArchFilter || tr.textContent.toUpperCase().includes(adminArchFilter);
+        tr.style.display = (matchQ && matchA) ? "" : "none";
+      });
+    }
 
     function initAll() {
       try { const savedCache = JSON.parse(localStorage.getItem("cp2026_cache")); if (Array.isArray(savedCache)) cache = savedCache; } catch(e){}
