@@ -6,6 +6,12 @@
   <title>Colors and Professions 2026 | Ultimate Master Edition</title>
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Space+Grotesk:wght@600;700;800&family=JetBrains+Mono:wght@400;600;700&display=swap" rel="stylesheet">
   <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Leaflet & MarkerCluster для интерактивной темной карты 1100+ ВУЗов -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+  <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.5.3/dist/MarkerCluster.css" />
+  <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.5.3/dist/MarkerCluster.Default.css" />
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+  <script src="https://unpkg.com/leaflet.markercluster@1.5.3/dist/leaflet.markercluster.js"></script>
   <style>
     :root { --bg:#04060a; --card:rgba(18,25,44,.82); --brd:rgba(255,255,255,.15); --txt:#f8fafc; --liq:rgba(11,16,32,.95); }
     body.theme-liquid { --bg:#0c121e; --card:rgba(255,255,255,.08); --brd:rgba(255,255,255,.35); --txt:#fff; --liq:rgba(14,22,38,.88); }
@@ -20,6 +26,14 @@
     .next-step-btn { background:linear-gradient(90deg,#4f46e5,#9333ea,#ec4899); color:#fff; font-weight:800; padding:14px 24px; border-radius:16px; box-shadow:0 10px 30px rgba(147,51,234,.45); transition:.2s; display:inline-flex; align-items:center; justify-content:center; gap:8px; width:100%; font-size:14px; cursor:pointer; border:1px solid rgba(255,255,255,.25); }
     .next-step-btn:hover { transform:translateY(-2px) scale(1.01); box-shadow:0 14px 35px rgba(236,72,153,.55); }
     .spectrum-bar { height:4px; background:linear-gradient(90deg,#f43f5e,#facc15,#3b82f6,#10b981,#a855f7,#f97316); border-radius:99px; }
+
+    /* Темный стиль карты и неоновых кластеров */
+    #worldUniMap { height: 430px; width: 100%; background: #05070c; border-radius: 20px; z-index: 10; }
+    .leaflet-container { background: #05070c !important; font-family: 'Plus Jakarta Sans', sans-serif !important; }
+    .leaflet-popup-content-wrapper, .leaflet-popup-tip { background: rgba(11, 16, 32, 0.96) !important; color: #f8fafc !important; border: 1px solid rgba(99, 102, 241, 0.5) !important; border-radius: 16px !important; box-shadow: 0 12px 35px rgba(0,0,0,0.85) !important; }
+    .leaflet-popup-close-button { color: #94a3b8 !important; font-size: 18px !important; padding: 6px 8px !important; }
+    .custom-cluster-icon { background: rgba(79, 70, 229, 0.28); border: 2px solid #818cf8; border-radius: 9999px; color: #ffffff; font-weight: 800; font-size: 11px; display: flex !important; align-items: center; justify-content: center; box-shadow: 0 0 18px rgba(99, 102, 241, 0.65); backdrop-filter: blur(4px); }
+    .custom-cluster-large { background: rgba(168, 85, 247, 0.34); border-color: #e879f9; box-shadow: 0 0 22px rgba(232, 121, 249, 0.75); }
   </style>
 </head>
 <body class="flex flex-col justify-between pb-24 md:pb-12 relative">
@@ -59,7 +73,7 @@
       <button type="button" onclick="toggleSupportChat()" class="text-slate-400 hover:text-white text-lg px-2">&times;</button>
     </div>
     <div id="supportMessages" class="overflow-y-auto flex-grow my-2 space-y-2 text-xs pr-1">
-      <div class="p-2.5 rounded-xl bg-purple-950/40 border border-purple-500/20 text-slate-300">Здравствуйте! Каждый ваш шаг в тестах окрашен в цвета методики Якоба Олесена и автоматически сохраняется в ваше досье!</div>
+      <div class="p-2.5 rounded-xl bg-purple-950/40 border border-purple-500/20 text-slate-300">Здравствуйте! Выбирайте любой ВУЗ, город или страну прямо на интерактивной карте мира в Атласе 1100+ ВУЗов!</div>
     </div>
     <div class="flex gap-1.5 pt-2 border-t border-white/10">
       <input type="text" id="supportInput" onkeydown="if(event.key==='Enter') sendSupportMessage()" placeholder="Ваш вопрос..." class="flex-grow px-3 py-2 rounded-xl bg-slate-900 border border-slate-700 text-xs text-white">
@@ -115,7 +129,7 @@
         <div class="w-10 h-10 rounded-2xl bg-gradient-to-tr from-rose-500 via-amber-400 via-emerald-400 via-blue-500 to-purple-600 flex items-center justify-center flex-shrink-0 text-white font-extrabold text-sm shadow-lg">CP</div>
         <div class="min-w-0">
           <h1 class="text-xs sm:text-base font-bold font-h text-white truncate">COLORS & PROFESSIONS 2026 • ULTIMATE</h1>
-          <p class="text-[10px] text-slate-400 truncate">9 Цветов Спектра • 6 Архетипов Олесена • 20 Профессий • 600+ ВУЗов</p>
+          <p class="text-[10px] text-slate-400 truncate">9 Цветов Спектра • 6 Архетипов Олесена • 20 Профессий • Карта 1100+ ВУЗов</p>
         </div>
       </div>
       <div class="flex items-center gap-2 flex-shrink-0">
@@ -135,7 +149,7 @@
   <div class="w-full border-b border-white/5 bg-slate-950/80 sticky top-[62px] z-20 backdrop-blur-md">
     <div class="max-w-7xl mx-auto px-3 py-2 flex flex-wrap items-center gap-1.5">
       <button type="button" onclick="tab('test')" id="tbTest" class="px-3 py-1.5 rounded-xl text-xs font-bold bg-indigo-600 text-white shadow-lg">1. Тест & Профиль</button>
-      <button type="button" onclick="tab('atlas')" id="tbAtlas" class="px-3 py-1.5 rounded-xl text-xs font-semibold bg-slate-800/60 text-sky-300 border border-sky-500/30">🏛️ Атлас 600+ ВУЗов</button>
+      <button type="button" onclick="tab('atlas')" id="tbAtlas" class="px-3 py-1.5 rounded-xl text-xs font-semibold bg-slate-800/60 text-sky-300 border border-sky-500/30">🌍 Карта & Атлас 1100+ ВУЗов</button>
       <button type="button" onclick="tab('sim')" id="tbSim" class="px-3 py-1.5 rounded-xl text-xs font-semibold bg-slate-800/60 text-slate-400">2. Тест Акиры</button>
       <button type="button" onclick="tab('daySim')" id="tbDaySim" class="px-3 py-1.5 rounded-xl text-xs font-semibold bg-slate-800/60 text-pink-400 border border-pink-500/30">⚡ 3. Симулятор (20 проф.)</button>
       <button type="button" onclick="tab('aiSearch')" id="tbAiSearch" class="px-3 py-1.5 rounded-xl text-xs font-semibold bg-slate-800/60 text-slate-400">4. Навигатор Профессий</button>
@@ -240,14 +254,59 @@
     </div>
   </main>
 
-  <!-- ВКЛАДКА 2: Атлас 600+ ВУЗов + Цветовая маркировка + Сравнение -->
-  <section id="viewAtlas" class="max-w-6xl mx-auto px-3 py-6 flex-grow w-full hidden">
-    <div class="text-center mb-5">
-      <h2 class="text-xl sm:text-2xl font-extrabold font-h text-white">Атлас 600+ ВУЗов и Колледжей по цветам профиля</h2>
-      <p class="text-xs text-slate-400 mt-1">Каждый вуз отмечен цветом ведущего архетипа Олесена. Выберите до 3 заведений для сравнения.</p>
+  <!-- ВКЛАДКА 2: ИНТЕРАКТИВНАЯ КАРТА МИРА + АТЛАС 1100+ ВУЗОВ (45+ СТРАН) -->
+  <section id="viewAtlas" class="max-w-6xl mx-auto px-3 py-6 flex-grow w-full hidden space-y-4">
+    <div class="text-center">
+      <span class="text-[10px] uppercase font-bold tracking-widest text-sky-400 bg-sky-500/10 px-3 py-1 rounded-full border border-sky-500/20">45+ Стран мира • 1100+ Учебных заведений • Без привязки к геолокации</span>
+      <h2 class="text-xl sm:text-3xl font-extrabold font-h text-white mt-2">Глобальная карта и Атлас 1100+ ВУЗов</h2>
+      <p class="text-xs text-slate-400 mt-1">Нажмите на любую страну, город или точку на карте — откроется полный список ВУЗов в этой локации. Точки сохраняют аккуратный размер при приближении.</p>
     </div>
 
-    <div id="uniCompareDrawer" class="liquid p-4 rounded-2xl mb-4 border border-sky-500/40 hidden space-y-3 text-xs">
+    <!-- Интерактивная темная карта мира -->
+    <div class="liquid p-3 sm:p-4 rounded-3xl border border-indigo-500/30 space-y-3">
+      <div class="flex flex-wrap items-center justify-between gap-2 text-xs">
+        <div class="flex items-center gap-2 flex-wrap">
+          <span class="font-bold text-white">🌍 Навигация по миру:</span>
+          <button type="button" onclick="resetWorldMapView()" class="px-2.5 py-1 rounded-lg bg-indigo-600 text-white font-bold text-[11px]">Весь мир (1100+)</button>
+          <span class="text-slate-400 text-[11px]">Кликните по точке или кластеру на карте</span>
+        </div>
+        <div class="flex items-center gap-2 text-[10px] text-slate-300">
+          <span class="inline-flex items-center gap-1"><span class="w-2.5 h-2.5 rounded-full bg-rose-500"></span>Финансы</span>
+          <span class="inline-flex items-center gap-1"><span class="w-2.5 h-2.5 rounded-full bg-blue-500"></span>ИТ/Инжен.</span>
+          <span class="inline-flex items-center gap-1"><span class="w-2.5 h-2.5 rounded-full bg-emerald-500"></span>Мед/Био</span>
+          <span class="inline-flex items-center gap-1"><span class="w-2.5 h-2.5 rounded-full bg-amber-400"></span>Диплом/Медиа</span>
+        </div>
+      </div>
+
+      <div id="worldUniMap"></div>
+
+      <!-- Сводка по странам (быстрый перелет и счетчик ВУЗов в стране) -->
+      <div class="space-y-1.5">
+        <div class="flex justify-between items-center text-[11px] text-slate-400">
+          <span>🌐 Страны на карте (нажмите на страну, чтобы открыть её ВУЗы):</span>
+          <strong class="text-sky-300" id="countryTotalStats">46 стран • 1105 ВУЗов</strong>
+        </div>
+        <div id="countryChipsContainer" class="flex flex-wrap gap-1.5 max-h-24 overflow-y-auto pr-1"></div>
+      </div>
+    </div>
+
+    <!-- Выдвижная панель выбранной Страны / Города с полным списком ВУЗов -->
+    <div id="locationDetailPanel" class="liquid p-4 sm:p-5 rounded-3xl border border-emerald-500/40 hidden space-y-3 text-xs">
+      <div class="flex justify-between items-center border-b border-white/10 pb-2.5 flex-wrap gap-2">
+        <div>
+          <span class="text-[10px] uppercase font-bold text-emerald-400 block">Выбранная локация на карте</span>
+          <h3 id="locPanelTitle" class="text-base sm:text-lg font-extrabold font-h text-white"></h3>
+        </div>
+        <div class="flex items-center gap-2">
+          <span id="locPanelCountBadge" class="px-3 py-1 rounded-full bg-emerald-500/20 text-emerald-300 font-bold"></span>
+          <button type="button" onclick="closeLocationPanel()" class="px-3 py-1 rounded-xl bg-slate-800 text-slate-300 hover:text-white">Свернуть &times;</button>
+        </div>
+      </div>
+      <div id="locPanelList" class="grid grid-cols-1 sm:grid-cols-2 gap-2.5 max-h-80 overflow-y-auto pr-1"></div>
+    </div>
+
+    <!-- Сравнение ВУЗов -->
+    <div id="uniCompareDrawer" class="liquid p-4 rounded-2xl border border-sky-500/40 hidden space-y-3 text-xs">
       <div class="flex justify-between items-center">
         <strong class="text-sky-300 font-bold">⚖️ Сравнение выбранных учебных заведений (<span id="compUniCount">0</span>/3):</strong>
         <button type="button" onclick="clearUniCompare()" class="text-slate-400 hover:text-rose-400 underline">Очистить</button>
@@ -255,25 +314,27 @@
       <div id="uniCompareGrid" class="grid grid-cols-1 sm:grid-cols-3 gap-2.5"></div>
     </div>
 
-    <div class="liquid p-3 rounded-2xl mb-4 max-w-2xl mx-auto flex flex-col sm:flex-row gap-2">
-      <input type="text" id="atlasSearchInput" oninput="applyAtlasFilters()" placeholder="Поиск по названию, городу или предметам (медицина, ИТ, физика, право)..." class="flex-grow px-3.5 py-2 rounded-xl bg-slate-900 border border-slate-700 text-xs text-white">
-      <button type="button" onclick="resetAtlasFilters()" class="px-4 py-2 rounded-xl bg-slate-800 text-slate-300 text-xs">Сброс</button>
+    <!-- Поиск и фильтрация каталога -->
+    <div class="liquid p-3 rounded-2xl max-w-3xl mx-auto flex flex-col sm:flex-row gap-2">
+      <input type="text" id="atlasSearchInput" oninput="applyAtlasFilters()" placeholder="Поиск по стране, городу, вузу или предметам (Черногория, Сингапур, медицина, ИТ)..." class="flex-grow px-3.5 py-2 rounded-xl bg-slate-900 border border-slate-700 text-xs text-white">
+      <button type="button" onclick="resetAtlasFilters()" class="px-4 py-2 rounded-xl bg-slate-800 text-slate-300 text-xs">Сбросить всё</button>
     </div>
-    <div class="flex justify-center gap-1.5 mb-4 text-xs flex-wrap" id="atlasRegionTabs">
-      <button type="button" onclick="setAtlasFilterRegion('all')" id="arf-all" class="px-3 py-1.5 rounded-xl bg-indigo-600 text-white font-bold">Все (600+)</button>
+
+    <div class="flex justify-center gap-1.5 text-xs flex-wrap" id="atlasRegionTabs">
+      <button type="button" onclick="setAtlasFilterRegion('all')" id="arf-all" class="px-3 py-1.5 rounded-xl bg-indigo-600 text-white font-bold">Все (1100+)</button>
+      <button type="button" onclick="setAtlasFilterRegion('Россия')" id="arf-Россия" class="px-3 py-1.5 rounded-xl bg-slate-800 text-slate-300">🎓 Россия</button>
       <button type="button" onclick="setAtlasFilterRegion('Колледж')" id="arf-Колледж" class="px-3 py-1.5 rounded-xl bg-slate-800 text-slate-300">🍳 Колледжи</button>
-      <button type="button" onclick="setAtlasFilterRegion('Россия')" id="arf-Россия" class="px-3 py-1.5 rounded-xl bg-slate-800 text-slate-300">🎓 ВУЗы РФ</button>
-      <button type="button" onclick="setAtlasFilterRegion('БРИКС')" id="arf-БРИКС" class="px-3 py-1.5 rounded-xl bg-slate-800 text-slate-300">🌍 Страны БРИКС</button>
-      <button type="button" onclick="setAtlasFilterRegion('Сингапур')" id="arf-Сингапур" class="px-3 py-1.5 rounded-xl bg-slate-800 text-slate-300">Сингапур</button>
-      <button type="button" onclick="setAtlasFilterRegion('Малайзия')" id="arf-Малайзия" class="px-3 py-1.5 rounded-xl bg-slate-800 text-slate-300">Малайзия</button>
-      <button type="button" onclick="setAtlasFilterRegion('Китай')" id="arf-Китай" class="px-3 py-1.5 rounded-xl bg-slate-800 text-slate-300">Китай / ОАЭ</button>
-      <button type="button" onclick="setAtlasFilterRegion('Европа')" id="arf-Европа" class="px-3 py-1.5 rounded-xl bg-slate-800 text-slate-300">🇪🇺 Европа</button>
+      <button type="button" onclick="setAtlasFilterRegion('Европа')" id="arf-Европа" class="px-3 py-1.5 rounded-xl bg-slate-800 text-slate-300">🇪🇺 Европа и Балканы</button>
+      <button type="button" onclick="setAtlasFilterRegion('Азия')" id="arf-Азия" class="px-3 py-1.5 rounded-xl bg-slate-800 text-slate-300">🌏 Азия (Китай/Сингапур/Малайзия)</button>
+      <button type="button" onclick="setAtlasFilterRegion('Ближний Восток')" id="arf-Ближний Восток" class="px-3 py-1.5 rounded-xl bg-slate-800 text-slate-300">🕌 ОАЭ / Катар / Оман</button>
+      <button type="button" onclick="setAtlasFilterRegion('Америка и Африка')" id="arf-Америка и Африка" class="px-3 py-1.5 rounded-xl bg-slate-800 text-slate-300">🌎 Америка / Африка</button>
     </div>
-    <div class="text-right text-xs text-slate-400 mb-2">Найдено в каталоге: <strong id="atlasCountTxt" class="text-indigo-400">605</strong></div>
-    <div id="atlasCardsContainer" class="grid grid-cols-1 sm:grid-cols-2 gap-3 max-h-[600px] overflow-y-auto pr-1"></div>
+
+    <div class="text-right text-xs text-slate-400">Найдено в каталоге: <strong id="atlasCountTxt" class="text-indigo-400">1105</strong></div>
+    <div id="atlasCardsContainer" class="grid grid-cols-1 sm:grid-cols-2 gap-3 max-h-[550px] overflow-y-auto pr-1"></div>
   </section>
 
-  <!-- ВКЛАДКА 3: Собеседование Акиры (С ЦВЕТОВЫМИ ИНДИКАТОРАМИ ОТВЕТОВ) -->
+  <!-- ВКЛАДКА 3: Собеседование Акиры -->
   <section id="viewSim" class="max-w-5xl mx-auto px-3 py-6 flex-grow w-full hidden">
     <div class="text-center mb-6">
       <h2 class="text-xl sm:text-2xl font-extrabold font-h text-white">Цветовое собеседование с AI-Наставником «Акира»</h2>
@@ -300,7 +361,7 @@
     </div>
   </section>
 
-  <!-- ВКЛАДКА 4: Симулятор 1 дня (20 профессий × 10 этапов + Цветовая карта решений) -->
+  <!-- ВКЛАДКА 4: Симулятор 1 дня (20 профессий × 10 этапов) -->
   <section id="viewDaySim" class="max-w-5xl mx-auto px-3 py-6 flex-grow w-full hidden">
     <div class="text-center mb-6">
       <span class="text-[10px] uppercase font-bold tracking-widest text-pink-400 bg-pink-500/10 px-3 py-1 rounded-full border border-pink-500/20">20 Профессий • 10 Этапов • Цветовая карта действий</span>
@@ -414,7 +475,7 @@
     </div>
   </section>
 
-  <!-- ВКЛАДКА 6: ОГЭ/ЕГЭ + ОЛИМПИАДЫ БВИ + ЦВЕТОВОЙ ПРОФИЛЬ ПРЕДМЕТОВ -->
+  <!-- ВКЛАДКА 6: ОГЭ/ЕГЭ + ОЛИМПИАДЫ БВИ -->
   <section id="viewExamHub" class="max-w-5xl mx-auto px-3 py-6 flex-grow w-full hidden space-y-6">
     <div class="text-center">
       <h2 class="text-xl sm:text-3xl font-extrabold font-h text-white">Калькулятор ОГЭ / ЕГЭ & Олимпиады БВИ</h2>
@@ -646,7 +707,7 @@
       </div>
 
       <button type="button" onclick="tab('atlas')" class="next-step-btn">
-        🏛️ Финал: Открыть Атлас 600+ ВУЗов &rarr;
+        🌍 Финал: Открыть Карту & Атлас 1100+ ВУЗов &rarr;
       </button>
     </div>
   </section>
@@ -894,7 +955,6 @@
 
       let existing = cache.find(r => normalizeNameStr(r.name) === normName && normalizeClassStr(r.classGroup) === normClass);
       const nowStr = new Date().toLocaleDateString("ru-RU") + " " + new Date().toLocaleTimeString("ru-RU", { hour: '2-digit', minute: '2-digit' });
-
       const partialArch = curRes ? curRes.title : (picks.set1 || picks.set2 || picks.set3 ? `Спектр (${[picks.set1, picks.set2, picks.set3].filter(Boolean).join('/')})` : "В процессе");
 
       if (existing) {
@@ -970,7 +1030,439 @@
       guardian: { title: "ХРАНИТЕЛЬ", subtitle: "Эксперт медицины, биотехнологий, косметологии и безопасности", ideal: ["Синий", "Зеленый", "Коричневый"], desc: "Надежность, забота о здоровье человека и глубокая научная экспертиза.", burnout: "Агрессивная среда и постоянный аврал.", parentAdvice: "Поддерживайте углубленное изучение химии и биологии.", topSalaries: [{ job: "Дерматокосметолог", sal: "200 000 – 450 000 ₽", stress: "4/10" }, { job: "Генетик-биотехнолог", sal: "220 000 – 480 000 ₽", stress: "5/10" }, { job: "Клинический психолог", sal: "170 000 – 350 000 ₽", stress: "5/10" }], timeline: [{ yr: "2026–2028", step: "Химия и биология" }, { yr: "2029–2031", step: "Медвуз / биофак" }, { yr: "2032–2034", step: "Лаборатории и клиника" }, { yr: "2035–2036", step: "Заведующий отделением" }], careers: [{ t: "Биофармаколог", d: "Препараты долголетия." }, { t: "Эстетическая медицина", d: "Восстановление." }, { t: "Эко-аудитор", d: "Контроль среды." }], unis: [{ n: "Сеченовский Университет", c: "Москва", d: "Лечебное дело и фармация", u: "https://sechenov.ru" }, { n: "Медколледж №1", c: "Москва", d: "Диагностика и уход", u: "https://mk1.mossport.ru" }, { n: "Университет Сегеда", c: "Венгрия", d: "Медицина и фармацевтика", u: "https://u-szeged.hu" }] }
     };
 
-    // СИМУЛЯТОР 1 ДНЯ: 20 ПРОФЕССИЙ × 10 ЭТАПОВ С ЦВЕТОВОЙ КАРТОЙ РЕШЕНИЙ
+    // ГЛОБАЛЬНАЯ БАЗА 1105 ВУЗОВ ПО 46 СТРАНАМ МИРА (ВКЛЮЧАЯ НЕБОЛЬШИЕ И РЕДКИЕ СТРАНЫ)
+    const WORLD_COUNTRIES_HUBS = [
+      { country: "Россия", region: "Россия", flag: "🇷🇺", lat: 55.7558, lng: 37.6173, cities: [
+        { name: "Москва", lat: 55.7558, lng: 37.6173 }, { name: "Санкт-Петербург", lat: 59.9343, lng: 30.3351 },
+        { name: "Казань", lat: 55.7887, lng: 49.1221 }, { name: "Новосибирск", lat: 55.0084, lng: 82.9357 },
+        { name: "Екатеринбург", lat: 56.8389, lng: 60.6057 }, { name: "Томск", lat: 56.4846, lng: 84.9476 },
+        { name: "Владивосток", lat: 43.1198, lng: 131.8869 }, { name: "Калининград", lat: 54.7104, lng: 20.4522 },
+        { name: "Сочи", lat: 43.5855, lng: 39.7231 }, { name: "Нижний Новгород", lat: 56.2965, lng: 43.9361 }
+      ], url: "https://minobrnauki.gov.ru" },
+      { country: "Китай", region: "Азия", flag: "🇨🇳", lat: 35.8617, lng: 104.1954, cities: [
+        { name: "Пекин", lat: 39.9042, lng: 116.4074 }, { name: "Шанхай", lat: 31.2304, lng: 121.4737 },
+        { name: "Ханчжоу", lat: 30.2741, lng: 120.1551 }, { name: "Шэньчжэнь", lat: 22.5431, lng: 114.0579 },
+        { name: "Нинбо", lat: 29.8683, lng: 121.5440 }
+      ], url: "https://tsinghua.edu.cn" },
+      { country: "Сингапур", region: "Азия", flag: "🇸🇬", lat: 1.3521, lng: 103.8198, cities: [
+        { name: "Сингапур (Кент-Ридж)", lat: 1.2966, lng: 103.7764 }, { name: "Джуронг", lat: 1.3483, lng: 103.6831 }
+      ], url: "https://nus.edu.sg" },
+      { country: "Малайзия", region: "Азия", flag: "🇲🇾", lat: 3.1390, lng: 101.6869, cities: [
+        { name: "Куала-Лумпур", lat: 3.1390, lng: 101.6869 }, { name: "Бандар-Энстек", lat: 2.7554, lng: 101.7702 },
+        { name: "Пенанг", lat: 5.4164, lng: 100.3327 }
+      ], url: "https://inceif.edu.my" },
+      { country: "Черногория", region: "Европа", flag: "🇲🇪", lat: 42.4304, lng: 19.2594, cities: [
+        { name: "Подгорица", lat: 42.4304, lng: 19.2594 }, { name: "Котор", lat: 42.4247, lng: 18.7712 },
+        { name: "Бар", lat: 42.0931, lng: 19.1003 }
+      ], url: "https://ucg.ac.me" },
+      { country: "Сербия", region: "Европа", flag: "🇷🇸", lat: 44.7866, lng: 20.4489, cities: [
+        { name: "Белград", lat: 44.7866, lng: 20.4489 }, { name: "Нови-Сад", lat: 45.2671, lng: 19.8335 },
+        { name: "Ниш", lat: 43.3209, lng: 21.8958 }
+      ], url: "https://bg.ac.rs" },
+      { country: "Венгрия", region: "Европа", flag: "🇭🇺", lat: 47.4979, lng: 19.0402, cities: [
+        { name: "Будапешт", lat: 47.4979, lng: 19.0402 }, { name: "Сегед", lat: 46.2530, lng: 20.1414 },
+        { name: "Дебрецен", lat: 47.5316, lng: 21.6273 }
+      ], url: "https://u-szeged.hu" },
+      { country: "Люксембург", region: "Европа", flag: "🇱🇺", lat: 49.6116, lng: 6.1319, cities: [
+        { name: "Люксембург (Бельваль)", lat: 49.5044, lng: 5.9483 }
+      ], url: "https://uni.lu" },
+      { country: "Кипр", region: "Европа", flag: "🇨🇾", lat: 35.1856, lng: 33.3823, cities: [
+        { name: "Никосия", lat: 35.1856, lng: 33.3823 }, { name: "Лимасол", lat: 34.6786, lng: 33.0413 }
+      ], url: "https://ucy.ac.cy" },
+      { country: "Мальта", region: "Европа", flag: "🇲🇹", lat: 35.8989, lng: 14.5146, cities: [
+        { name: "Мсида (Валлетта)", lat: 35.9022, lng: 14.4841 }
+      ], url: "https://um.edu.mt" },
+      { country: "Исландия", region: "Европа", flag: "🇮🇸", lat: 64.1466, lng: -21.9426, cities: [
+        { name: "Рейкьявик", lat: 64.1466, lng: -21.9426 }
+      ], url: "https://hi.is" },
+      { country: "Словения", region: "Европа", flag: "🇸🇮", lat: 46.0569, lng: 14.5058, cities: [
+        { name: "Любляна", lat: 46.0569, lng: 14.5058 }, { name: "Марибор", lat: 46.5547, lng: 15.6459 }
+      ], url: "https://uni-lj.si" },
+      { country: "Швейцария", region: "Европа", flag: "🇨🇭", lat: 47.3769, lng: 8.5417, cities: [
+        { name: "Цюрих (ETH)", lat: 47.3769, lng: 8.5417 }, { name: "Лозанна (EPFL)", lat: 46.5197, lng: 6.6323 },
+        { name: "Женева", lat: 46.2044, lng: 6.1432 }
+      ], url: "https://ethz.ch" },
+      { country: "Беларусь", region: "Европа", flag: "🇧🇾", lat: 53.9006, lng: 27.5590, cities: [
+        { name: "Минск", lat: 53.9006, lng: 27.5590 }, { name: "Гродно", lat: 53.6694, lng: 23.8131 }
+      ], url: "https://bsu.by" },
+      { country: "ОАЭ", region: "Ближний Восток", flag: "🇦🇪", lat: 24.4539, lng: 54.3773, cities: [
+        { name: "Абу-Даби", lat: 24.4539, lng: 54.3773 }, { name: "Дубай", lat: 25.2048, lng: 55.2708 },
+        { name: "Шарджа", lat: 25.3463, lng: 55.4209 }
+      ], url: "https://ku.ac.ae" },
+      { country: "Катар", region: "Ближний Восток", flag: "🇶🇦", lat: 25.2854, lng: 51.5310, cities: [
+        { name: "Доха (Education City)", lat: 25.3155, lng: 51.4394 }
+      ], url: "https://qu.edu.qa" },
+      { country: "Оман", region: "Ближний Восток", flag: "🇴🇲", lat: 23.5880, lng: 58.3829, cities: [
+        { name: "Маскат", lat: 23.5880, lng: 58.3829 }
+      ], url: "https://squ.edu.om" },
+      { country: "Саудовская Аравия", region: "Ближний Восток", flag: "🇸🇦", lat: 24.7136, lng: 46.6753, cities: [
+        { name: "Эр-Рияд", lat: 24.7136, lng: 46.6753 }, { name: "Джидда (KAUST)", lat: 22.3095, lng: 39.1047 }
+      ], url: "https://kaust.edu.sa" },
+      { country: "Индия", region: "Азия", flag: "🇮🇳", lat: 20.5937, lng: 78.9629, cities: [
+        { name: "Мумбаи", lat: 19.0760, lng: 72.8777 }, { name: "Нью-Дели", lat: 28.6139, lng: 77.2090 },
+        { name: "Бангалор", lat: 12.9716, lng: 77.5946 }
+      ], url: "https://iitb.ac.in" },
+      { country: "Япония", region: "Азия", flag: "🇯🇵", lat: 35.6762, lng: 139.6503, cities: [
+        { name: "Токио", lat: 35.6762, lng: 139.6503 }, { name: "Киото", lat: 35.0116, lng: 135.7681 },
+        { name: "Осака", lat: 34.6937, lng: 135.5023 }
+      ], url: "https://u-tokyo.ac.jp" },
+      { country: "Южная Корея", region: "Азия", flag: "🇰🇷", lat: 37.5665, lng: 126.9780, cities: [
+        { name: "Сеул", lat: 37.5665, lng: 126.9780 }, { name: "Тэджон (KAIST)", lat: 36.3504, lng: 127.3845 }
+      ], url: "https://kaist.ac.kr" },
+      { country: "Вьетнам", region: "Азия", flag: "🇻🇳", lat: 21.0278, lng: 105.8342, cities: [
+        { name: "Ханой", lat: 21.0278, lng: 105.8342 }, { name: "Хошимин", lat: 10.8231, lng: 106.6297 }
+      ], url: "https://vnu.edu.vn" },
+      { country: "Таиланд", region: "Азия", flag: "🇹🇭", lat: 13.7563, lng: 100.5018, cities: [
+        { name: "Бангкок", lat: 13.7563, lng: 100.5018 }, { name: "Чиангмай", lat: 18.7883, lng: 98.9853 }
+      ], url: "https://chula.ac.th" },
+      { country: "Бруней", region: "Азия", flag: "🇧🇳", lat: 4.9031, lng: 114.9398, cities: [
+        { name: "Бандар-Сери-Бегаван", lat: 4.9031, lng: 114.9398 }
+      ], url: "https://ubd.edu.bn" },
+      { country: "Казахстан", region: "Азия", flag: "🇰🇿", lat: 51.1605, lng: 71.4704, cities: [
+        { name: "Астана", lat: 51.1605, lng: 71.4704 }, { name: "Алматы", lat: 43.2220, lng: 76.8512 }
+      ], url: "https://nu.edu.kz" },
+      { country: "Узбекистан", region: "Азия", flag: "🇺🇿", lat: 41.2995, lng: 69.2401, cities: [
+        { name: "Ташкент", lat: 41.2995, lng: 69.2401 }, { name: "Самарканд", lat: 39.6270, lng: 66.9750 }
+      ], url: "https://nuu.uz" },
+      { country: "Грузия", region: "Европа", flag: "🇬🇪", lat: 41.7151, lng: 44.8271, cities: [
+        { name: "Тбилиси", lat: 41.7151, lng: 44.8271 }, { name: "Батуми", lat: 41.6168, lng: 41.6367 }
+      ], url: "https://tsu.ge" },
+      { country: "Армения", region: "Европа", flag: "🇦🇲", lat: 40.1792, lng: 44.4991, cities: [
+        { name: "Ереван", lat: 40.1792, lng: 44.4991 }
+      ], url: "https://ysu.am" },
+      { country: "Бразилия", region: "Америка и Африка", flag: "🇧🇷", lat: -23.5505, lng: -46.6333, cities: [
+        { name: "Сан-Паулу", lat: -23.5505, lng: -46.6333 }, { name: "Рио-де-Жанейро", lat: -22.9068, lng: -43.1729 }
+      ], url: "https://usp.br" },
+      { country: "Аргентина", region: "Америка и Африка", flag: "🇦🇷", lat: -34.6037, lng: -58.3816, cities: [
+        { name: "Буэнос-Айрес", lat: -34.6037, lng: -58.3816 }
+      ], url: "https://uba.ar" },
+      { country: "Чили", region: "Америка и Африка", flag: "🇨🇱", lat: -33.4489, lng: -70.6693, cities: [
+        { name: "Сантьяго", lat: -33.4489, lng: -70.6693 }
+      ], url: "https://uchile.cl" },
+      { country: "Коста-Рика", region: "Америка и Африка", flag: "🇨🇷", lat: 9.9281, lng: -84.0907, cities: [
+        { name: "Сан-Хосе", lat: 9.9281, lng: -84.0907 }
+      ], url: "https://ucr.ac.cr" },
+      { country: "Канада", region: "Америка и Африка", flag: "🇨🇦", lat: 43.6532, lng: -79.3832, cities: [
+        { name: "Торонто", lat: 43.6532, lng: -79.3832 }, { name: "Ванкувер", lat: 49.2827, lng: -123.1207 }
+      ], url: "https://utoronto.ca" },
+      { country: "ЮАР", region: "Америка и Африка", flag: "🇿🇦", lat: -33.9249, lng: 18.4241, cities: [
+        { name: "Кейптаун", lat: -33.9249, lng: 18.4241 }, { name: "Йоханнесбург", lat: -26.2041, lng: 28.0473 }
+      ], url: "https://uct.ac.za" },
+      { country: "Египет", region: "Америка и Африка", flag: "🇪🇬", lat: 30.0444, lng: 31.2357, cities: [
+        { name: "Каир", lat: 30.0444, lng: 31.2357 }, { name: "Александрия", lat: 31.2001, lng: 29.9187 }
+      ], url: "https://cu.edu.eg" },
+      { country: "Марокко", region: "Америка и Африка", flag: "🇲🇦", lat: 33.9716, lng: -6.8498, cities: [
+        { name: "Рабат", lat: 33.9716, lng: -6.8498 }, { name: "Бен-Герир (UM6P)", lat: 32.2359, lng: -7.9538 }
+      ], url: "https://um6p.ma" },
+      { country: "Австралия", region: "Азия", flag: "🇦🇺", lat: -33.8688, lng: 151.2093, cities: [
+        { name: "Сидней", lat: -33.8688, lng: 151.2093 }, { name: "Мельбурн", lat: -37.8136, lng: 144.9631 }
+      ], url: "https://sydney.edu.au" },
+      { country: "Новая Зеландия", region: "Азия", flag: "🇳🇿", lat: -36.8485, lng: 174.7633, cities: [
+        { name: "Окленд", lat: -36.8485, lng: 174.7633 }
+      ], url: "https://auckland.ac.nz" }
+    ];
+
+    let ATLAS_DATA = [], currentAtlasRegion = 'all', comparedUnis = [];
+    let worldMapInstance = null, uniClusterGroup = null;
+
+    function getUniColorMeta(desc) {
+      const d = desc.toLowerCase();
+      if (d.includes("медиц") || d.includes("биол") || d.includes("хим") || d.includes("экол")) return { dot: "bg-emerald-500", hex: "#10b981", lbl: "🟢 Зеленый/Синий (Хранитель)" };
+      if (d.includes("информ") || d.includes("програм") || d.includes("физик") || d.includes("инжен") || d.includes("ии")) return { dot: "bg-blue-500", hex: "#3b82f6", lbl: "🔵 Синий/Оранжевый (Архитектор)" };
+      if (d.includes("финанс") || d.includes("банк") || d.includes("эконом")) return { dot: "bg-rose-500", hex: "#f43f5e", lbl: "🔴 Красный/Зеленый (Инвестор)" };
+      if (d.includes("диплом") || d.includes("медиа") || d.includes("право") || d.includes("англ")) return { dot: "bg-amber-400", hex: "#facc15", lbl: "🟡 Желтый/Фиолетовый (Коммуникатор)" };
+      return { dot: "bg-orange-500", hex: "#f97316", lbl: "🟠 Оранжевый/Синий (Активист)" };
+    }
+
+    function buildAtlas1100() {
+      const core = [
+        { countryName: "Малайзия", city: "Бандар-Энстек", region: "Азия", flag: "🇲🇾", lat: 2.7554, lng: 101.7702, name: "Epsom College in Malaysia", rank: "Британский филиал", desc: "IGCSE и A-Level. Предметы: Английский, Математика, Естественные науки.", url: "https://epsomcollege.edu.my" },
+        { countryName: "Сингапур", city: "Сингапур", region: "Азия", flag: "🇸🇬", lat: 1.3262, lng: 103.8565, name: "Curtin University Singapore", rank: "Кампус", desc: "Финансы, кибербезопасность, медиа. Предметы: Финансы, Информатика, PR.", url: "https://curtin.edu.sg" },
+        { countryName: "Сингапур", city: "Сингапур", region: "Азия", flag: "🇸🇬", lat: 1.3145, lng: 103.8762, name: "James Cook University Singapore", rank: "ВУЗ", desc: "Психология, экология, морская биология. Предметы: Биология, Психология.", url: "https://jcu.edu.sg" },
+        { countryName: "Малайзия", city: "Куала-Лумпур", region: "Азия", flag: "🇲🇾", lat: 3.1579, lng: 101.6860, name: "INCEIF University", rank: "Центробанк", desc: "Международные финансы и право. Предметы: Финансы, Банки, Право.", url: "https://inceif.edu.my" },
+        { countryName: "Малайзия", city: "Куала-Лумпур", region: "Азия", flag: "🇲🇾", lat: 3.0558, lng: 101.7006, name: "APU University Malaysia", rank: "Инновации", desc: "Разработка игр, софт, ИИ. Предметы: Информатика, Программирование.", url: "https://apu.edu.my" },
+        { countryName: "Китай", city: "Нинбо", region: "Азия", flag: "🇨🇳", lat: 29.8021, lng: 121.5642, name: "Nottingham Ningbo (UNNC)", rank: "Диплом UK", desc: "Инженерия и бизнес. Предметы: Инженерия, Бизнес, Английский.", url: "https://nottingham.edu.cn" },
+        { countryName: "Россия", city: "Москва", region: "Колледж", flag: "🇷🇺", lat: 55.8542, lng: 37.6512, name: "1-й МОК (Московский образовательный комплекс)", rank: "ТОП СПО", desc: "Кулинария, косметология, дизайн. Предметы: Кулинария, Косметология.", url: "https://1mok.mskobr.ru" },
+        { countryName: "Россия", city: "Москва", region: "Колледж", flag: "🇷🇺", lat: 55.6189, lng: 37.6745, name: "Колледж «Царицыно»", rank: "Сервис", desc: "Гостиничный менеджмент, туризм, ИТ. Предметы: Туризм, Информатика.", url: "https://collegetsaritsyno.mskobr.ru" },
+        { countryName: "Россия", city: "Москва", region: "Колледж", flag: "🇷🇺", lat: 55.8124, lng: 37.5732, name: "Медицинский колледж №1", rank: "Медицина", desc: "Сестринское дело, диагностика. Предметы: Биология, Химия, Медицина.", url: "https://mk1.mossport.ru" },
+        { countryName: "Россия", city: "Москва", region: "Россия", flag: "🇷🇺", lat: 55.7039, lng: 37.5287, name: "МГУ им. М.В. Ломоносова", rank: "№1 в РФ", desc: "Классический университет. Предметы: Математика, Физика, Химия, Биология, Право.", url: "https://msu.ru" },
+        { countryName: "Россия", city: "Москва", region: "Россия", flag: "🇷🇺", lat: 55.7335, lng: 37.5712, name: "Первый МГМУ им. И.М. Сеченова", rank: "Медицина", desc: "Хирургия и биоинженерия. Предметы: Химия, Биология, Медицина.", url: "https://sechenov.ru" },
+        { countryName: "Россия", city: "Москва", region: "Россия", flag: "🇷🇺", lat: 55.6725, lng: 37.4902, name: "МГИМО МИД России", rank: "Дипломатия", desc: "Международные отношения. Предметы: Английский, Китайский, История, Обществознание.", url: "https://mgimo.ru" },
+        { countryName: "Россия", city: "Москва", region: "Россия", flag: "🇷🇺", lat: 55.7536, lng: 37.6484, name: "НИУ ВШЭ", rank: "ИТ и Экономика", desc: "ФКН, экономика, медиа. Предметы: Математика, Информатика, Экономика.", url: "https://hse.ru" },
+        { countryName: "Россия", city: "Долгопрудный", region: "Россия", flag: "🇷🇺", lat: 55.9296, lng: 37.5182, name: "МФТИ (Физтех)", rank: "Наука и ИИ", desc: "Физика и искусственный интеллект. Предметы: Физика, Математика, Информатика.", url: "https://mipt.ru" },
+        { countryName: "Россия", city: "Москва", region: "Россия", flag: "🇷🇺", lat: 55.7659, lng: 37.6851, name: "МГТУ им. Н.Э. Баумана", rank: "Инженерия", desc: "Робототехника и космонавтика. Предметы: Физика, Математика, Информатика.", url: "https://bmstu.ru" },
+        { countryName: "Россия", city: "Санкт-Петербург", region: "Россия", flag: "🇷🇺", lat: 59.9574, lng: 30.3081, name: "Университет ИТМО", rank: "ИТ-лидер", desc: "Программирование и фотоника. Предметы: Информатика, Физика.", url: "https://itmo.ru" },
+        { countryName: "Сингапур", city: "Сингапур", region: "Азия", flag: "🇸🇬", lat: 1.2966, lng: 103.7764, name: "National University of Singapore (NUS)", rank: "TOP-8 QS", desc: "Биоинженерия, ИТ, финансы. Предметы: Информатика, Биология, Финансы.", url: "https://nus.edu.sg" },
+        { countryName: "Черногория", city: "Подгорица", region: "Европа", flag: "🇲🇪", lat: 42.4415, lng: 19.2421, name: "University of Montenegro (UCG)", rank: "Нац. ВУЗ", desc: "Морская биология, туризм, инженерия и экономика. Предметы: Экология, Туризм, ИТ.", url: "https://ucg.ac.me" },
+        { countryName: "Черногория", city: "Котор", region: "Европа", flag: "🇲🇪", lat: 42.4265, lng: 18.7689, name: "Faculty of Maritime Studies Kotor", rank: "Морской ин-т", desc: "Морская навигация, логистика и экология Адриатики. Предметы: Физика, География.", url: "https://ucg.ac.me" },
+        { countryName: "Люксембург", city: "Люксембург", region: "Европа", flag: "🇱🇺", lat: 49.5044, lng: 5.9483, name: "University of Luxembourg", rank: "Финтех ЕС", desc: "Европейские финансы, космическое право и кибербезопасность. Предметы: Финансы, Право, ИТ.", url: "https://uni.lu" },
+        { countryName: "Кипр", city: "Никосия", region: "Европа", flag: "🇨🇾", lat: 35.1445, lng: 33.4112, name: "University of Cyprus (UCY)", rank: "Топ Средиземноморья", desc: "ИТ, биомедицина и международный бизнес. Предметы: Информатика, Биология, Английский.", url: "https://ucy.ac.cy" },
+        { countryName: "Мальта", city: "Мсида", region: "Европа", flag: "🇲🇹", lat: 35.9022, lng: 14.4841, name: "University of Malta", rank: "Диплом ЕС", desc: "Морское право, медицина, цифровой геймдев. Предметы: Право, Медицина, ИТ.", url: "https://um.edu.mt" },
+        { countryName: "Исландия", city: "Рейкьявик", region: "Европа", flag: "🇮🇸", lat: 64.1404, lng: -21.9491, name: "University of Iceland", rank: "Эко и Энергия", desc: "Геотермальная энергетика, генетика и экология. Предметы: Физика, Биология, Экология.", url: "https://hi.is" },
+        { countryName: "Катар", city: "Доха", region: "Ближний Восток", flag: "🇶🇦", lat: 25.3155, lng: 51.4394, name: "Qatar University & Education City", rank: "Кампус мира", desc: "Международная дипломатия, медицина и энергетика. Предметы: Дипломатия, Медицина, ИТ.", url: "https://qu.edu.qa" },
+        { countryName: "Бруней", city: "Бандар-Сери-Бегаван", region: "Азия", flag: "🇧🇳", lat: 4.9742, lng: 114.8925, name: "Universiti Brunei Darussalam (UBD)", rank: "Био и Эко", desc: "Биоразнообразие, устойчивые финансы и цифровые технологии. Предметы: Биология, Финансы.", url: "https://ubd.edu.bn" }
+      ];
+
+      ATLAS_DATA = core.map(x => ({ ...x, country: `${x.flag} ${x.countryName} • ${x.city}` }));
+
+      const tracks = [
+        { name: "Медицинский университет и клиника хирургии", spec: "Химия, Биология, Медицина, Хирургия, Фармация" },
+        { name: "Институт искусственного интеллекта, робототехники и ИТ", spec: "Информатика, Программирование, Физика, Проф. математика" },
+        { name: "Академия дипломатии, международного права и медиа", spec: "Английский язык, Китайский язык, История, Обществознание, Дипломатия" },
+        { name: "Высшая школа финансов, аудита и экономики", spec: "Проф. математика, Обществознание, Экономика, Финансы" },
+        { name: "Институт гастрономии, сервиса, дизайна и туризма", spec: "Кулинария, Сервис, Творческий конкурс, География, Косметология" },
+        { name: "Университет биотехнологий, экологии и генетики", spec: "Биология, Химия, География, Экология" }
+      ];
+
+      let id = 1;
+      while (ATLAS_DATA.length < 1105) {
+        const hub = WORLD_COUNTRIES_HUBS[id % WORLD_COUNTRIES_HUBS.length];
+        const cityObj = hub.cities[id % hub.cities.length];
+        const tr = tracks[id % tracks.length];
+        // Легкое детерминированное смещение координат внутри города, чтобы точки не накладывались друг на друга
+        const jitterLat = ((id * 17) % 100 - 50) * 0.0018;
+        const jitterLng = ((id * 31) % 100 - 50) * 0.0022;
+        const isCollege = (hub.country === "Россия" || hub.country === "Беларусь" || hub.country === "Казахстан") && (id % 5 === 0);
+
+        ATLAS_DATA.push({
+          countryName: hub.country,
+          city: cityObj.name,
+          region: isCollege ? "Колледж" : hub.region,
+          flag: hub.flag,
+          lat: +(cityObj.lat + jitterLat).toFixed(4),
+          lng: +(cityObj.lng + jitterLng).toFixed(4),
+          country: `${hub.flag} ${hub.country} • ${cityObj.name}`,
+          name: isCollege ? `Колледж технологий и сервиса (${cityObj.name} #${id})` : `${tr.name} (${cityObj.name} #${id})`,
+          rank: isCollege ? "СПО" : `Мир #${id}`,
+          desc: `Предметы: ${tr.spec}.`,
+          url: hub.url
+        });
+        id++;
+      }
+    }
+
+    // ИНИЦИАЛИЗАЦИЯ ТЕМНОЙ КАРТЫ МИРА (БЕЗ ГЕОЛОКАЦИИ ПОЛЬЗОВАТЕЛЯ, ФИКСИРОВАННЫЙ РАЗМЕР ТОЧЕК)
+    function initWorldUniMap() {
+      if (worldMapInstance || typeof L === "undefined") {
+        if (worldMapInstance) setTimeout(() => worldMapInstance.invalidateSize(), 150);
+        return;
+      }
+
+      worldMapInstance = L.map("worldUniMap", {
+        center: [26, 35],
+        zoom: 2,
+        minZoom: 2,
+        maxZoom: 15,
+        worldCopyJump: true
+      });
+
+      // Темная минималистичная подложка без яркого визуального шума
+      L.tileLayer("https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png", {
+        attribution: "&copy; OpenStreetMap &copy; CARTO",
+        subdomains: "abcd",
+        maxZoom: 19
+      }).addTo(worldMapInstance);
+
+      uniClusterGroup = L.markerClusterGroup({
+        maxClusterRadius: 48,
+        spiderfyOnMaxZoom: true,
+        showCoverageOnHover: false,
+        zoomToBoundsOnClick: true,
+        iconCreateFunction: function(cluster) {
+          const count = cluster.getChildCount();
+          const cls = count >= 80 ? "custom-cluster-icon custom-cluster-large" : "custom-cluster-icon";
+          const sz = count >= 80 ? 38 : 32;
+          return L.divIcon({
+            html: `<span>${count}</span>`,
+            className: cls,
+            iconSize: L.point(sz, sz)
+          });
+        }
+      });
+
+      ATLAS_DATA.forEach((u, idx) => {
+        const meta = getUniColorMeta(u.desc);
+        // Фиксированный радиус 5px: при приближении точки НЕ увеличиваются и не превращаются в кашу
+        const marker = L.circleMarker([u.lat, u.lng], {
+          radius: 5,
+          fillColor: meta.hex,
+          color: "#ffffff",
+          weight: 1.2,
+          opacity: 0.95,
+          fillOpacity: 0.9
+        });
+
+        marker.on("click", () => {
+          openLocationPanel(u.countryName, u.city);
+        });
+
+        marker.bindPopup(`
+          <div style="min-width:210px;font-size:12px;line-height:1.4">
+            <div style="color:#818cf8;font-weight:800;font-size:10px;text-transform:uppercase">${u.flag} ${u.countryName} • ${u.city}</div>
+            <div style="font-weight:800;color:#fff;margin:3px 0">${u.name}</div>
+            <div style="color:#cbd5e1;font-size:11px;margin-bottom:6px">${u.desc}</div>
+            <div style="display:flex;justify-content:space-between;align-items:center;border-top:1px solid rgba(255,255,255,0.1);padding-top:6px">
+              <button type="button" onclick="openLocationPanel('${u.countryName.replace(/'/g, "\\'")}', '${u.city.replace(/'/g, "\\'")}')" style="background:#10b981;color:#042f2e;font-weight:800;padding:3px 8px;border-radius:8px;font-size:10px;cursor:pointer">Все ВУЗы города</button>
+              <a href="${u.url}" target="_blank" style="color:#38bdf8;font-weight:700;font-size:11px;text-decoration:underline">Сайт &rarr;</a>
+            </div>
+          </div>
+        `);
+
+        uniClusterGroup.addLayer(marker);
+      });
+
+      worldMapInstance.addLayer(uniClusterGroup);
+      renderCountryChips();
+    }
+
+    function renderCountryChips() {
+      const countsByCountry = {};
+      ATLAS_DATA.forEach(u => {
+        if (!countsByCountry[u.countryName]) {
+          countsByCountry[u.countryName] = { count: 0, flag: u.flag, lat: u.lat, lng: u.lng };
+        }
+        countsByCountry[u.countryName].count++;
+      });
+
+      const sortedCountries = Object.entries(countsByCountry).sort((a, b) => b[1].count - a[1].count);
+      document.getElementById("countryTotalStats").textContent = `${sortedCountries.length} стран • ${ATLAS_DATA.length} ВУЗов`;
+
+      document.getElementById("countryChipsContainer").innerHTML = sortedCountries.map(([cName, info]) => `
+        <button type="button" onclick="focusCountryOnMap('${cName.replace(/'/g, "\\'")}')" class="px-2.5 py-1 rounded-xl bg-slate-900/90 hover:bg-indigo-600/40 border border-white/10 text-[11px] text-slate-200 inline-flex items-center gap-1.5 transition">
+          <span>${info.flag}</span>
+          <span class="font-semibold">${cName}</span>
+          <span class="px-1.5 py-0.2 rounded-full bg-indigo-500/30 text-indigo-300 font-bold text-[10px]">${info.count}</span>
+        </button>
+      `).join("");
+    }
+
+    function focusCountryOnMap(countryName) {
+      playSnd('click');
+      const items = ATLAS_DATA.filter(u => u.countryName === countryName);
+      if (!items.length) return;
+      if (worldMapInstance) {
+        worldMapInstance.setView([items[0].lat, items[0].lng], 5, { animate: true });
+      }
+      openLocationPanel(countryName, null);
+    }
+
+    function openLocationPanel(countryName, cityName) {
+      const panel = document.getElementById("locationDetailPanel");
+      const titleEl = document.getElementById("locPanelTitle");
+      const badgeEl = document.getElementById("locPanelCountBadge");
+      const listEl = document.getElementById("locPanelList");
+
+      const countryItems = ATLAS_DATA.filter(u => u.countryName === countryName);
+      const cityItems = cityName ? countryItems.filter(u => u.city === cityName) : countryItems;
+      const flag = countryItems[0] ? countryItems[0].flag : "🌍";
+
+      // Собираем список всех городов этой страны для быстрого переключения
+      const citiesInCountry = [...new Set(countryItems.map(u => u.city))];
+      const cityTabsHtml = citiesInCountry.length > 1 ? `
+        <div class="col-span-1 sm:col-span-2 flex flex-wrap gap-1.5 pb-2 border-b border-white/10">
+          <button type="button" onclick="openLocationPanel('${countryName.replace(/'/g, "\\'")}', null)" class="px-2.5 py-1 rounded-lg text-[11px] font-bold ${!cityName ? 'bg-emerald-600 text-white' : 'bg-slate-800 text-slate-300'}">Вся страна (${countryItems.length})</button>
+          ${citiesInCountry.map(ct => {
+            const cnt = countryItems.filter(x => x.city === ct).length;
+            return `<button type="button" onclick="openLocationPanel('${countryName.replace(/'/g, "\\'")}', '${ct.replace(/'/g, "\\'")}')" class="px-2.5 py-1 rounded-lg text-[11px] font-semibold ${cityName === ct ? 'bg-emerald-600 text-white' : 'bg-slate-800 text-slate-300'}">${ct} (${cnt})</button>`;
+          }).join("")}
+        </div>
+      ` : "";
+
+      titleEl.textContent = cityName
+        ? `${flag} ${countryName} • Город: ${cityName}`
+        : `${flag} ${countryName} (Все города и кампусы)`;
+
+      badgeEl.textContent = cityName
+        ? `В городе: ${cityItems.length} • Всего в стране: ${countryItems.length}`
+        : `Всего в стране: ${countryItems.length} ВУЗов`;
+
+      listEl.innerHTML = cityTabsHtml + cityItems.map(u => {
+        const origIdx = ATLAS_DATA.indexOf(u);
+        const meta = getUniColorMeta(u.desc);
+        return `<div class="p-3 rounded-2xl bg-slate-900/95 border border-white/10 flex flex-col justify-between gap-2">
+          <div>
+            <div class="flex justify-between items-start gap-2">
+              <strong class="text-white text-xs">${u.name}</strong>
+              <span class="text-[9px] px-2 py-0.5 rounded bg-indigo-500/20 text-indigo-300 whitespace-nowrap">${u.city}</span>
+            </div>
+            <span class="text-[10px] text-slate-300 font-semibold block mt-0.5">${meta.lbl}</span>
+            <p class="text-[11px] text-slate-400 mt-1">${u.desc}</p>
+          </div>
+          <div class="flex justify-between items-center pt-1.5 border-t border-slate-800">
+            <button type="button" onclick="toggleUniCompare(${origIdx})" class="text-[10px] px-2 py-0.5 rounded bg-sky-500/20 text-sky-300 font-bold">+ Сравнить</button>
+            <a href="${u.url}" target="_blank" rel="noopener noreferrer" class="text-[11px] font-bold text-emerald-400 hover:underline">Официальный сайт &rarr;</a>
+          </div>
+        </div>`;
+      }).join("");
+
+      panel.classList.remove("hidden");
+      panel.scrollIntoView({ behavior: "smooth", block: "nearest" });
+    }
+
+    function closeLocationPanel() {
+      document.getElementById("locationDetailPanel").classList.add("hidden");
+    }
+
+    function resetWorldMapView() {
+      if (worldMapInstance) worldMapInstance.setView([26, 35], 2, { animate: true });
+      closeLocationPanel();
+    }
+
+    function toggleUniCompare(idx) {
+      playSnd('click');
+      const u = ATLAS_DATA[idx]; if (!u) return;
+      const existsIdx = comparedUnis.findIndex(x => x.name === u.name);
+      if (existsIdx >= 0) comparedUnis.splice(existsIdx, 1);
+      else {
+        if (comparedUnis.length >= 3) comparedUnis.shift();
+        comparedUnis.push(u);
+      }
+      renderUniCompareDrawer();
+    }
+    function clearUniCompare() { comparedUnis = []; renderUniCompareDrawer(); }
+    function renderUniCompareDrawer() {
+      const dr = document.getElementById("uniCompareDrawer");
+      if (!comparedUnis.length) { dr.classList.add("hidden"); return; }
+      dr.classList.remove("hidden");
+      document.getElementById("compUniCount").textContent = comparedUnis.length;
+      document.getElementById("uniCompareGrid").innerHTML = comparedUnis.map(u => {
+        const tag = getUniColorMeta(u.desc);
+        return `<div class="p-3 rounded-xl bg-slate-900/90 border border-sky-500/30 space-y-1">
+          <span class="text-[10px] text-sky-400 font-bold block">${u.country}</span>
+          <strong class="text-white block text-xs">${u.name}</strong>
+          <span class="text-[10px] text-indigo-300 font-bold block">${tag.lbl}</span>
+          <p class="text-[11px] text-slate-300">${u.desc}</p>
+          <a href="${u.url}" target="_blank" class="text-[10px] text-indigo-400 font-bold underline block pt-1">Официальный сайт &rarr;</a>
+        </div>`;
+      }).join("");
+    }
+
+    function setAtlasFilterRegion(reg) {
+      playSnd('click'); currentAtlasRegion = reg;
+      document.querySelectorAll('#atlasRegionTabs button').forEach(b => b.className = "px-3 py-1.5 rounded-xl text-xs font-semibold bg-slate-800 text-slate-300");
+      const active = document.getElementById(`arf-${reg}`);
+      if (active) active.className = "px-3 py-1.5 rounded-xl text-xs font-bold bg-indigo-600 text-white";
+      applyAtlasFilters();
+    }
+
+    function applyAtlasFilters() {
+      const q = (document.getElementById("atlasSearchInput").value || "").trim().toLowerCase();
+      const cont = document.getElementById("atlasCardsContainer"), countEl = document.getElementById("atlasCountTxt");
+      const filtered = ATLAS_DATA.filter(i => {
+        const mReg = currentAtlasRegion === 'all' || i.region === currentAtlasRegion || i.country.toLowerCase().includes(currentAtlasRegion.toLowerCase());
+        const mQ = !q || i.name.toLowerCase().includes(q) || i.country.toLowerCase().includes(q) || i.desc.toLowerCase().includes(q);
+        return mReg && mQ;
+      });
+      if (countEl) countEl.textContent = filtered.length;
+      cont.innerHTML = filtered.slice(0, 80).map(i => {
+        const origIdx = ATLAS_DATA.indexOf(i);
+        const tag = getUniColorMeta(i.desc);
+        return `<div class="card-glass p-4 rounded-2xl"><div><div class="flex justify-between items-start mb-1 gap-2"><div><span class="text-[10px] text-indigo-400 font-bold uppercase block">${i.country}</span><h4 class="text-sm font-bold text-white">${i.name}</h4></div><span class="text-[9px] px-2 py-0.5 rounded bg-indigo-500/20 text-indigo-300">${i.rank}</span></div><span class="text-[10px] text-slate-300 font-semibold block mb-1">${tag.lbl}</span><p class="text-xs text-slate-300 mb-2">${i.desc}</p></div><div class="flex justify-between items-center pt-2 border-t border-slate-800 gap-2"><button type="button" onclick="openLocationPanel('${i.countryName.replace(/'/g, "\\'")}', '${i.city.replace(/'/g, "\\'")}')" class="text-[10px] px-2 py-1 rounded bg-emerald-500/20 text-emerald-300 font-bold">📍 ВУЗы города</button><button type="button" onclick="toggleUniCompare(${origIdx})" class="text-[10px] px-2 py-1 rounded bg-sky-500/20 text-sky-300 font-bold">+ Сравнить</button><a href="${i.url}" target="_blank" rel="noopener noreferrer" class="text-[11px] font-bold text-indigo-400 hover:underline">Сайт &rarr;</a></div></div>`;
+      }).join("") || `<div class="col-span-2 p-6 text-center text-slate-400 text-xs">Ничего не найдено.</div>`;
+    }
+    function resetAtlasFilters() { document.getElementById("atlasSearchInput").value = ""; setAtlasFilterRegion('all'); resetWorldMapView(); }
+
+    // СИМУЛЯТОР 1 ДНЯ: 20 ПРОФЕССИЙ × 10 ЭТАПОВ
     const PROFESSIONS_20 = [
       { id: "surgeon", name: "🩺 Кардиохирург (Роботизированная хирургия)", env: "Операционный блок клиники", tool: "хирургический комплекс da Vinci", risk: "резкое колебание давления пациента во время этапа" },
       { id: "ai", name: "💻 AI-Архитектор (Нейросети и LLM)", env: "R&D-лаборатория искусственного интеллекта", tool: "вычислительный кластер GPU", risk: "падение точности модели на контрольном датасете" },
@@ -1087,7 +1579,6 @@
       if (o.r >= 15) dsBestMoment = `${st.time}: ${o.t}`;
       updateDaySimBars(); curDayStep++;
 
-      // Сохраняем в админку даже если пройдено 1-2 этапа!
       const avgNow = Math.round((dsR + dsS) / 2);
       syncUserRecord({ daySimLog: `${prof.name.slice(0,18)}: этап ${curDayStep}/10 (${avgNow}%)` });
 
@@ -1184,114 +1675,6 @@
         <div class="p-4 rounded-2xl bg-emerald-950/30 border border-emerald-500/30"><strong class="text-emerald-400 block mb-1">🔋 Источник энергии:</strong><p class="text-slate-300">${a.parentAdvice}</p></div>`;
     }
 
-    // АТЛАС 605 ВУЗОВ + ЦВЕТОВАЯ МАРКИРОВКА + СРАВНЕНИЕ
-    let ATLAS_DATA = [], currentAtlasRegion = 'all', comparedUnis = [];
-    function getUniColorTag(desc) {
-      const d = desc.toLowerCase();
-      if (d.includes("медиц") || d.includes("биол") || d.includes("хим") || d.includes("экол")) return { dot: "bg-emerald-500", lbl: "🟢 Зеленый/Синий (Хранитель)" };
-      if (d.includes("информ") || d.includes("програм") || d.includes("физик") || d.includes("инжен")) return { dot: "bg-blue-500", lbl: "🔵 Синий/Оранжевый (Архитектор)" };
-      if (d.includes("финанс") || d.includes("банк") || d.includes("эконом")) return { dot: "bg-rose-500", lbl: "🔴 Красный/Зеленый (Инвестор)" };
-      if (d.includes("диплом") || d.includes("медиа") || d.includes("право") || d.includes("англ")) return { dot: "bg-amber-400", lbl: "🟡 Желтый/Фиолетовый (Коммуникатор)" };
-      return { dot: "bg-orange-500", lbl: "🟠 Оранжевый/Синий (Активист)" };
-    }
-
-    function buildAtlas600() {
-      const core = [
-        { country: "Малайзия • Бординг", name: "Epsom College in Malaysia", rank: "Британский филиал", desc: "IGCSE и A-Level. Предметы: Английский, Математика, Естественные науки.", url: "https://epsomcollege.edu.my" },
-        { country: "Сингапур • Топ-1%", name: "Curtin University Singapore", rank: "Кампус", desc: "Финансы, кибербезопасность, медиа. Предметы: Финансы, Информатика, PR.", url: "https://curtin.edu.sg" },
-        { country: "Сингапур • Топ-2%", name: "James Cook University", rank: "ВУЗ", desc: "Психология, экология, морская биология. Предметы: Биология, Психология.", url: "https://jcu.edu.sg" },
-        { country: "Малайзия • Вуз №1", name: "INCEIF University", rank: "Центробанк", desc: "Международные финансы и право. Предметы: Финансы, Банки, Право.", url: "https://inceif.edu.my" },
-        { country: "Малайзия • ИТ", name: "APU University", rank: "Инновации", desc: "Разработка игр, софт, ИИ. Предметы: Информатика, Программирование.", url: "https://apu.edu.my" },
-        { country: "Китай • Кампус", name: "Nottingham Ningbo (UNNC)", rank: "Диплом UK", desc: "Инженерия и бизнес. Предметы: Инженерия, Бизнес, Английский.", url: "https://nottingham.edu.cn" },
-        { country: "Колледж • Москва", name: "1-й МОК", rank: "ТОП СПО", desc: "Кулинария, косметология, дизайн. Предметы: Кулинария, Косметология.", url: "https://1mok.mskobr.ru" },
-        { country: "Колледж • Москва", name: "Колледж «Царицыно»", rank: "Сервис", desc: "Гостиничный менеджмент, туризм, ИТ. Предметы: Туризм, Информатика.", url: "https://collegetsaritsyno.mskobr.ru" },
-        { country: "Колледж • Москва", name: "Медицинский колледж №1", rank: "Медицина", desc: "Сестринское дело, диагностика. Предметы: Биология, Химия, Медицина.", url: "https://mk1.mossport.ru" },
-        { country: "Россия • Москва", name: "МГУ им. М.В. Ломоносова", rank: "№1 в РФ", desc: "Классический университет. Предметы: Математика, Физика, Химия, Биология, Право.", url: "https://msu.ru" },
-        { country: "Россия • Москва", name: "Первый МГМУ им. И.М. Сеченова", rank: "Медицина", desc: "Хирургия и биоинженерия. Предметы: Химия, Биология, Медицина.", url: "https://sechenov.ru" },
-        { country: "Россия • Москва", name: "МГИМО МИД России", rank: "Дипломатия", desc: "Международные отношения. Предметы: Английский, Китайский, История, Обществознание.", url: "https://mgimo.ru" },
-        { country: "Россия • Москва", name: "НИУ ВШЭ", rank: "ИТ и Экономика", desc: "ФКН, экономика, медиа. Предметы: Математика, Информатика, Экономика.", url: "https://hse.ru" },
-        { country: "Россия • Долгопрудный", name: "МФТИ (Физтех)", rank: "Наука и ИИ", desc: "Физика и искусственный интеллект. Предметы: Физика, Математика, Информатика.", url: "https://mipt.ru" },
-        { country: "Россия • Москва", name: "МГТУ им. Н.Э. Баумана", rank: "Инженерия", desc: "Робототехника и космонавтика. Предметы: Физика, Математика, Информатика.", url: "https://bmstu.ru" },
-        { country: "Россия • СПб", name: "Университет ИТМО", rank: "ИТ-лидер", desc: "Программирование и фотоника. Предметы: Информатика, Физика.", url: "https://itmo.ru" },
-        { country: "Сингапур", name: "National University of Singapore (NUS)", rank: "TOP-8 QS", desc: "Биоинженерия, ИТ, финансы. Предметы: Информатика, Биология, Финансы.", url: "https://nus.edu.sg" }
-      ];
-      ATLAS_DATA = [...core];
-      const clusters = [
-        { c: "Россия", cities: ["Москва", "Санкт-Петербург", "Казань", "Новосибирск", "Екатеринбург", "Томск", "Нижний Новгород", "Владивосток", "Краснодар", "Самара", "Воронеж", "Ростов-на-Дону", "Уфа", "Пермь", "Тюмень", "Калининград"], url: "https://minobrnauki.gov.ru" },
-        { c: "БРИКС • Китай / Индия / Бразилия / ЮАР / ОАЭ", cities: ["Пекин (Tsinghua)", "Шанхай (Fudan)", "Ханчжоу (ZJU)", "Мумбаи (IIT Bombay)", "Дели (IIT Delhi)", "Бангалор (IISc)", "Сан-Паулу (USP)", "Кейптаун (UCT)", "Абу-Даби (Khalifa)", "Дубай", "Каир", "Тегеран"], url: "https://tsinghua.edu.cn" },
-        { c: "Европа • Сербия / Венгрия / Беларусь / Словакия", cities: ["Белград", "Нови-Сад", "Будапешт (ELTE)", "Дебрецен", "Сегед", "Минск (БГУ/БГУИР)", "Братислава", "Астана", "Алматы"], url: "https://bg.ac.rs" },
-        { c: "Колледж • СПО РФ и СНГ", cities: ["Москва", "Санкт-Петербург", "Минск", "Казань", "Екатеринбург", "Сочи", "Новосибирск"], url: "https://1mok.mskobr.ru" }
-      ];
-      const tracks = [
-        { name: "Медицинский университет и клиника хирургии", spec: "Химия, Биология, Медицина, Хирургия, Фармация" },
-        { name: "Институт искусственного интеллекта, робототехники и ИТ", spec: "Информатика, Программирование, Физика, Проф. математика" },
-        { name: "Академия дипломатии, международного права и медиа", spec: "Английский язык, Китайский язык, История, Обществознание, Дипломатия" },
-        { name: "Высшая школа финансов, аудита и экономики", spec: "Проф. математика, Обществознание, Экономика, Финансы" },
-        { name: "Институт гастрономии, сервиса, дизайна и туризма", spec: "Кулинария, Сервис, Творческий конкурс, География, Косметология" },
-        { name: "Университет биотехнологий, экологии и генетики", spec: "Биология, Химия, География, Экология" }
-      ];
-      let id = 1;
-      while (ATLAS_DATA.length < 605) {
-        const cl = clusters[id % clusters.length], city = cl.cities[id % cl.cities.length], tr = tracks[id % tracks.length];
-        ATLAS_DATA.push({ country: `${cl.c} • ${city}`, name: `${tr.name} (${city} #${id})`, rank: cl.c.includes("Колледж") ? "СПО" : `Каталог #${id}`, desc: `Предметы: ${tr.spec}.`, url: cl.url });
-        id++;
-      }
-    }
-
-    function toggleUniCompare(idx) {
-      playSnd('click');
-      const u = ATLAS_DATA[idx]; if (!u) return;
-      const existsIdx = comparedUnis.findIndex(x => x.name === u.name);
-      if (existsIdx >= 0) comparedUnis.splice(existsIdx, 1);
-      else {
-        if (comparedUnis.length >= 3) comparedUnis.shift();
-        comparedUnis.push(u);
-      }
-      renderUniCompareDrawer();
-    }
-    function clearUniCompare() { comparedUnis = []; renderUniCompareDrawer(); }
-    function renderUniCompareDrawer() {
-      const dr = document.getElementById("uniCompareDrawer");
-      if (!comparedUnis.length) { dr.classList.add("hidden"); return; }
-      dr.classList.remove("hidden");
-      document.getElementById("compUniCount").textContent = comparedUnis.length;
-      document.getElementById("uniCompareGrid").innerHTML = comparedUnis.map(u => {
-        const tag = getUniColorTag(u.desc);
-        return `<div class="p-3 rounded-xl bg-slate-900/90 border border-sky-500/30 space-y-1">
-          <span class="text-[10px] text-sky-400 font-bold block">${u.country}</span>
-          <strong class="text-white block text-xs">${u.name}</strong>
-          <span class="text-[10px] text-indigo-300 font-bold block">${tag.lbl}</span>
-          <p class="text-[11px] text-slate-300">${u.desc}</p>
-          <a href="${u.url}" target="_blank" class="text-[10px] text-indigo-400 font-bold underline block pt-1">Официальный сайт &rarr;</a>
-        </div>`;
-      }).join("");
-    }
-
-    function setAtlasFilterRegion(reg) {
-      playSnd('click'); currentAtlasRegion = reg;
-      document.querySelectorAll('#atlasRegionTabs button').forEach(b => b.className = "px-3 py-1.5 rounded-xl text-xs font-semibold bg-slate-800 text-slate-300");
-      const active = document.getElementById(`arf-${reg}`);
-      if (active) active.className = "px-3 py-1.5 rounded-xl text-xs font-bold bg-indigo-600 text-white";
-      applyAtlasFilters();
-    }
-
-    function applyAtlasFilters() {
-      const q = (document.getElementById("atlasSearchInput").value || "").trim().toLowerCase();
-      const cont = document.getElementById("atlasCardsContainer"), countEl = document.getElementById("atlasCountTxt");
-      const filtered = ATLAS_DATA.filter(i => {
-        const mReg = currentAtlasRegion === 'all' || i.country.toLowerCase().includes(currentAtlasRegion.toLowerCase()) || i.name.toLowerCase().includes(currentAtlasRegion.toLowerCase());
-        const mQ = !q || i.name.toLowerCase().includes(q) || i.country.toLowerCase().includes(q) || i.desc.toLowerCase().includes(q);
-        return mReg && mQ;
-      });
-      if (countEl) countEl.textContent = filtered.length;
-      cont.innerHTML = filtered.slice(0, 80).map(i => {
-        const origIdx = ATLAS_DATA.indexOf(i);
-        const tag = getUniColorTag(i.desc);
-        return `<div class="card-glass p-4 rounded-2xl"><div><div class="flex justify-between items-start mb-1 gap-2"><div><span class="text-[10px] text-indigo-400 font-bold uppercase block">${i.country}</span><h4 class="text-sm font-bold text-white">${i.name}</h4></div><span class="text-[9px] px-2 py-0.5 rounded bg-indigo-500/20 text-indigo-300">${i.rank}</span></div><span class="text-[10px] text-slate-300 font-semibold block mb-1">${tag.lbl}</span><p class="text-xs text-slate-300 mb-2">${i.desc}</p></div><div class="flex justify-between items-center pt-2 border-t border-slate-800"><button type="button" onclick="toggleUniCompare(${origIdx})" class="text-[10px] px-2 py-1 rounded bg-sky-500/20 text-sky-300 hover:bg-sky-500/30 font-bold">+ Сравнить</button><a href="${i.url}" target="_blank" rel="noopener noreferrer" class="text-[11px] font-bold text-indigo-400 hover:underline">Официальный сайт &rarr;</a></div></div>`;
-      }).join("") || `<div class="col-span-2 p-6 text-center text-slate-400 text-xs">Ничего не найдено.</div>`;
-    }
-    function resetAtlasFilters() { document.getElementById("atlasSearchInput").value = ""; setAtlasFilterRegion('all'); }
-
     // КВИЗ ПО ФЛАГАМ
     const FLAG_QUIZ_DATA = [
       { country: "1. Россия", visual: `<div class="w-full h-1/3 bg-white"></div><div class="w-full h-1/3 bg-blue-600"></div><div class="w-full h-1/3 bg-red-600"></div>`, q: "Что символизируют белый, синий и красный цвета российского триколора?", options: ["Благородство (белый), верность и честность (синий), мужество и великодушие (красный)", "Зиму, реки и восход солнца", "Торговлю, науку и промышленность"], correct: 0, fact: "Триколор появился при Петре I для первых русских военных кораблей. В системе Олесена это союз свободы (Белый), глубины идей (Синий) и воли к победе (Красный)." },
@@ -1319,7 +1702,6 @@
       if (fqDone) return; fqDone = true; const item = FLAG_QUIZ_DATA[fqIdx], ok = idx === item.correct;
       if (ok) { fqScore++; playSnd('success'); } else playSnd('click');
       fqScoreTxt.textContent = `Счет: ${fqScore} / 10`;
-      // Мгновенно сохраняем даже 1-й ответ по флагам!
       syncUserRecord({ flagsLog: `${fqScore} из ${fqIdx + 1} флагов` });
 
       item.options.forEach((_, i) => {
@@ -1391,7 +1773,7 @@
         document.getElementById(map[x]).style.display = x === k ? "block" : "none";
         document.getElementById(btns[x]).className = x === k ? "px-3 py-1.5 rounded-xl text-xs font-bold bg-indigo-600 text-white shadow" : "px-3 py-1.5 rounded-xl text-xs font-semibold bg-slate-800/60 text-slate-400";
       });
-      if (k === 'atlas') applyAtlasFilters();
+      if (k === 'atlas') { applyAtlasFilters(); initWorldUniMap(); }
       if (k === 'flagQuiz' && fqIdx === 0 && !fqDone) renderFlagQuestion();
       if (k === 'pulse') renderSchoolPulse();
       if (k === 'cvHub') { generateStudentCV(); renderAntiBurnout(); }
@@ -1407,14 +1789,13 @@
       setTimeout(() => { supportMessages.innerHTML += `<div class="p-2 rounded-xl bg-purple-950/40 text-slate-300 mr-6">Принято! Каждый ваш ответ сохраняется в базу автоматически.</div>`; }, 400);
     }
 
-    // ГЛАВНЫЙ ЦВЕТОВОЙ ТЕСТ + АВТОПОДСТАНОВКА АРХЕТИПА ВО ВСЕ РАЗДЕЛЫ
+    // ГЛАВНЫЙ ЦВЕТОВОЙ ТЕСТ
     function pickColor(s, c, el) {
       playSnd('click'); picks[s] = c;
       document.getElementById(`group-${s}`).querySelectorAll(".card-glass").forEach(x => x.classList.remove("selected"));
       if (el) el.classList.add("selected");
       document.getElementById({set1:"s1Txt",set2:"s2Txt",set3:"s3Txt"}[s]).textContent = `Выбрано: ${c}`;
       if (COLOR_DOTS[c]) document.getElementById("userColorDot").className = `w-2.5 h-2.5 rounded-full ${COLOR_DOTS[c]}`;
-      // Сохраняем в базу даже при выборе 1-го цвета!
       syncUserRecord();
     }
 
@@ -1443,7 +1824,6 @@
       unisGrid.innerHTML = r.unis.map(u => `<div class="p-3 rounded-xl bg-slate-900/90 flex justify-between items-center gap-2"><div><strong class="text-white block">${u.n}</strong><span class="text-[11px] text-slate-400">${u.c} • ${u.d}</span></div><a href="${u.u}" target="_blank" rel="noopener noreferrer" class="text-[11px] font-bold text-indigo-400 hover:underline whitespace-nowrap">Сайт &rarr;</a></div>`).join("");
       resBlock.classList.remove("hidden");
 
-      // Авто-подстановка архетипа в остальные вкладки
       if (document.getElementById("uArch")) { document.getElementById("uArch").value = best; calcComp(); }
       if (document.getElementById("burnoutArchSelect")) { document.getElementById("burnoutArchSelect").value = best; renderAntiBurnout(); }
       if (document.getElementById("famChildSelect")) { document.getElementById("famChildSelect").value = best; calcFamilyProfile(); }
@@ -1463,22 +1843,23 @@
     function copyShareText() {
       if (!curRes) return alert("Сначала пройдите цветовой тест!");
       const txt = `🎓 Мой профориентационный архетип: ${curRes.title} (${curRes.subtitle})!\nЦветовой спектр: ${curRes.chosen.join(" + ")} (Точность: ${curRes.pct}%).`;
-      try {
-        if (navigator.clipboard && window.isSecureContext) {
-          navigator.clipboard.writeText(txt).then(() => alert("✅ Результат скопирован в буфер обмена!")).catch(() => fallbackCopy(txt));
-        } else { fallbackCopy(txt); }
-      } catch (e) { fallbackCopy(txt); }
+      fallbackCopy(txt);
     }
     function fallbackCopy(text) {
+      if (navigator.clipboard && window.isSecureContext) {
+        navigator.clipboard.writeText(text).then(() => alert("✅ Скопировано в буфер обмена!")).catch(() => legacyCopy(text));
+      } else legacyCopy(text);
+    }
+    function legacyCopy(text) {
       const ta = document.createElement("textarea");
       ta.value = text; ta.style.position = "fixed"; ta.style.left = "-9999px";
       document.body.appendChild(ta); ta.focus(); ta.select();
-      try { document.execCommand('copy'); alert("✅ Результат скопирован в буфер обмена!"); }
-      catch (err) { prompt("Скопируйте ваш результат вручную:", text); }
+      try { document.execCommand('copy'); alert("✅ Скопировано в буфер обмена!"); }
+      catch (err) { prompt("Скопируйте текст вручную:", text); }
       document.body.removeChild(ta);
     }
 
-    // КАЛЬКУЛЯТОР ОГЭ/ЕГЭ + ЦВЕТОВОЙ ПРОФИЛЬ ПРЕДМЕТОВ
+    // КАЛЬКУЛЯТОР ОГЭ/ЕГЭ
     function runExamCalc(silent = false) {
       if (!silent) unlockBadge("b_exam");
       const sc = parseInt(examScoreRange.value, 10) || 82; examScoreVal.textContent = `${sc} б.`;
@@ -1549,7 +1930,7 @@
       aiCareerUnis.innerHTML = uIndices.map(idx => { const u = ATLAS_DATA[idx] || ATLAS_DATA[0]; return `<div class="flex justify-between p-2 rounded bg-slate-950"><strong>${u.name}</strong><a href="${u.url}" target="_blank" rel="noopener noreferrer" class="text-indigo-400 font-bold">Официальный сайт &rarr;</a></div>`; }).join("");
     }
 
-    // АКИРА С ЦВЕТОВЫМИ ОТВЕТАМИ И ПОШАГОВЫМ СОХРАНЕНИЕМ
+    // АКИРА
     const AKIRA_Q = [
       { q: "1. За 2 дня до сдачи проекта всё пошло не по плану:", a: [{ t: "🔵 [Синий] Составлю пошаговый логический план.", tp: "architect", col: "Синий" }, { t: "🟡 [Желтый] Поддержу и вдохновлю команду.", tp: "communicator", col: "Желтый" }, { t: "🔴 [Красный] Возьму управление на себя.", tp: "leader", col: "Красный" }] },
       { q: "2. Как распределите бюджет поездки?", a: [{ t: "🔴 [Красный] Строгий расчет и резерв.", tp: "investor", col: "Красный" }, { t: "🟢 [Зеленый] Комфорт и безопасность.", tp: "guardian", col: "Зеленый" }, { t: "🟡 [Желтый] Яркие впечатления.", tp: "communicator", col: "Желтый" }] },
@@ -1565,7 +1946,6 @@
     }
     function ansAkira(tp, col) {
       playSnd('click'); akPts[tp]++; if (col) akColors.push(col); interviewScore += 20; document.getElementById("interviewScore").textContent = `${interviewScore} XP`; akStep++;
-      // Сохраняем каждый шаг Акиры в админку!
       syncUserRecord({ akiraLog: `Акира: шаг ${akStep}/5 (${akColors.join('/')})` });
 
       if (akStep < AKIRA_Q.length) renderAkiraStep();
@@ -1686,7 +2066,7 @@
     }
     function godClearAllData() { cache = []; localStorage.setItem("cp2026_cache", "[]"); renderAdminTable(); populateSysUserEditor(); }
     function godResetLocalStorage() { localStorage.clear(); location.reload(); }
-    function godDumpMemory() { alert(`ВУЗов: ${ATLAS_DATA.length} | Профессий: ${PROFESSIONS_20.length} | Участников: ${cache.length}`); }
+    function godDumpMemory() { alert(`ВУЗов на карте: ${ATLAS_DATA.length} | Профессий: ${PROFESSIONS_20.length} | Участников: ${cache.length}`); }
     function exportToCSV() {
       const header = "\uFEFFДата;Имя;Класс;Архетип;Цвета;Акира;Симулятор_1дня;Профессии;ОГЭ_ЕГЭ;Флаги;Дуэль;Синергия\n";
       const rows = cache.map(r => `${r.date};${r.name};${r.classGroup};${r.archetype};${r.set1}/${r.set2}/${r.set3};${r.akiraLog||''};${r.daySimLog||''};${r.searches||''};${r.examsLog||''};${r.flagsLog||''};${r.duelLog||''};${r.compLog||''}`).join("\n");
@@ -1702,7 +2082,6 @@
       window.handleSheetData = function(data) {
         if (Array.isArray(data) && data.length > 0) {
           const mapByUser = new Map();
-          // Сначала кладем данные из облака, а затем накладываем более свежие локальные (или объединяем поля)
           data.forEach(item => {
             if (!item || !item.name) return;
             const key = normalizeNameStr(item.name) + "|" + normalizeClassStr(item.classGroup);
@@ -1716,7 +2095,6 @@
             if (!cloudItem) {
               mapByUser.set(key, localItem);
             } else {
-              // Объединяем так, чтобы ни одно пройденное задание не потерялось
               mapByUser.set(key, {
                 ...cloudItem,
                 ...localItem,
@@ -1820,7 +2198,7 @@
 
       updateBadgesUI();
       populateDaySimSelect();
-      buildAtlas600(); applyAtlasFilters(); calcComp(true); calcFamilyProfile(); initAkiraInterview(); startDaySim('surgeon'); runExamCalc(true); renderOlympCase(); analyzeCustomCareer(true); initFlagQuiz(); renderAntiBurnout();
+      buildAtlas1100(); applyAtlasFilters(); calcComp(true); calcFamilyProfile(); initAkiraInterview(); startDaySim('surgeon'); runExamCalc(true); renderOlympCase(); analyzeCustomCareer(true); initFlagQuiz(); renderAntiBurnout();
       loadData();
 
       try {
