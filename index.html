@@ -11,7 +11,7 @@
   <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.5.3/dist/MarkerCluster.css" />
   <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.5.3/dist/MarkerCluster.Default.css" />
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
-  <script src="https://unpkg.com/leaflet.markercluster@1.5.3/dist/MarkerCluster.js"></script>
+  <script src="https://unpkg.com/leaflet.markercluster@1.5.3/dist/leaflet.markercluster.js"></script>
   <style>
     :root { --bg:#04060a; --card:rgba(18,25,44,.82); --brd:rgba(255,255,255,.15); --txt:#f8fafc; --liq:rgba(11,16,32,.95); }
     body.theme-liquid { --bg:#0c121e; --card:rgba(255,255,255,.08); --brd:rgba(255,255,255,.35); --txt:#fff; --liq:rgba(14,22,38,.88); }
@@ -27,10 +27,9 @@
     .next-step-btn:hover { transform:translateY(-2px) scale(1.01); box-shadow:0 14px 35px rgba(236,72,153,.55); }
     .spectrum-bar { height:4px; background:linear-gradient(90deg,#f43f5e,#facc15,#3b82f6,#10b981,#a855f7,#f97316); border-radius:99px; }
 
-    /* Глубокий черный стиль карты как на скриншоте + полное скрытие плашки Leaflet */
+    /* Глубокий черный стиль карты + полное скрытие плашки Leaflet */
     #worldUniMap { height: 430px; width: 100%; background: #030407; border-radius: 20px; z-index: 10; border: 1px solid rgba(255,255,255,0.08); }
     .leaflet-container { background: #030407 !important; font-family: 'Plus Jakarta Sans', sans-serif !important; }
-    .dark-obsidian-tiles { filter: brightness(0.42) contrast(1.48) saturate(0.2); }
     .leaflet-popup-content-wrapper, .leaflet-popup-tip { background: rgba(9, 12, 22, 0.97) !important; color: #f8fafc !important; border: 1px solid rgba(99, 102, 241, 0.5) !important; border-radius: 16px !important; box-shadow: 0 12px 35px rgba(0,0,0,0.9) !important; }
     .leaflet-popup-close-button { color: #94a3b8 !important; font-size: 18px !important; padding: 6px 8px !important; }
     .custom-cluster-icon { background: rgba(79, 70, 229, 0.28); border: 2px solid #818cf8; border-radius: 9999px; color: #ffffff; font-weight: 800; font-size: 11px; display: flex !important; align-items: center; justify-content: center; box-shadow: 0 0 18px rgba(99, 102, 241, 0.65); backdrop-filter: blur(4px); }
@@ -280,10 +279,10 @@
     </div>
   </main>
 
-  <!-- ВКЛАДКА 2: ЧЕРНАЯ КАРТА МИРА + АТЛАС 1100+ ВУЗОВ (45+ СТРАН + ФИЛЬТРЫ ПО АРХЕТИПУ И ЯЗЫКУ) -->
+  <!-- ВКЛАДКА 2: ЧЕРНАЯ КАРТА МИРА + АТЛАС 1100+ ВУЗОВ (38 СТРАН + ФИЛЬТРЫ ПО АРХЕТИПУ И ЯЗЫКУ) -->
   <section id="viewAtlas" class="max-w-6xl mx-auto px-3 py-6 flex-grow w-full hidden space-y-4">
     <div class="text-center">
-      <span class="text-[10px] uppercase font-bold tracking-widest text-sky-400 bg-sky-500/10 px-3 py-1 rounded-full border border-sky-500/20">38+ Стран мира • 1100+ Учебных заведений • Фильтры по цвету и языку</span>
+      <span class="text-[10px] uppercase font-bold tracking-widest text-sky-400 bg-sky-500/10 px-3 py-1 rounded-full border border-sky-500/20">38 Стран мира • 1100+ Учебных заведений • Фильтры по цвету и языку</span>
       <h2 class="text-xl sm:text-3xl font-extrabold font-h text-white mt-2">Глобальная карта и Атлас 1100+ ВУЗов</h2>
       <p class="text-xs text-slate-400 mt-1">Нажмите на страну, город или светящуюся точку на чёрной карте — откроется полный список ВУЗов этой локации.</p>
     </div>
@@ -1314,7 +1313,7 @@
       }
     }
 
-    // ИНИЦИАЛИЗАЦИЯ ГЛУБОКОЙ ЧЕРНОЙ КАРТЫ МИРА (БЕЗ API KEY REQUIRED И БЕЗ ФЛАГА LEAFLET)
+    // ИНИЦИАЛИЗАЦИЯ ВЕКТОРНОЙ ЧЕРНОЙ КАРТЫ МИРА (РАБОТАЕТ МГНОВЕННО ПРИ ЛЮБОМ VPN БЕЗ ТАЙЛОВ И БЕЗ ФЛАГА LEAFLET)
     function initWorldUniMap() {
       if (worldMapInstance || typeof L === "undefined") {
         if (worldMapInstance) setTimeout(() => worldMapInstance.invalidateSize(), 150);
@@ -1330,14 +1329,24 @@
         attributionControl: false
       });
 
-      // Бесплатная темная подложка Esri Dark Gray Canvas с угольно-черным фильтром
-      L.tileLayer("https://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Dark_Gray_Base/MapServer/tile/{z}/{y}/{x}", {
-        maxZoom: 16,
-        className: "dark-obsidian-tiles"
-      }).addTo(worldMapInstance);
+      // Векторный контур континентов мира в графитовом стиле на угольно-черном океане
+      fetch("https://raw.githubusercontent.com/johan/world.geo.json/master/countries.geo.json")
+        .then(r => r.json())
+        .then(geo => {
+          L.geoJSON(geo, {
+            style: {
+              fillColor: "#181f2e",
+              fillOpacity: 1,
+              color: "#2e3a52",
+              weight: 0.8
+            }
+          }).addTo(worldMapInstance).bringToBack();
+        })
+        .catch(() => {});
 
       filterMapMarkers();
       renderCountryChips();
+      setTimeout(() => { if (worldMapInstance) worldMapInstance.invalidateSize(); }, 250);
     }
 
     function filterMapMarkers() {
@@ -1912,7 +1921,6 @@
       const keys = ["communicator", "investor", "activist", "architect", "leader", "guardian"];
       const labels = ["🟡 Коммун.", "🔴 Инвест.", "🟠 Актив.", "🔵 Архит.", "🟣 Лидер", "🟢 Хранит."];
 
-      // Сетка 3 уровня
       ctx.strokeStyle = "rgba(148, 163, 184, 0.22)";
       ctx.lineWidth = 1;
       [0.33, 0.66, 1].forEach(lvl => {
@@ -1927,7 +1935,6 @@
         ctx.stroke();
       });
 
-      // Оси и подписи
       ctx.font = "bold 10px sans-serif";
       ctx.fillStyle = "#cbd5e1";
       ctx.textAlign = "center";
@@ -1942,7 +1949,6 @@
         ctx.fillText(labels[i], lx, ly);
       });
 
-      // Полигон профиля ученика
       ctx.beginPath();
       keys.forEach((k, i) => {
         const val = Math.max(0.25, (scoresMap[k] || 30) / 100);
@@ -2386,7 +2392,6 @@
         }
       } catch(e){}
 
-      // Проверка ссылки сравнения от друга (?compare=...)
       try {
         const urlParams = new URLSearchParams(window.location.search);
         const compParam = urlParams.get("compare");
